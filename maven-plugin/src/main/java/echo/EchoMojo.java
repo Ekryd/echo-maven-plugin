@@ -32,11 +32,11 @@ public class EchoMojo extends AbstractMojo {
     private String message;
 
     /**
-     * If the message fetched from a file instead of meesage tag
+     * If the message fetched from a file instead of message tag
      * 
      * @parameter expression="${echo.fromFile}"
      */
-    private File fromFile;
+    private String fromFile;
     
     /**
      * If the message should be sent to a file instead of standard output
@@ -107,8 +107,8 @@ public class EchoMojo extends AbstractMojo {
 
     void setup() throws MojoFailureException {
         PluginParameters pluginParameters = new PluginParametersBuilder()
-                .setMessage(message)
-                .setFile(fromFile, toFile, appended, force)
+                .setMessage(message, fromFile)
+                .setFile(toFile, appended, force)
                 .setLevel(level)
                 .setFormatting(encoding, lineSeparator)
                 .setDebug(characterOutput)

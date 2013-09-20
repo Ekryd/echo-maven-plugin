@@ -4,7 +4,7 @@ import java.io.File;
 
 public class PluginParametersBuilder {
     private String message;
-    private File fromFile;
+    private String fromFile;
     private File toFile;
     private boolean appended;
     private boolean force;
@@ -13,13 +13,13 @@ public class PluginParametersBuilder {
     private String lineSeparator;
     private boolean characterOutput;
 
-    public PluginParametersBuilder setMessage(String message) {
+    public PluginParametersBuilder setMessage(String message, String fromFile) {
         this.message = message;
+        this.fromFile = fromFile;
         return this;
     }
 
-    public PluginParametersBuilder setFile(File fromFile, File toFile, boolean appended, boolean force) {
-        this.fromFile = fromFile;
+    public PluginParametersBuilder setFile(File toFile, boolean appended, boolean force) {
         this.toFile = toFile;
         this.appended = appended;
         this.force = force;

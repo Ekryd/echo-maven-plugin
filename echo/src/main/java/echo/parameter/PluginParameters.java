@@ -8,7 +8,7 @@ import java.io.File;
 public class PluginParameters {
 
     public final String message;
-    public final File fromFile;
+    public final String fromFile;
     public final File toFile;
     public final boolean appended;
     public final boolean force;
@@ -17,7 +17,7 @@ public class PluginParameters {
     public final String lineSeparator;
     public final boolean characterOutput;
 
-    public PluginParameters(String message, File fromFile, File toFile, boolean appended, boolean force, OutputLevelType level, 
+    public PluginParameters(String message, String fromFile, File toFile, boolean appended, boolean force, OutputLevelType level, 
                             String encoding, String lineSeparator, boolean characterOutput) {
         this.message = message;
         this.fromFile = fromFile;
