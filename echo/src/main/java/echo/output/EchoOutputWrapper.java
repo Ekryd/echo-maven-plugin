@@ -1,6 +1,7 @@
 package echo.output;
 
 import echo.parameter.OutputLevelType;
+import echo.parameter.PluginParameters;
 
 /**
  * @author bjorn
@@ -11,22 +12,27 @@ public class EchoOutputWrapper {
     private final OutputLevelType level;
 
 
-    public EchoOutputWrapper(EchoOutput echoOutput, OutputLevelType level) {
+    public EchoOutputWrapper(EchoOutput echoOutput, PluginParameters pluginParameters) {
         this.echoOutput = echoOutput;
-        this.level = level;
+        this.level = pluginParameters.level;
     }
-    
+
     public void output(String content) {
         switch (level) {
-            case ERROR: echoOutput.error(content);
+            case ERROR:
+                echoOutput.error(content);
                 break;
-            case WARNING: echoOutput.warning(content);
+            case WARNING:
+                echoOutput.warning(content);
                 break;
-            case INFO: echoOutput.info(content);
+            case INFO:
+                echoOutput.info(content);
                 break;
-            case VERBOSE: echoOutput.verbose(content);
+            case VERBOSE:
+                echoOutput.verbose(content);
                 break;
-            case DEBUG: echoOutput.debug(content);
+            case DEBUG:
+                echoOutput.debug(content);
                 break;
         }
     }

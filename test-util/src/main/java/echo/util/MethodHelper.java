@@ -46,8 +46,9 @@ class MethodHelper {
         Method[] methods = instanceClass.getDeclaredMethods();
         List<Method> methodMatches = new ArrayList<Method>();
         for (Method method : methods) {
-            if (method.getName().equals(methodName))
+            if (method.getName().equals(methodName)) {
                 methodMatches.add(method);
+            }
         }
         return methodMatches;
     }

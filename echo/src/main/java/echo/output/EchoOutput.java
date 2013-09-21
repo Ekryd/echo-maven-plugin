@@ -6,8 +6,12 @@ package echo.output;
  */
 public interface EchoOutput {
     void error(String content);
+
     void warning(String content);
+
     void info(String content);
+
     void verbose(String content);
+
     void debug(String content);
 }

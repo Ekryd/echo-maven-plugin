@@ -11,12 +11,13 @@ public enum OutputLevelType {
 
     static OutputLevelType fromString(String level) {
         if (level == null) {
-            throw new FailureException("verifyFail must be either ERROR, WARNING, INFO, VERBOSE or DEBUG. Was: null");
+            throw new FailureException("level must be either ERROR, WARNING, INFO, VERBOSE or DEBUG. Was: null");
         }
         for (OutputLevelType outputLevelType : values()) {
-            if (outputLevelType.name().equalsIgnoreCase(level))
+            if (outputLevelType.name().equalsIgnoreCase(level)) {
                 return outputLevelType;
+            }
         }
-        throw new FailureException("verifyFail must be either ERROR, WARNING, INFO, VERBOSE or DEBUG. Was: " + level);
+        throw new FailureException("level must be either ERROR, WARNING, INFO, VERBOSE or DEBUG. Was: " + level);
     }
 }

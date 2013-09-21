@@ -229,7 +229,7 @@
       </plugin>
     </plugins>
   </build>
-    
+
   <!-- Misc -->
   <url>http://code.google.com/p/echo-maven-plugin/</url>
   <inceptionYear>2013</inceptionYear>

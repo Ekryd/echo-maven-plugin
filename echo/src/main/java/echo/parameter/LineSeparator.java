@@ -9,7 +9,7 @@ import java.util.Arrays;
  *
  * @author bjorn
  */
-public class LineSeparatorUtil {
+public class LineSeparator {
     private final String string;
 
     /**
@@ -17,7 +17,7 @@ public class LineSeparatorUtil {
      *
      * @param lineSeparatorString The line separator characters
      */
-    LineSeparatorUtil(final String lineSeparatorString) {
+    LineSeparator(final String lineSeparatorString) {
         string = lineSeparatorString.replaceAll("\\\\r", "\r").replaceAll("\\\\n", "\n");
         if (isIllegalString()) {
             throw new FailureException(

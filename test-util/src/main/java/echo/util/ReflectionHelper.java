@@ -1,16 +1,7 @@
 package echo.util;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.lang.reflect.*;
+import java.util.*;
 
 /**
  * This class is used to set protected fields in classes and access private
@@ -20,7 +11,9 @@ public final class ReflectionHelper {
     private static final String SETTER_PREFIX;
     private static final int SETTER_PREFIX_LENGTH;
 
-    /** The object that contains the field. */
+    /**
+     * The object that contains the field.
+     */
     private final Object instance;
 
     static {
@@ -127,7 +120,9 @@ public final class ReflectionHelper {
         return returnValue;
     }
 
-    /** Fills the contained JavaBean, using fields directly, with dummy values */
+    /**
+     * Fills the contained JavaBean, using fields directly, with dummy values
+     */
     public void fillWithDummyFields() {
         fillFields(this.instance);
     }
@@ -148,7 +143,9 @@ public final class ReflectionHelper {
         }
     }
 
-    /** Fills the contained JavaBean, using setter methods, with dummy values */
+    /**
+     * Fills the contained JavaBean, using setter methods, with dummy values
+     */
     public void fillWithDummyProperties() {
         fillProperties(this.instance);
     }

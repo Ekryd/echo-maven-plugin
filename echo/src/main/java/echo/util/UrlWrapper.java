@@ -7,7 +7,7 @@ import java.net.URL;
 
 /**
  * Wraps the java URL class so that it exposes methods to determine if entered values are urls or not.
- * 
+ *
  * @author bjorn
  * @since 2013-08-16
  */

@@ -15,7 +15,7 @@ public class CharacterOutput {
 
     private void generateOutput() {
         StringBuilder sb = new StringBuilder();
-        
+
         sb.append("[");
         for (char messageChar : messageChars) {
             sb.append("['").append(messageChar).append("' , ").append((int) messageChar).append(" ").append("],");

@@ -70,13 +70,15 @@ public class FileUtil {
     public String getFromFile() throws IOException {
         InputStream inputStream = null;
         try {
-                UrlWrapper urlWrapper = new UrlWrapper(fromFile);
-                if (urlWrapper.isUrl()) {
-                    inputStream = urlWrapper.openStream();
-                } else {
-                    inputStream = getFileFromRelativeOrClassPath(fromFile);
-                }
-            return IOUtils.toString(inputStream, encoding);
+            UrlWrapper urlWrapper = new UrlWrapper(fromFile);
+            if (urlWrapper.isUrl()) {
+                inputStream = urlWrapper.openStream();
+            } else {
+                inputStream = getFileFromRelativeOrClassPath(fromFile);
+            }
+            String output = IOUtils.toString(inputStream, encoding);
+            System.out.println("encoding: " + encoding + " output: " + output);
+            return output;
         } finally {
             IOUtils.closeQuietly(inputStream);
         }

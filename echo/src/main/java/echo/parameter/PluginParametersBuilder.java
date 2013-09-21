@@ -9,8 +9,8 @@ public class PluginParametersBuilder {
     private boolean appended;
     private boolean force;
     private OutputLevelType level = OutputLevelType.INFO;
-    private String encoding;
-    private String lineSeparator;
+    private String encoding = "UTF-8";
+    private LineSeparator lineSeparator = new LineSeparator("\n");
     private boolean characterOutput;
 
     public PluginParametersBuilder setMessage(String message, String fromFile) {
@@ -34,7 +34,7 @@ public class PluginParametersBuilder {
 
     public PluginParametersBuilder setFormatting(String encoding, String lineSeparator) {
         this.encoding = encoding;
-        this.lineSeparator = lineSeparator;
+        this.lineSeparator = new LineSeparator(lineSeparator);
         return this;
     }
 

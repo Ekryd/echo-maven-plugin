@@ -24,7 +24,7 @@
       <artifactId>echo-output</artifactId>
       <version>0.1-SNAPSHOT</version>
     </dependency>
-         <dependency>
+    <dependency>
       <groupId>com.google.code.echo</groupId>
       <artifactId>test-util</artifactId>
       <version>0.1-SNAPSHOT</version>

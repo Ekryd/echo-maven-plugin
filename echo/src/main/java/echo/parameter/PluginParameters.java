@@ -14,11 +14,11 @@ public class PluginParameters {
     public final boolean force;
     public final OutputLevelType level;
     public final String encoding;
-    public final String lineSeparator;
+    public final LineSeparator lineSeparator;
     public final boolean characterOutput;
 
-    public PluginParameters(String message, String fromFile, File toFile, boolean appended, boolean force, OutputLevelType level, 
-                            String encoding, String lineSeparator, boolean characterOutput) {
+    public PluginParameters(String message, String fromFile, File toFile, boolean appended, boolean force, OutputLevelType level,
+                            String encoding, LineSeparator lineSeparator, boolean characterOutput) {
         this.message = message;
         this.fromFile = fromFile;
         this.toFile = toFile;

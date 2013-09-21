@@ -14,15 +14,14 @@ import static org.mockito.Mockito.verify;
  * @since 2013-09-09
  */
 public class TestMessage {
+    private Logger logger = mock(Logger.class);
 
     @Test
     public void stringWithSpecialCharactersShouldBeOutput() {
-        EchoPlugin echoPlugin = new EchoPlugin();
-        Logger logger = mock(Logger.class);
         EchoOutput echoOutput = mock(EchoOutput.class);
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", null).createPluginParameters();
-        echoPlugin.setup(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
         echoPlugin.echo();
 
         verify(echoOutput).info("Björn");
