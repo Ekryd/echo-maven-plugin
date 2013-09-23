@@ -79,6 +79,8 @@ public class FileUtil {
             String output = IOUtils.toString(inputStream, encoding);
             System.out.println("encoding: " + encoding + " output: " + output);
             return output;
+        } catch (UnsupportedEncodingException ex) {
+            throw new FailureException("Unsupported encoding: " + ex.getMessage());
         } finally {
             IOUtils.closeQuietly(inputStream);
         }
