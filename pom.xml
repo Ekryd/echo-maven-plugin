@@ -269,7 +269,7 @@
 
   <pluginRepositories>
     <pluginRepository>
-      <id>sortpom repo</id>
+      <id>echo plugin repo</id>
       <url>https://oss.sonatype.org/content/repositories/comgooglecodesortpom-1000</url>
     </pluginRepository>
   </pluginRepositories>

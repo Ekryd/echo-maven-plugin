@@ -1,7 +1,5 @@
 package echo.parameter;
 
-import java.io.File;
-
 /**
  * Contains all parameters that are sent to the plugin
  */
@@ -9,7 +7,7 @@ public class PluginParameters {
 
     public final String message;
     public final String fromFile;
-    public final File toFile;
+    public final String toFile;
     public final boolean appended;
     public final boolean force;
     public final OutputLevelType level;
@@ -17,7 +15,7 @@ public class PluginParameters {
     public final LineSeparator lineSeparator;
     public final boolean characterOutput;
 
-    public PluginParameters(String message, String fromFile, File toFile, boolean appended, boolean force, OutputLevelType level,
+    public PluginParameters(String message, String fromFile, String toFile, boolean appended, boolean force, OutputLevelType level,
                             String encoding, LineSeparator lineSeparator, boolean characterOutput) {
         this.message = message;
         this.fromFile = fromFile;

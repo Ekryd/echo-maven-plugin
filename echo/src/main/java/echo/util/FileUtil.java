@@ -1,6 +1,7 @@
 package echo.util;
 
 import echo.exception.FailureException;
+import echo.output.Logger;
 import echo.parameter.PluginParameters;
 import org.apache.commons.io.IOUtils;
 
@@ -15,9 +16,11 @@ import java.net.URL;
 public class FileUtil {
     private final String encoding;
     private final String fromFile;
-    private final File toFile;
+    private final String toFile;
+    private final Logger mavenLogger;
 
-    public FileUtil(PluginParameters parameters) {
+    public FileUtil(PluginParameters parameters, Logger mavenLogger) {
+        this.mavenLogger = mavenLogger;
         this.encoding = parameters.encoding;
         this.fromFile = parameters.fromFile;
         this.toFile = parameters.toFile;
@@ -52,11 +55,13 @@ public class FileUtil {
      */
     public void saveToFile(final String message) {
         FileOutputStream saveFile = null;
+            String absolutePath = new File(toFile).getAbsolutePath();
+        mavenLogger.info("Saving output to " + absolutePath);
         try {
             saveFile = new FileOutputStream(toFile);
             IOUtils.write(message, saveFile, encoding);
         } catch (IOException e) {
-            throw new FailureException("Could not save file: " + toFile.getAbsoluteFile(), e);
+            throw new FailureException("Could not save file: " + absolutePath, e);
         } finally {
             IOUtils.closeQuietly(saveFile);
         }
@@ -77,7 +82,6 @@ public class FileUtil {
                 inputStream = getFileFromRelativeOrClassPath(fromFile);
             }
             String output = IOUtils.toString(inputStream, encoding);
-            System.out.println("encoding: " + encoding + " output: " + output);
             return output;
         } catch (UnsupportedEncodingException ex) {
             throw new FailureException("Unsupported encoding: " + ex.getMessage());

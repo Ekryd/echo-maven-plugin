@@ -1,14 +1,10 @@
 package echo;
 
-import echo.exception.FailureException;
 import echo.output.EchoOutput;
 import echo.output.EchoOutputWrapper;
 import echo.output.Logger;
-import echo.output.NewlineFormatter;
 import echo.parameter.PluginParameters;
 import echo.util.FileUtil;
-
-import java.io.IOException;
 
 /**
  * @author bjorn
@@ -16,42 +12,38 @@ import java.io.IOException;
  */
 public class EchoPlugin {
     private final Logger mavenLogger;
-    private final PluginParameters pluginParameters;
     private final EchoOutputWrapper echoOutput;
     private final FileUtil fileUtil;
-    private final NewlineFormatter newlineFormatter;
+    private final MessageExtractor messageExtractor;
+
+    private final boolean characterOutput;
+    private final String toFile;
+    private final String message;
 
     public EchoPlugin(Logger mavenLogger, PluginParameters pluginParameters, EchoOutput echoOutput) {
         this.mavenLogger = mavenLogger;
-        this.pluginParameters = pluginParameters;
         this.echoOutput = new EchoOutputWrapper(echoOutput, pluginParameters);
-        this.fileUtil = new FileUtil(pluginParameters);
-        newlineFormatter = new NewlineFormatter(pluginParameters);
+        this.fileUtil = new FileUtil(pluginParameters, mavenLogger);
+        this.messageExtractor = new MessageExtractor(pluginParameters, fileUtil);
+        
+        this.characterOutput = pluginParameters.characterOutput;
+        this.toFile = pluginParameters.toFile;
+        this.message = pluginParameters.message;
     }
 
     public void echo() {
-        String message = extractMessage();
-        if (pluginParameters.characterOutput) {
+        if (characterOutput) {
             String characterArray = new CharacterOutput(message).getOutput();
             mavenLogger.info(characterArray);
         }
-        echoOutput.output(newlineFormatter.format(message));
+
+        String messageWithCorrectNewlines = messageExtractor.getFormattedMessage();
+
+        if (toFile != null) {
+            fileUtil.saveToFile(messageWithCorrectNewlines);
+        } else {
+            echoOutput.output(messageWithCorrectNewlines);
+        }
     }
 
-    private String extractMessage() {
-        if (pluginParameters.message == null && pluginParameters.fromFile == null) {
-            throw new FailureException("There was nothing to output. Specify either message or fromFile");
-        }
-        if (pluginParameters.message != null && pluginParameters.fromFile != null) {
-            throw new FailureException("Specify either message or fromFile, not both");
-        }
-        if (pluginParameters.message != null) {
-            return pluginParameters.message;
-        }
-        try {
-            return fileUtil.getFromFile();
-        } catch (IOException ioex) {
-            throw new FailureException(ioex.getMessage(), ioex);
-        }
-    }
 }

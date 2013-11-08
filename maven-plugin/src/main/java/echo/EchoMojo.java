@@ -9,7 +9,7 @@ import echo.parameter.PluginParametersBuilder;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
 
-import java.io.File;
+import java.util.Map;
 
 /**
  * Mojo (Maven plugin) that outputs messages during Maven build.
@@ -39,7 +39,7 @@ public class EchoMojo extends AbstractMojo {
      *
      * @parameter expression="${echo.toFile}"
      */
-    private File toFile;
+    private String toFile;
 
     /**
      * If the message should be appended to the toFile instead of opening a new file/overwrite an existing file
@@ -99,6 +99,15 @@ public class EchoMojo extends AbstractMojo {
     public void execute() throws MojoFailureException {
         setup();
         echo();
+        print(getPluginContext());
+    }
+
+    private void print(Map pluginContext) {
+        System.out.println("hepp");
+        for (Object key : pluginContext.keySet()) {
+            System.out.println(key + " : " + pluginContext.get(key));            
+        }
+
     }
 
     void setup() throws MojoFailureException {

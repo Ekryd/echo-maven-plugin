@@ -1,11 +1,9 @@
 package echo.parameter;
 
-import java.io.File;
-
 public class PluginParametersBuilder {
     private String message;
     private String fromFile;
-    private File toFile;
+    private String toFile;
     private boolean appended;
     private boolean force;
     private OutputLevelType level = OutputLevelType.INFO;
@@ -19,7 +17,7 @@ public class PluginParametersBuilder {
         return this;
     }
 
-    public PluginParametersBuilder setFile(File toFile, boolean appended, boolean force) {
+    public PluginParametersBuilder setFile(String toFile, boolean appended, boolean force) {
         this.toFile = toFile;
         this.appended = appended;
         this.force = force;
