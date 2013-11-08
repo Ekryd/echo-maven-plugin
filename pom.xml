@@ -10,12 +10,11 @@
 
   <!-- Basics -->
   <groupId>com.google.code.echo</groupId>
-  <artifactId>parent</artifactId>
+  <artifactId>echo-plugin</artifactId>
   <version>0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <modules>
-    <module>test-util</module>
     <module>echo</module>
     <module>maven-plugin</module>
   </modules>
@@ -24,15 +23,6 @@
     <compileSource>1.6</compileSource>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.10</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
 
   <!-- Build -->
   <build>

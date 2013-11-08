@@ -121,7 +121,7 @@ public class EchoMojo extends AbstractMojo {
         try {
             echoPlugin = new EchoPlugin(new MavenLogger(getLog()), pluginParameters, new MavenEchoOutput(getLog()));
         } catch (FailureException fex) {
-            ExceptionHandler.throwMojoFailureException(fex);
+            new ExceptionHandler(fex).throwMojoFailureException();
         }
     }
 
@@ -129,7 +129,7 @@ public class EchoMojo extends AbstractMojo {
         try {
             echoPlugin.echo();
         } catch (FailureException fex) {
-            ExceptionHandler.throwMojoFailureException(fex);
+            new ExceptionHandler(fex).throwMojoFailureException();
         }
     }
 
