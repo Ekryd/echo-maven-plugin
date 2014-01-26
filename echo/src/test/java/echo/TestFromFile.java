@@ -5,13 +5,12 @@ import echo.output.EchoOutput;
 import echo.output.Logger;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static org.hamcrest.Matchers.endsWith;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -21,6 +20,9 @@ import static org.mockito.Mockito.verify;
  */
 public class TestFromFile {
 
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
     private Logger logger = mock(Logger.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
 
@@ -28,37 +30,34 @@ public class TestFromFile {
     public void noInputShouldThrowException() {
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, null).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
-        try {
-            echoPlugin.echo();
-            fail();
-        } catch (FailureException fex) {
-            assertThat(fex.getMessage(), is("There was nothing to output. Specify either message or fromFile"));
-        }
+
+        expectedException.expect(FailureException.class);
+        expectedException.expectMessage("There was nothing to output. Specify either message or fromFile");
+
+        echoPlugin.echo();
     }
 
     @Test
     public void doubleInputShouldThrowException() {
         PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", "Gurka").createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
-        try {
-            echoPlugin.echo();
-            fail();
-        } catch (FailureException fex) {
-            assertThat(fex.getMessage(), is("Specify either message or fromFile, not both"));
-        }
+
+        expectedException.expect(FailureException.class);
+        expectedException.expectMessage("Specify either message or fromFile, not both");
+
+        echoPlugin.echo();
     }
 
     @Test
     public void fileNotFoundShouldThrowException() {
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, "Gurka_doesNotExist").createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
-        try {
-            echoPlugin.echo();
-            fail();
-        } catch (FailureException fex) {
-            assertThat(fex.getMessage(), startsWith("Could not find "));
-            assertThat(fex.getMessage(), endsWith("Gurka_doesNotExist or Gurka_doesNotExist in classpath"));
-        }
+
+        expectedException.expect(FailureException.class);
+        expectedException.expectMessage(startsWith("Could not find "));
+        expectedException.expectMessage(endsWith("Gurka_doesNotExist or Gurka_doesNotExist in classpath"));
+
+        echoPlugin.echo();
     }
 
     @Test

@@ -48,9 +48,7 @@ public class EchoMojo extends AbstractMojo {
      */
     private boolean appended;
 
-    /**
-     * Overwrite read-only destination files
-     */
+    /** Overwrite read-only destination files */
     private boolean force;
 
     /**
@@ -105,27 +103,28 @@ public class EchoMojo extends AbstractMojo {
     private void print(Map pluginContext) {
         System.out.println("hepp");
         for (Object key : pluginContext.keySet()) {
-            System.out.println(key + " : " + pluginContext.get(key));            
+            System.out.println(key + " : " + pluginContext.get(key));
         }
 
     }
 
     void setup() throws MojoFailureException {
-        PluginParameters pluginParameters = new PluginParametersBuilder()
-                .setMessage(message, fromFile)
-                .setFile(toFile, appended, force)
-                .setLevel(level)
-                .setFormatting(encoding, lineSeparator)
-                .setDebug(characterOutput)
-                .createPluginParameters();
         try {
+            PluginParameters pluginParameters = new PluginParametersBuilder()
+                    .setMessage(message, fromFile)
+                    .setFile(toFile, appended, force)
+                    .setLevel(level)
+                    .setFormatting(encoding, lineSeparator)
+                    .setDebug(characterOutput)
+                    .createPluginParameters();
+
             echoPlugin = new EchoPlugin(new MavenLogger(getLog()), pluginParameters, new MavenEchoOutput(getLog()));
         } catch (FailureException fex) {
             new ExceptionHandler(fex).throwMojoFailureException();
         }
     }
 
-    private void echo() throws MojoFailureException {
+    void echo() throws MojoFailureException {
         try {
             echoPlugin.echo();
         } catch (FailureException fex) {

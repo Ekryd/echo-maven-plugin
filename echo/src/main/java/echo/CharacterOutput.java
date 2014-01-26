@@ -15,10 +15,16 @@ public class CharacterOutput {
 
     private void generateOutput() {
         StringBuilder sb = new StringBuilder();
-
+        
+        boolean first = true;
         sb.append("[");
         for (char messageChar : messageChars) {
-            sb.append("['").append(messageChar).append("' , ").append((int) messageChar).append(" ").append("],");
+            if (first) {
+                first = false;
+            } else {
+                sb.append(",");
+            }
+            sb.append("['").append(messageChar).append("' , ").append((int) messageChar).append(" ").append("]");
         }
         sb.append("]");
 

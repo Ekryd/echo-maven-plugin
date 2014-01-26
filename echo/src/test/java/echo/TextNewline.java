@@ -4,11 +4,10 @@ import echo.exception.FailureException;
 import echo.output.EchoOutput;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -18,14 +17,15 @@ import static org.mockito.Mockito.verify;
  */
 public class TextNewline {
 
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
     @Test
     public void illegalNewlineShouldThrowException() {
-        try {
-            new PluginParametersBuilder().setFormatting(null, "\t").createPluginParameters();
-            fail();
-        } catch (FailureException fex) {
-            assertThat(fex.getMessage(), is("LineSeparator must be either \\n, \\r or \\r\\n, but separator characters were [9]"));
-        }
+        expectedException.expect(FailureException.class);
+        expectedException.expectMessage("LineSeparator must be either \\n, \\r or \\r\\n, but separator characters were [9]");
+
+        new PluginParametersBuilder().setFormatting(null, "\t").createPluginParameters();
     }
 
     @Test
