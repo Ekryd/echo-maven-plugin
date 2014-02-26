@@ -8,6 +8,7 @@ import echo.parameter.PluginParametersBuilder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.Matchers;
 
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.startsWith;
@@ -67,6 +68,15 @@ public class TestFromFile {
         echoPlugin.echo();
 
         verify(echoOutput).info("Björn");
+    }
+
+    @Test
+    public void urlFromWebShouldReturnText() {
+        PluginParameters parameters = new PluginParametersBuilder().setMessage(null, "http://opensource.org/licenses/gpl-license").createPluginParameters();
+        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        echoPlugin.echo();
+
+        verify(echoOutput).info(Matchers.startsWith("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML+RDFa 1.0//EN"));
     }
 
 }

@@ -44,17 +44,21 @@ public class EchoMojo extends AbstractMojo {
     /**
      * If the message should be appended to the toFile instead of opening a new file/overwrite an existing file
      *
-     * @parameter expression="${echo.fromFile}" default-value="false"
+     * @parameter expression="${echo.appended}" default-value="false"
      */
     private boolean appended;
 
-    /** Overwrite read-only destination files */
+    /**
+     * Overwrite read-only destination files
+     *
+     * @parameter expression="${echo.force}" default-value="false"
+     */
     private boolean force;
 
     /**
      * Which output level the message should have. The following values are available 'ERROR',  'WARNING', 'INFO', 'VERBOSE' and 'DEBUG'
      *
-     * @parameter expression="${echo.fromFile}" default-value="INFO"
+     * @parameter expression="${echo.level}" default-value="INFO"
      */
     private String level;
 
@@ -68,8 +72,7 @@ public class EchoMojo extends AbstractMojo {
     /**
      * Line separator messages. Can be either \n, \r or \r\n
      *
-     * @parameter expression="${echo.lineSeparator}"
-     * default-value="${line.separator}"
+     * @parameter expression="${echo.lineSeparator}" default-value="${line.separator}"
      */
     private String lineSeparator;
 

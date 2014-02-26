@@ -3,6 +3,7 @@ package echo.util;
 import echo.exception.FailureException;
 import echo.output.Logger;
 import echo.parameter.PluginParameters;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
@@ -14,16 +15,20 @@ import java.net.URL;
  * @author Bjorn
  */
 public class FileUtil {
+    private final Logger mavenLogger;
     private final String encoding;
     private final String fromFile;
     private final String toFile;
-    private final Logger mavenLogger;
+    private final boolean appendToFile;
+    private final boolean forceOverwrite;
 
     public FileUtil(PluginParameters parameters, Logger mavenLogger) {
         this.mavenLogger = mavenLogger;
         this.encoding = parameters.encoding;
         this.fromFile = parameters.fromFile;
         this.toFile = parameters.toFile;
+        this.appendToFile = parameters.appended;
+        this.forceOverwrite = parameters.force;
     }
 
 //    private void checkBackupFileAccess() {
@@ -54,16 +59,32 @@ public class FileUtil {
      * @param message The text to save
      */
     public void saveToFile(final String message) {
-        FileOutputStream saveFile = null;
-            String absolutePath = new File(toFile).getAbsolutePath();
+        File saveFile = new File(toFile);
+        String absolutePath = saveFile.getAbsolutePath();
         mavenLogger.info("Saving output to " + absolutePath);
+        
         try {
-            saveFile = new FileOutputStream(toFile);
-            IOUtils.write(message, saveFile, encoding);
+            modifyFileIfNonWritable(saveFile);
+            checkForNonWriteableFile(saveFile);
+            FileUtils.write(saveFile, message, encoding, appendToFile);
         } catch (IOException e) {
             throw new FailureException("Could not save file: " + absolutePath, e);
-        } finally {
-            IOUtils.closeQuietly(saveFile);
+        } 
+    }
+
+    private void modifyFileIfNonWritable(File saveFile) {
+            if (saveFile.isFile() && saveFile.exists() && !saveFile.canWrite()) {
+                if (forceOverwrite) {
+                    saveFile.setWritable(true);
+                } else {
+                    throw new FailureException("Cannot write to read-only file " + saveFile.getAbsolutePath());
+                }
+            }
+    }
+
+    private void checkForNonWriteableFile(File saveFile) {
+        if (saveFile.isDirectory()) {
+            throw new FailureException("File "+saveFile.getAbsolutePath()+" exists but is a directory");
         }
     }
 
