@@ -10,6 +10,9 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.Matchers;
 
+import java.io.IOException;
+import java.net.URL;
+
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.startsWith;
 import static org.mockito.Mockito.mock;
@@ -72,11 +75,25 @@ public class TestFromFile {
 
     @Test
     public void urlFromWebShouldReturnText() {
+        if (noConnectionToInternet()) {
+            return;
+        }
+        
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, "http://opensource.org/licenses/gpl-license").createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
         echoPlugin.echo();
 
         verify(echoOutput).info(Matchers.startsWith("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML+RDFa 1.0//EN"));
+    }
+
+    private boolean noConnectionToInternet() {
+        try {
+            new URL("http://opensource.org/licenses/gpl-license").openStream();
+        } catch (IOException e) {
+            System.err.println("Cannot connect to Internet, skipping this test!!!");
+            return true;
+        }
+        return false;
     }
 
 }

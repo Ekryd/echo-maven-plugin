@@ -31,6 +31,7 @@ public class MavenEchoOutput implements EchoOutput {
 
     @Override
     public void verbose(String content) {
+        //TODO: Fix level
         log.debug(content);
     }
 
