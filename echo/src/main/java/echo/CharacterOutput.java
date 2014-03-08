@@ -6,12 +6,12 @@ import echo.parameter.PluginParameters;
  * @author bjorn
  * @since 2013-08-09
  */
-public class CharacterOutput {
+class CharacterOutput {
     private final boolean writeOutput;
     private final String message;
 
     private boolean firstCharacter = true;
-    private StringBuilder outputStringBuilder = new StringBuilder();
+    private final StringBuilder outputStringBuilder = new StringBuilder();
     private String output;
 
     public CharacterOutput(PluginParameters pluginParameters) {

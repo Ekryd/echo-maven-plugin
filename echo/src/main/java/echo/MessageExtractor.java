@@ -11,7 +11,7 @@ import java.io.IOException;
  * @author bjorn
  * @since 2013-09-23
  */
-public class MessageExtractor {
+class MessageExtractor {
     private final FileUtil fileUtil;
     private final NewlineFormatter newlineFormatter;
     

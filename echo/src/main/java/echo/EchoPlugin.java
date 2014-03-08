@@ -10,7 +10,7 @@ import echo.util.FileUtil;
  * @author bjorn
  * @since 2013-08-08
  */
-public class EchoPlugin {
+class EchoPlugin {
     private final Logger mavenLogger;
     private final EchoOutputWrapper echoOutput;
     private final FileUtil fileUtil;

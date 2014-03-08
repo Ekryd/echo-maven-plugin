@@ -14,17 +14,7 @@ public class MavenLogger implements Logger {
     }
 
     @Override
-    public void warn(String content) {
-        log.warn(content);
-    }
-
-    @Override
     public void info(String content) {
         log.info(content);
-    }
-
-    @Override
-    public void error(String content) {
-        log.error(content);
     }
 }

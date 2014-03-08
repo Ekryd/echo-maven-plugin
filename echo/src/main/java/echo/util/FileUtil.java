@@ -42,29 +42,32 @@ public class FileUtil {
         File saveFile = new File(defaultOutputPath, toFile);
         String absolutePath = saveFile.getAbsolutePath();
         mavenLogger.info("Saving output to " + absolutePath);
-        
+
         try {
             modifyFileIfNonWritable(saveFile);
-            checkForNonWriteableFile(saveFile);
+            checkForNonWritableFile(saveFile);
             FileUtils.write(saveFile, message, encoding, appendToFile);
         } catch (IOException e) {
             throw new FailureException("Could not save file: " + absolutePath, e);
-        } 
+        }
     }
 
     private void modifyFileIfNonWritable(File saveFile) {
-            if (saveFile.isFile() && saveFile.exists() && !saveFile.canWrite()) {
-                if (forceOverwrite) {
-                    saveFile.setWritable(true);
-                } else {
-                    throw new FailureException("Cannot write to read-only file " + saveFile.getAbsolutePath());
+        if (saveFile.isFile() && saveFile.exists() && !saveFile.canWrite()) {
+            if (forceOverwrite) {
+                boolean writableStatus = saveFile.setWritable(true);
+                if (!writableStatus) {
+                    throw new FailureException("Could not make file writable " + saveFile.getAbsolutePath());
                 }
+            } else {
+                throw new FailureException("Cannot write to read-only file " + saveFile.getAbsolutePath());
             }
+        }
     }
 
-    private void checkForNonWriteableFile(File saveFile) {
+    private void checkForNonWritableFile(File saveFile) {
         if (saveFile.isDirectory()) {
-            throw new FailureException("File "+saveFile.getAbsolutePath()+" exists but is a directory");
+            throw new FailureException("File " + saveFile.getAbsolutePath() + " exists but is a directory");
         }
     }
 
@@ -94,7 +97,7 @@ public class FileUtil {
         InputStream inputStream;
         try {
             inputStream = new FileInputStream(file);
-        } catch (FileNotFoundException fnfex) {
+        } catch (FileNotFoundException fex) {
             // try classpath
             try {
                 URL resource = this.getClass().getClassLoader().getResource(file);
@@ -102,9 +105,9 @@ public class FileUtil {
                     throw new IOException("Cannot find resource");
                 }
                 inputStream = resource.openStream();
-            } catch (IOException e1) {
-                throw new FileNotFoundException(String.format("Could not find %s or %s in classpath", new File(
-                        file).getAbsolutePath(), file));
+            } catch (IOException iex) {
+                throw new FileNotFoundException(String.format("Could not find %s or %s in classpath",
+                        new File(file).getAbsolutePath(), file));
             }
         }
         return inputStream;

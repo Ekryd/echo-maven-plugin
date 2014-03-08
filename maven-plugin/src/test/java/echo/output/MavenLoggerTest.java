@@ -20,26 +20,10 @@ public class MavenLoggerTest {
     }
 
     @Test
-    public void warnShouldOutputWarnLevel() throws Exception {
-        mavenLogger.warn("Gurka");
-
-        verify(logMock).warn("Gurka");
-        verifyNoMoreInteractions(logMock);
-    }
-
-    @Test
     public void infoShouldOutputInfoLevel() throws Exception {
         mavenLogger.info("Gurka");
 
         verify(logMock).info("Gurka");
-        verifyNoMoreInteractions(logMock);
-    }
-
-    @Test
-    public void errorShouldOutputErrorLevel() throws Exception {
-        mavenLogger.error("Gurka");
-
-        verify(logMock).error("Gurka");
         verifyNoMoreInteractions(logMock);
     }
 }
