@@ -27,7 +27,7 @@ public class FileUtil {
         this.encoding = parameters.encoding;
         this.fromFile = parameters.fromFile;
         this.toFile = parameters.toFile;
-        this.appendToFile = parameters.appended;
+        this.appendToFile = parameters.appendToFile;
         this.forceOverwrite = parameters.force;
     }
 

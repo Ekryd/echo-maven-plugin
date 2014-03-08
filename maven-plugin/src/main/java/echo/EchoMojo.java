@@ -44,9 +44,9 @@ public class EchoMojo extends AbstractMojo {
     /**
      * If the message should be appended to the toFile instead of opening a new file/overwrite an existing file
      *
-     * @parameter expression="${echo.appended}" default-value="false"
+     * @parameter expression="${echo.append}" default-value="false"
      */
-    private boolean appended;
+    private boolean append;
 
     /**
      * Overwrite read-only destination files
@@ -100,7 +100,7 @@ public class EchoMojo extends AbstractMojo {
     public void execute() throws MojoFailureException {
         setup();
         echo();
-        print(getPluginContext());
+        //print(getPluginContext());
     }
 
     private void print(Map pluginContext) {
@@ -115,7 +115,7 @@ public class EchoMojo extends AbstractMojo {
         try {
             PluginParameters pluginParameters = new PluginParametersBuilder()
                     .setMessage(message, fromFile)
-                    .setFile(toFile, appended, force)
+                    .setFile(toFile, append, force)
                     .setLevel(level)
                     .setFormatting(encoding, lineSeparator)
                     .setDebug(characterOutput)

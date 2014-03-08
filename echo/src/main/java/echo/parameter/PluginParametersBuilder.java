@@ -4,7 +4,7 @@ public class PluginParametersBuilder {
     private String message;
     private String fromFile;
     private String toFile;
-    private boolean appended;
+    private boolean appendToFile;
     private boolean force;
     private OutputLevelType level = OutputLevelType.INFO;
     private String encoding = "UTF-8";
@@ -17,9 +17,9 @@ public class PluginParametersBuilder {
         return this;
     }
 
-    public PluginParametersBuilder setFile(String toFile, boolean appended, boolean force) {
+    public PluginParametersBuilder setFile(String toFile, boolean appendToFile, boolean force) {
         this.toFile = toFile;
-        this.appended = appended;
+        this.appendToFile = appendToFile;
         this.force = force;
         return this;
     }
@@ -37,7 +37,7 @@ public class PluginParametersBuilder {
     }
 
     public PluginParameters createPluginParameters() {
-        return new PluginParameters(message, fromFile, toFile, appended, force, level, encoding, lineSeparator, characterOutput);
+        return new PluginParameters(message, fromFile, toFile, appendToFile, force, level, encoding, lineSeparator, characterOutput);
     }
 
 

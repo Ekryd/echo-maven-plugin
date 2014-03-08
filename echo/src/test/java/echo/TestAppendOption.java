@@ -33,7 +33,7 @@ public class TestAppendOption {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 String content = invocation.getArguments()[0].toString();
-                System.out.println(content);
+//                System.out.println(content);
                 if (content.startsWith("Saving output to ")) {
                     fileName = content.substring(17);
                 }

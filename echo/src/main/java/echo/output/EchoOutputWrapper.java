@@ -18,6 +18,10 @@ public class EchoOutputWrapper {
     }
 
     public void output(String content) {
+        if (content.length() == 0) {
+            return;
+        }
+            
         switch (level) {
             case ERROR:
                 echoOutput.error(content);

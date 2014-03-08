@@ -8,19 +8,19 @@ public class PluginParameters {
     public final String message;
     public final String fromFile;
     public final String toFile;
-    public final boolean appended;
+    public final boolean appendToFile;
     public final boolean force;
     public final OutputLevelType level;
     public final String encoding;
     public final LineSeparator lineSeparator;
     public final boolean characterOutput;
 
-    public PluginParameters(String message, String fromFile, String toFile, boolean appended, boolean force, OutputLevelType level,
+    public PluginParameters(String message, String fromFile, String toFile, boolean appendToFile, boolean force, OutputLevelType level,
                             String encoding, LineSeparator lineSeparator, boolean characterOutput) {
         this.message = message;
         this.fromFile = fromFile;
         this.toFile = toFile;
-        this.appended = appended;
+        this.appendToFile = appendToFile;
         this.force = force;
         this.level = level;
         this.encoding = encoding;
@@ -31,7 +31,7 @@ public class PluginParameters {
     @Override
     public String toString() {
         return "PluginParameters{" +
-                "appended=" + appended +
+                "appendToFile=" + appendToFile +
                 ", message='" + message + '\'' +
                 ", fromFile=" + fromFile +
                 ", toFile=" + toFile +

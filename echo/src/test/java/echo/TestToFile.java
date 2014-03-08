@@ -37,7 +37,7 @@ public class TestToFile {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 String content = invocation.getArguments()[0].toString();
-                System.out.println(content);
+//                System.out.println(content);
                 if (content.startsWith("Saving output to ")) {
                     fileName = content.substring(17);
                 }
@@ -58,6 +58,23 @@ public class TestToFile {
 
             String output = FileUtils.readFileToString(new File(fileName), "UTF-8");
             assertThat(output, is("Björn"));
+        } finally {
+            FileUtils.deleteQuietly(new File(fileName));
+        }
+    }
+
+    @Test
+    public void emptyMessageShouldCreateEmptyFile() throws IOException {
+        PluginParameters parameters = new PluginParametersBuilder().setMessage("", null).setFile("test.txt", false, false).createPluginParameters();
+        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+
+        try {
+            echoPlugin.echo();
+
+            verifyZeroInteractions(echoOutput);
+
+            String output = FileUtils.readFileToString(new File(fileName), "UTF-8");
+            assertThat(output, is(""));
         } finally {
             FileUtils.deleteQuietly(new File(fileName));
         }

@@ -1,0 +1,13 @@
+* Make sure that goal is executed once
+    * Inherited 'false'
+    
+* Sonar
+    * Done
+    
+* Newline from command-line
+    * ${line.separator}???
+    
+* Variables
+* Relative path for each module in fromFile and toFile
+* Scan maven context for output
+* Remove debug output

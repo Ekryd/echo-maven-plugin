@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 
 /**
  * @author bjorn
@@ -25,6 +26,17 @@ public class TestMessage {
         echoPlugin.echo();
 
         verify(echoOutput).info("Björn");
+    }
+
+    @Test
+    public void emptyMessageShouldOutputNothing() {
+        EchoOutput echoOutput = mock(EchoOutput.class);
+
+        PluginParameters parameters = new PluginParametersBuilder().setMessage("", null).createPluginParameters();
+        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        echoPlugin.echo();
+
+        verifyZeroInteractions(echoOutput);
     }
 
 }
