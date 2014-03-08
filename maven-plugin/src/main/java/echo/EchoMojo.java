@@ -100,7 +100,7 @@ public class EchoMojo extends AbstractMojo {
     public void execute() throws MojoFailureException {
         setup();
         echo();
-        //print(getPluginContext());
+        print(getPluginContext());
     }
 
     private void print(Map pluginContext) {

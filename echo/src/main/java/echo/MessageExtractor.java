@@ -31,12 +31,7 @@ public class MessageExtractor {
     }
 
     private String extractMessage() {
-        if (message == null && fromFile == null) {
-            throw new FailureException("There was nothing to output. Specify either message or fromFile");
-        }
-        if (message != null && fromFile != null) {
-            throw new FailureException("Specify either message or fromFile, not both");
-        }
+        checkMissingMessage();
         if (message != null) {
             return message;
         }
@@ -44,6 +39,15 @@ public class MessageExtractor {
             return fileUtil.getFromFile();
         } catch (IOException ex) {
             throw new FailureException(ex.getMessage(), ex);
+        }
+    }
+
+    private void checkMissingMessage() {
+        if (message == null && fromFile == null) {
+            throw new FailureException("There was nothing to output. Specify either message or fromFile");
+        }
+        if (message != null && fromFile != null) {
+            throw new FailureException("Specify either message or fromFile, not both");
         }
     }
 

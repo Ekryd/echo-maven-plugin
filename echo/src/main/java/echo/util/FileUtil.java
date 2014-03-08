@@ -31,28 +31,6 @@ public class FileUtil {
         this.forceOverwrite = parameters.force;
     }
 
-//    private void checkBackupFileAccess() {
-//        if (backupFile.exists() && !backupFile.delete()) {
-//            throw new FailureException("Could not remove old backup file, filename: " + newName);
-//        }
-//    }
-
-//    private void createBackupFile() {
-//        FileInputStream source = null;
-//        FileOutputStream newFile = null;
-//        try {
-//            source = new FileInputStream(pomFile);
-//            newFile = new FileOutputStream(backupFile);
-//            IOUtils.copy(source, newFile);
-//        } catch (IOException e) {
-//            throw new FailureException("Could not create backup file to filename: " + newName, e);
-//        } finally {
-//            IOUtils.closeQuietly(newFile);
-//            IOUtils.closeQuietly(source);
-//        }
-//    }
-
-
     /**
      * Saves text output
      *
@@ -102,8 +80,7 @@ public class FileUtil {
             } else {
                 inputStream = getFileFromRelativeOrClassPath(fromFile);
             }
-            String output = IOUtils.toString(inputStream, encoding);
-            return output;
+            return IOUtils.toString(inputStream, encoding);
         } catch (UnsupportedEncodingException ex) {
             throw new FailureException("Unsupported encoding: " + ex.getMessage());
         } finally {

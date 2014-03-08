@@ -13,6 +13,7 @@
   <artifactId>echo-plugin</artifactId>
   <version>0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
+  <name>Echo plugin parent</name>
 
   <modules>
     <module>echo</module>

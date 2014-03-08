@@ -8,6 +8,8 @@
   </parent>
 
   <artifactId>echo-output</artifactId>
+  <name>Echo output</name>
+
   <dependencies>
     <dependency>
       <groupId>commons-io</groupId>
