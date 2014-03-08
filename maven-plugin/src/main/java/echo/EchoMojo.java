@@ -9,7 +9,7 @@ import echo.parameter.PluginParametersBuilder;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
 
-import java.util.Map;
+import java.io.File;
 
 /**
  * Mojo (Maven plugin) that outputs messages during Maven build.
@@ -17,6 +17,9 @@ import java.util.Map;
  * @author Bjorn Ekryd
  * @goal echo
  * @threadSafe true
+ * @phase initialize
+ * @requiresProject false
+ * @inheritedByDefault false
  */
 @SuppressWarnings({"UnusedDeclaration", "JavaDoc"})
 public class EchoMojo extends AbstractMojo {
@@ -34,6 +37,14 @@ public class EchoMojo extends AbstractMojo {
      */
     private String fromFile;
 
+    /**
+     * The default output path for toFile. The toFile will be created relative to this path. READ-ONLY
+     * 
+     * @parameter expression="${basedir}" 
+     * @readonly
+     */
+    private File defaultOutputPath;
+    
     /**
      * If the message should be sent to a file instead of standard output
      *
@@ -84,6 +95,7 @@ public class EchoMojo extends AbstractMojo {
      */
     private boolean characterOutput;
 
+        
     private EchoPlugin echoPlugin;
 
     public EchoMojo() {
@@ -100,22 +112,13 @@ public class EchoMojo extends AbstractMojo {
     public void execute() throws MojoFailureException {
         setup();
         echo();
-        print(getPluginContext());
-    }
-
-    private void print(Map pluginContext) {
-        System.out.println("hepp");
-        for (Object key : pluginContext.keySet()) {
-            System.out.println(key + " : " + pluginContext.get(key));
-        }
-
     }
 
     void setup() throws MojoFailureException {
         try {
             PluginParameters pluginParameters = new PluginParametersBuilder()
                     .setMessage(message, fromFile)
-                    .setFile(toFile, append, force)
+                    .setFile(defaultOutputPath, toFile, append, force)
                     .setLevel(level)
                     .setFormatting(encoding, lineSeparator)
                     .setDebug(characterOutput)

@@ -18,6 +18,7 @@ public class FileUtil {
     private final Logger mavenLogger;
     private final String encoding;
     private final String fromFile;
+    private final File defaultOutputPath;
     private final String toFile;
     private final boolean appendToFile;
     private final boolean forceOverwrite;
@@ -26,6 +27,7 @@ public class FileUtil {
         this.mavenLogger = mavenLogger;
         this.encoding = parameters.encoding;
         this.fromFile = parameters.fromFile;
+        this.defaultOutputPath = parameters.defaultOutputPath;
         this.toFile = parameters.toFile;
         this.appendToFile = parameters.appendToFile;
         this.forceOverwrite = parameters.force;
@@ -37,7 +39,7 @@ public class FileUtil {
      * @param message The text to save
      */
     public void saveToFile(final String message) {
-        File saveFile = new File(toFile);
+        File saveFile = new File(defaultOutputPath, toFile);
         String absolutePath = saveFile.getAbsolutePath();
         mavenLogger.info("Saving output to " + absolutePath);
         

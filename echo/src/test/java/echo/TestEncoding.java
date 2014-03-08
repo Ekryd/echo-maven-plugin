@@ -104,7 +104,7 @@ public class TestEncoding {
     public void outputUtf8ShouldWorkToFile() throws IOException {
         PluginParameters parameters = new PluginParametersBuilder()
                 .setMessage("\u00e4\u00a9", null)
-                .setFile("test.txt", false, false)
+                .setFile(new File("."), "test.txt", false, false)
                 .setFormatting("UTF-8", "\n").createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
 
@@ -124,7 +124,7 @@ public class TestEncoding {
     public void outputUtf16ShouldWorkToFile() throws IOException {
         PluginParameters parameters = new PluginParametersBuilder()
                 .setMessage("&#169;", null)
-                .setFile("test.txt", false, false)
+                .setFile(new File("."), "test.txt", false, false)
                 .setFormatting("UTF16", "\n").createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
 

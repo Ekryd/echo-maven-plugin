@@ -50,7 +50,7 @@ public class TestForceOption {
         String output;
 
         try {
-            parameters = new PluginParametersBuilder().setMessage("One", null).setFile("test.txt", false, true).createPluginParameters();
+            parameters = new PluginParametersBuilder().setMessage("One", null).setFile(new File("."), "test.txt", false, true).createPluginParameters();
             echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
             echoPlugin.echo();
 
@@ -59,7 +59,7 @@ public class TestForceOption {
             
             new File(fileName).setReadOnly();
 
-            parameters = new PluginParametersBuilder().setMessage("Two", null).setFile("test.txt", false, true).createPluginParameters();
+            parameters = new PluginParametersBuilder().setMessage("Two", null).setFile(new File("."), "test.txt", false, true).createPluginParameters();
             echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
             echoPlugin.echo();
             
@@ -81,7 +81,7 @@ public class TestForceOption {
         String output;
 
         try {
-            parameters = new PluginParametersBuilder().setMessage("One", null).setFile("test.txt", false, false).createPluginParameters();
+            parameters = new PluginParametersBuilder().setMessage("One", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
             echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
             echoPlugin.echo();
 
@@ -90,7 +90,7 @@ public class TestForceOption {
             
             new File(fileName).setReadOnly();
 
-            parameters = new PluginParametersBuilder().setMessage("Two", null).setFile("test.txt", false, false).createPluginParameters();
+            parameters = new PluginParametersBuilder().setMessage("Two", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
             echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
             echoPlugin.echo();
             

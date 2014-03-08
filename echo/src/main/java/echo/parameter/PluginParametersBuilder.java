@@ -1,8 +1,11 @@
 package echo.parameter;
 
+import java.io.File;
+
 public class PluginParametersBuilder {
     private String message;
     private String fromFile;
+    private File defaultOutputPath;
     private String toFile;
     private boolean appendToFile;
     private boolean force;
@@ -17,7 +20,8 @@ public class PluginParametersBuilder {
         return this;
     }
 
-    public PluginParametersBuilder setFile(String toFile, boolean appendToFile, boolean force) {
+    public PluginParametersBuilder setFile(File defaultOutputPath, String toFile, boolean appendToFile, boolean force) {
+        this.defaultOutputPath = defaultOutputPath;
         this.toFile = toFile;
         this.appendToFile = appendToFile;
         this.force = force;
@@ -37,7 +41,7 @@ public class PluginParametersBuilder {
     }
 
     public PluginParameters createPluginParameters() {
-        return new PluginParameters(message, fromFile, toFile, appendToFile, force, level, encoding, lineSeparator, characterOutput);
+        return new PluginParameters(message, fromFile, defaultOutputPath, toFile, appendToFile, force, level, encoding, lineSeparator, characterOutput);
     }
 
 

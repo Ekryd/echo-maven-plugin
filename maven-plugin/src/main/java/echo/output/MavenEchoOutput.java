@@ -15,8 +15,13 @@ public class MavenEchoOutput implements EchoOutput {
     }
 
     @Override
-    public void error(String content) {
+    public void fail(String content) {
         this.<RuntimeException>throwAsUnchecked(new MojoFailureException(content));
+    }
+
+    @Override
+    public void error(String content) {
+        log.error(content);
     }
 
     @Override
@@ -27,12 +32,6 @@ public class MavenEchoOutput implements EchoOutput {
     @Override
     public void info(String content) {
         log.info(content);
-    }
-
-    @Override
-    public void verbose(String content) {
-        //TODO: Fix level
-        log.debug(content);
     }
 
     @Override

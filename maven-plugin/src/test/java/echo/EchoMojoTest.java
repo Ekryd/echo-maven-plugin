@@ -44,7 +44,7 @@ public class EchoMojoTest {
         new ReflectionHelper(echoMojo).setField("level", "Gurka");
 
         expectedException.expect(MojoFailureException.class);
-        expectedException.expectMessage(is("level must be either ERROR, WARNING, INFO, VERBOSE or DEBUG. Was: Gurka"));
+        expectedException.expectMessage(is("level must be either FAIL, ERROR, WARNING, INFO or DEBUG. Was: Gurka"));
 
         echoMojo.setup();
     }

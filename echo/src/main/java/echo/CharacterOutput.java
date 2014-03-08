@@ -1,37 +1,51 @@
 package echo;
 
+import echo.parameter.PluginParameters;
+
 /**
  * @author bjorn
  * @since 2013-08-09
  */
 public class CharacterOutput {
-    private final char[] messageChars;
+    private final boolean writeOutput;
+    private final String message;
+
+    private boolean firstCharacter = true;
+    private StringBuilder outputStringBuilder = new StringBuilder();
     private String output;
 
-    public CharacterOutput(String message) {
-        this.messageChars = message.toCharArray();
-        generateOutput();
-    }
-
-    private void generateOutput() {
-        StringBuilder sb = new StringBuilder();
-        
-        boolean first = true;
-        sb.append("[");
-        for (char messageChar : messageChars) {
-            if (first) {
-                first = false;
-            } else {
-                sb.append(",");
-            }
-            sb.append("['").append(messageChar).append("' , ").append((int) messageChar).append(" ").append("]");
-        }
-        sb.append("]");
-
-        output = sb.toString();
+    public CharacterOutput(PluginParameters pluginParameters) {
+        writeOutput = pluginParameters.characterOutput;
+        message = pluginParameters.message;
     }
 
     public String getOutput() {
+        if (output == null) {
+            generateOutput(message.toCharArray());
+        }
         return output;
+    }
+
+    private void generateOutput(char[] messageChars) {
+        outputStringBuilder.append("[");
+        for (char messageChar : messageChars) {
+            appendOneCharOutput(messageChar);
+        }
+        outputStringBuilder.append("]");
+
+        output = outputStringBuilder.toString();
+    }
+
+    private void appendOneCharOutput(char messageChar) {
+        if (firstCharacter) {
+            firstCharacter = false;
+        } else {
+            outputStringBuilder.append(",");
+        }
+        outputStringBuilder.append("['").append(messageChar).append("' , ").append((int) messageChar).append(" ").append("]");
+    }
+
+    public boolean isWriteOutput() {
+        return writeOutput;
     }
 }

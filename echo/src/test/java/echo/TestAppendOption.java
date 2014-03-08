@@ -43,7 +43,7 @@ public class TestAppendOption {
 
     @Test
     public void explicitAppendFlagShouldAppendToFile() throws IOException {
-        PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile("test.txt", true, false).createPluginParameters();
+        PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile(new File("."), "test.txt", true, false).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
 
         try {
@@ -67,14 +67,14 @@ public class TestAppendOption {
         String output;
 
         try {
-            parameters = new PluginParametersBuilder().setMessage("One", null).setFile("test.txt", false, false).createPluginParameters();
+            parameters = new PluginParametersBuilder().setMessage("One", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
             echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
             echoPlugin.echo();
 
             output = FileUtils.readFileToString(new File(fileName), "UTF-8");
             assertThat(output, is("One"));
 
-            parameters = new PluginParametersBuilder().setMessage("Two", null).setFile("test.txt", false, false).createPluginParameters();
+            parameters = new PluginParametersBuilder().setMessage("Two", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
             echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
             echoPlugin.echo();
 

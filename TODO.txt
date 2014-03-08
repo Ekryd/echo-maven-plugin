@@ -1,5 +1,7 @@
 * Make sure that goal is executed once
     * Inherited 'false'
+    * inhertedByDefault ???
+    * editable
     
 * Sonar
     * Done

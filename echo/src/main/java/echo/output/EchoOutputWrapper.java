@@ -23,6 +23,9 @@ public class EchoOutputWrapper {
         }
             
         switch (level) {
+            case FAIL:
+                echoOutput.fail(content);
+                break;
             case ERROR:
                 echoOutput.error(content);
                 break;
@@ -31,9 +34,6 @@ public class EchoOutputWrapper {
                 break;
             case INFO:
                 echoOutput.info(content);
-                break;
-            case VERBOSE:
-                echoOutput.verbose(content);
                 break;
             case DEBUG:
                 echoOutput.debug(content);

@@ -47,7 +47,7 @@ public class TestToFile {
 
     @Test
     public void saveToNonExistingToFileShouldWork() throws IOException {
-        PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile("test.txt", false, false).createPluginParameters();
+        PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
 
         try {
@@ -64,7 +64,7 @@ public class TestToFile {
 
     @Test
     public void emptyMessageShouldCreateEmptyFile() throws IOException {
-        PluginParameters parameters = new PluginParametersBuilder().setMessage("", null).setFile("test.txt", false, false).createPluginParameters();
+        PluginParameters parameters = new PluginParametersBuilder().setMessage("", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
 
         try {
@@ -81,7 +81,7 @@ public class TestToFile {
 
     @Test
     public void saveToNonExistingDirectoryShouldWork() throws IOException {
-        PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile("gurka/test.txt", false, false).createPluginParameters();
+        PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile(new File("."), "gurka/test.txt", false, false).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
 
         try {
@@ -103,13 +103,13 @@ public class TestToFile {
         EchoPlugin echoPlugin;
 
         try {
-            parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile("gurka/test.txt", false, false).createPluginParameters();
+            parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile(new File("."), "gurka/test.txt", false, false).createPluginParameters();
             echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
 
             //Create directory
             echoPlugin.echo();
 
-            parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile("gurka", false, false).createPluginParameters();
+            parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile(new File("."), "gurka", false, false).createPluginParameters();
             echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
 
             echoPlugin.echo();

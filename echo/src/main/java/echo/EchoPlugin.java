@@ -15,31 +15,29 @@ public class EchoPlugin {
     private final EchoOutputWrapper echoOutput;
     private final FileUtil fileUtil;
     private final MessageExtractor messageExtractor;
+    private final CharacterOutput characterOutput;
 
-    private final boolean characterOutput;
-    private final String toFile;
-    private final String message;
+    private final boolean writeMessageToFile;
 
     public EchoPlugin(Logger mavenLogger, PluginParameters pluginParameters, EchoOutput echoOutput) {
         this.mavenLogger = mavenLogger;
         this.echoOutput = new EchoOutputWrapper(echoOutput, pluginParameters);
         this.fileUtil = new FileUtil(pluginParameters, mavenLogger);
         this.messageExtractor = new MessageExtractor(pluginParameters, fileUtil);
+        this.characterOutput = new CharacterOutput(pluginParameters);
         
-        this.characterOutput = pluginParameters.characterOutput;
-        this.toFile = pluginParameters.toFile;
-        this.message = pluginParameters.message;
+        this.writeMessageToFile = pluginParameters.toFile != null;
     }
 
     public void echo() {
-        if (characterOutput) {
-            String characterArray = new CharacterOutput(message).getOutput();
+        if (characterOutput.isWriteOutput()) {
+            String characterArray = characterOutput.getOutput();
             mavenLogger.info(characterArray);
         }
 
         String messageWithCorrectNewlines = messageExtractor.getFormattedMessage();
 
-        if (toFile != null) {
+        if (writeMessageToFile) {
             fileUtil.saveToFile(messageWithCorrectNewlines);
         } else {
             echoOutput.output(messageWithCorrectNewlines);

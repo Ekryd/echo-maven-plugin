@@ -7,17 +7,18 @@ import echo.exception.FailureException;
  * @since 2012-08-11
  */
 public enum OutputLevelType {
-    ERROR, WARNING, INFO, VERBOSE, DEBUG;
+    FAIL, ERROR, WARNING, INFO, DEBUG;
+    private static final String ERROR_LEVEL_MSG = "level must be either FAIL, ERROR, WARNING, INFO or DEBUG.";
 
     static OutputLevelType fromString(String level) {
         if (level == null) {
-            throw new FailureException("level must be either ERROR, WARNING, INFO, VERBOSE or DEBUG. Was: null");
+            throw new FailureException(ERROR_LEVEL_MSG + " Was: null");
         }
         for (OutputLevelType outputLevelType : values()) {
             if (outputLevelType.name().equalsIgnoreCase(level)) {
                 return outputLevelType;
             }
         }
-        throw new FailureException("level must be either ERROR, WARNING, INFO, VERBOSE or DEBUG. Was: " + level);
+        throw new FailureException(ERROR_LEVEL_MSG + " Was: " + level);
     }
 }

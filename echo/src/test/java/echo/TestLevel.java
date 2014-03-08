@@ -28,7 +28,7 @@ public class TestLevel {
     @Test
     public void illegalLevelShouldThrowException() {
         expectedException.expect(FailureException.class);
-        expectedException.expectMessage("level must be either ERROR, WARNING, INFO, VERBOSE or DEBUG. Was: SOmething");
+        expectedException.expectMessage("level must be either FAIL, ERROR, WARNING, INFO or DEBUG. Was: SOmething");
 
         new PluginParametersBuilder().setLevel("SOmething").createPluginParameters();
     }
@@ -40,6 +40,15 @@ public class TestLevel {
         echoPlugin.echo();
 
         verify(echoOutput).info("Björn");
+    }
+
+    @Test
+    public void failLevelShouldOutputOnFailLevel() throws Exception {
+        PluginParameters parameters = new PluginParametersBuilder().setLevel("fAIl").setMessage("Björn", null).createPluginParameters();
+        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        echoPlugin.echo();
+
+        verify(echoOutput).fail("Björn");
     }
 
     @Test
@@ -79,16 +88,5 @@ public class TestLevel {
 
         verify(echoOutput).debug("Björn");
     }
-
-
-    @Test
-    public void verboseLevelShouldOutputOnVerbosesLevel() throws Exception {
-        PluginParameters parameters = new PluginParametersBuilder().setLevel("verBOSE").setMessage("Björn", null).createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
-        echoPlugin.echo();
-
-        verify(echoOutput).verbose("Björn");
-    }
-
 
 }
