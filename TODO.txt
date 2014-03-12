@@ -1,24 +1,14 @@
-* Make sure that goal is executed once
-    * Inherited 'false'
-    * inheritedByDefault ???
-    * editable
-    
 * Sonar
     * Done
+    * Fix warnings
     
 * Newline from command-line
     * ${line.separator} works from pom-file
     * From command line???
     
-* Relative path for each module in fromFile and toFile
-    * Done
-
 * Variables
     * Done
     * Testing???
 
-* Remove debug output
-    * Done
-    
 * Scan maven context for output
 

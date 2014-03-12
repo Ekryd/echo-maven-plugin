@@ -50,10 +50,25 @@ public class TestEncoding {
     }
 
     @Test
-    public void illegalEncodingShouldThrowException() {
+    public void illegalEncodingShouldThrowExceptionWhenReadFromFile() {
         PluginParameters parameters = new PluginParametersBuilder()
                 .setMessage(null, "messageEncoding.txt")
                 .setFormatting("Gurka", "\n")
+                .createPluginParameters();
+        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+
+        expectedException.expect(FailureException.class);
+        expectedException.expectMessage("Unsupported encoding: Gurka");
+
+        echoPlugin.echo();
+    }
+
+    @Test
+    public void illegalEncodingShouldThrowExceptionWhenWriteToFile() {
+        PluginParameters parameters = new PluginParametersBuilder()
+                .setMessage("TestMessage", null)
+                .setFormatting("Gurka", "\n")
+                .setFile(new File("."), "out.txt", false, false)
                 .createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
 

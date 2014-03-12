@@ -8,6 +8,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.UnsupportedCharsetException;
 
 /**
  * Used to interface with file system
@@ -47,6 +48,10 @@ public class FileUtil {
             modifyFileIfNonWritable(saveFile);
             checkForNonWritableFile(saveFile);
             FileUtils.write(saveFile, message, encoding, appendToFile);
+        } catch (UnsupportedEncodingException ex) {
+            throw new FailureException("Unsupported encoding: " + ex.getMessage());
+        } catch (UnsupportedCharsetException ex) {
+            throw new FailureException("Unsupported encoding: " + ex.getMessage());
         } catch (IOException e) {
             throw new FailureException("Could not save file: " + absolutePath, e);
         }
@@ -87,6 +92,8 @@ public class FileUtil {
             }
             return IOUtils.toString(inputStream, encoding);
         } catch (UnsupportedEncodingException ex) {
+            throw new FailureException("Unsupported encoding: " + ex.getMessage());
+        } catch (UnsupportedCharsetException ex) {
             throw new FailureException("Unsupported encoding: " + ex.getMessage());
         } finally {
             IOUtils.closeQuietly(inputStream);
