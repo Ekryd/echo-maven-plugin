@@ -18,6 +18,7 @@ class UrlWrapper {
         this.spec = spec;
     }
 
+    /** Returns true if the specified string is an URL */
     public boolean isUrl() {
         try {
             new URL(spec);
@@ -27,6 +28,7 @@ class UrlWrapper {
         }
     }
 
+    /** Open an input stream to the location of the url */
     public InputStream openStream() throws IOException {
         URL url = new URL(spec);
         return url.openStream();

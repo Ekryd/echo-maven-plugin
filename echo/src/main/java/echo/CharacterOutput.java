@@ -3,6 +3,8 @@ package echo;
 import echo.parameter.PluginParameters;
 
 /**
+ * Converts the message content as an user friendly character string
+ *
  * @author bjorn
  * @since 2013-08-09
  */
@@ -15,8 +17,8 @@ class CharacterOutput {
     private String output;
 
     public CharacterOutput(PluginParameters pluginParameters) {
-        writeOutput = pluginParameters.characterOutput;
-        message = pluginParameters.message;
+        writeOutput = pluginParameters.isCharacterOutput();
+        message = pluginParameters.getMessage();
     }
 
     public String getOutput() {

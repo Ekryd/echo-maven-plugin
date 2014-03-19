@@ -7,16 +7,16 @@ import java.io.File;
  */
 public class PluginParameters {
 
-    public final String message;
-    public final String fromFile;
-    public final File defaultOutputPath;
-    public final String toFile;
-    public final boolean appendToFile;
-    public final boolean force;
-    public final OutputLevelType level;
-    public final String encoding;
-    public final LineSeparator lineSeparator;
-    public final boolean characterOutput;
+    private final String message;
+    private final String fromFile;
+    private final File defaultOutputPath;
+    private final String toFile;
+    private final boolean appendToFile;
+    private final boolean force;
+    private final OutputLevelType level;
+    private final String encoding;
+    private final LineSeparator lineSeparator;
+    private final boolean characterOutput;
 
     public PluginParameters(String message, String fromFile, File defaultOutputPath, String toFile, boolean appendToFile, boolean force, OutputLevelType level,
                             String encoding, LineSeparator lineSeparator, boolean characterOutput) {
@@ -30,6 +30,46 @@ public class PluginParameters {
         this.encoding = encoding;
         this.lineSeparator = lineSeparator;
         this.characterOutput = characterOutput;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getFromFile() {
+        return fromFile;
+    }
+
+    public File getDefaultOutputPath() {
+        return defaultOutputPath;
+    }
+
+    public String getToFile() {
+        return toFile;
+    }
+
+    public boolean isAppendToFile() {
+        return appendToFile;
+    }
+
+    public boolean isForce() {
+        return force;
+    }
+
+    public OutputLevelType getLevel() {
+        return level;
+    }
+
+    public String getEncoding() {
+        return encoding;
+    }
+
+    public LineSeparator getLineSeparator() {
+        return lineSeparator;
+    }
+
+    public boolean isCharacterOutput() {
+        return characterOutput;
     }
 
     @Override
@@ -47,4 +87,5 @@ public class PluginParameters {
                 ", characterOutput=" + characterOutput +
                 '}';
     }
+
 }

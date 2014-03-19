@@ -17,4 +17,13 @@ public class MavenLogger implements Logger {
     public void info(String content) {
         log.info(content);
     }
+
+    @Override
+    public void debug(Throwable throwable) {
+        if (log.isDebugEnabled()) {
+            log.debug(throwable);
+        }
+    }
+
+
 }

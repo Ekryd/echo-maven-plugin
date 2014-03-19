@@ -29,7 +29,7 @@ public class TestCharacterOutput {
         EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
 
         echoPlugin.echo();
-        
+
         verify(logger).info("[['G' , 71 ],['u' , 117 ],['r' , 114 ],['k' , 107 ],['a' , 97 ]]");
     }
 

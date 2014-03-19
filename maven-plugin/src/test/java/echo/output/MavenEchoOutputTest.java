@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 public class MavenEchoOutputTest {
     private Log logMock = mock(Log.class);
     private MavenEchoOutput mavenEchoOutput;
-    
+
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 

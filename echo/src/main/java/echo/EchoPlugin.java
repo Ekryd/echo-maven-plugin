@@ -7,6 +7,7 @@ import echo.parameter.PluginParameters;
 import echo.util.FileUtil;
 
 /**
+ * The concrete implementation of the echo plugin functionality
  * @author bjorn
  * @since 2013-08-08
  */
@@ -25,8 +26,8 @@ class EchoPlugin {
         this.fileUtil = new FileUtil(pluginParameters, mavenLogger);
         this.messageExtractor = new MessageExtractor(pluginParameters, fileUtil);
         this.characterOutput = new CharacterOutput(pluginParameters);
-        
-        this.writeMessageToFile = pluginParameters.toFile != null;
+
+        this.writeMessageToFile = pluginParameters.getToFile() != null;
     }
 
     public void echo() {

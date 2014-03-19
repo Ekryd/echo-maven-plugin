@@ -4,6 +4,8 @@ import echo.parameter.OutputLevelType;
 import echo.parameter.PluginParameters;
 
 /**
+ * Will echo a message to standard output (in Maven) with the right message level.
+ *
  * @author bjorn
  * @since 2013-09-18
  */
@@ -14,14 +16,15 @@ public class EchoOutputWrapper {
 
     public EchoOutputWrapper(EchoOutput echoOutput, PluginParameters pluginParameters) {
         this.echoOutput = echoOutput;
-        this.level = pluginParameters.level;
+        this.level = pluginParameters.getLevel();
     }
 
+    /** Echo the content to standard output (in Maven) */
     public void output(String content) {
         if (content.length() == 0) {
             return;
         }
-            
+
         switch (level) {
             case FAIL:
                 echoOutput.fail(content);

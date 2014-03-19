@@ -16,7 +16,7 @@
   <name>Echo plugin parent</name>
 
   <prerequisites>
-    <maven>3.0.0</maven>
+    <maven>2.2.1</maven>
   </prerequisites>
 
   <modules>
@@ -163,11 +163,11 @@
   <profiles>
     <profile>
       <id>distribution</id>
-      <!--<activation>-->
-      <!--<property>-->
-      <!--<name>!dev</name>-->
-      <!--</property>-->
-      <!--</activation>-->
+      <activation>
+        <property>
+          <name>!dev</name>
+        </property>
+      </activation>
       <build>
         <plugins>
           <plugin>

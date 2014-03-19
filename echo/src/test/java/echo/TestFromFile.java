@@ -78,7 +78,7 @@ public class TestFromFile {
         if (noConnectionToInternet()) {
             return;
         }
-        
+
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, "http://opensource.org/licenses/gpl-license").createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
         echoPlugin.echo();

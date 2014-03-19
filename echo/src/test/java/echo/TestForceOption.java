@@ -56,13 +56,13 @@ public class TestForceOption {
 
             output = FileUtils.readFileToString(new File(fileName), "UTF-8");
             assertThat(output, is("One"));
-            
+
             new File(fileName).setReadOnly();
 
             parameters = new PluginParametersBuilder().setMessage("Two", null).setFile(new File("."), "test.txt", false, true).createPluginParameters();
             echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
             echoPlugin.echo();
-            
+
             verifyZeroInteractions(echoOutput);
 
             output = FileUtils.readFileToString(new File(fileName), "UTF-8");
@@ -87,13 +87,13 @@ public class TestForceOption {
 
             output = FileUtils.readFileToString(new File(fileName), "UTF-8");
             assertThat(output, is("One"));
-            
+
             new File(fileName).setReadOnly();
 
             parameters = new PluginParametersBuilder().setMessage("Two", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
             echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
             echoPlugin.echo();
-            
+
             fail("Read only file should not work");
         } catch (FailureException e) {
             assertThat(e.getMessage(), is("Cannot write to read-only file " + fileName));

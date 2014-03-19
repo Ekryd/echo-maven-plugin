@@ -5,7 +5,7 @@ import echo.exception.FailureException;
 import java.util.Arrays;
 
 /**
- * Encapsulates LineSeparation logic.
+ * Encapsulates end of line character logic.
  *
  * @author bjorn
  */

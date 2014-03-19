@@ -8,22 +8,25 @@ import echo.util.FileUtil;
 import java.io.IOException;
 
 /**
+ * Retrieves the message to output either from file or as an input parameter. The message is also
+ * formatted correctly.
+ *
  * @author bjorn
  * @since 2013-09-23
  */
 class MessageExtractor {
     private final FileUtil fileUtil;
     private final NewlineFormatter newlineFormatter;
-    
+
     private final String message;
     private final String fromFile;
 
     public MessageExtractor(PluginParameters pluginParameters, FileUtil fileUtil) {
         this.fileUtil = fileUtil;
         this.newlineFormatter = new NewlineFormatter(pluginParameters);
-        
-        this.message = pluginParameters.message;
-        this.fromFile = pluginParameters.fromFile;
+
+        this.message = pluginParameters.getMessage();
+        this.fromFile = pluginParameters.getFromFile();
     }
 
     public String getFormattedMessage() {
