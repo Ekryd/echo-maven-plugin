@@ -16,11 +16,17 @@ class CharacterOutput {
     private final StringBuilder outputStringBuilder = new StringBuilder();
     private String output;
 
+    /**
+     * Create a new instance of the CharacterOutput class
+     *
+     * @param pluginParameters The user-supplied plugin parameters
+     */
     public CharacterOutput(PluginParameters pluginParameters) {
         writeOutput = pluginParameters.isCharacterOutput();
         message = pluginParameters.getMessage();
     }
 
+    /** Returns message content as a debug string, ready to be output */
     public String getOutput() {
         if (output == null) {
             generateOutput(message.toCharArray());

@@ -18,6 +18,11 @@ public class FindFileInClassPath {
 
     private InputStream inputStream;
 
+    /**
+     * Creates a new instance of the class
+     *
+     * @param mavenLogger Wrapper for Maven internal plugin logger
+     */
     public FindFileInClassPath(Logger mavenLogger) {
         this.mavenLogger = mavenLogger;
     }

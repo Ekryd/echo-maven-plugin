@@ -21,6 +21,12 @@ class MessageExtractor {
     private final String message;
     private final String fromFile;
 
+    /**
+     * Create a new instance of the MessageExtractor
+     *
+     * @param pluginParameters The user-supplied plugin parameters
+     * @param fileUtil         File system interaction class
+     */
     public MessageExtractor(PluginParameters pluginParameters, FileUtil fileUtil) {
         this.fileUtil = fileUtil;
         this.newlineFormatter = new NewlineFormatter(pluginParameters);
@@ -29,6 +35,7 @@ class MessageExtractor {
         this.fromFile = pluginParameters.getFromFile();
     }
 
+    /** Returns a message the is ready for output */
     public String getFormattedMessage() {
         return newlineFormatter.format(extractMessage());
     }

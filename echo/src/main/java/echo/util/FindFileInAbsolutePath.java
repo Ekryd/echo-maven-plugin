@@ -17,6 +17,11 @@ public class FindFileInAbsolutePath {
 
     private FileInputStream inputStream;
 
+    /**
+     * Creates a new instance of the class
+     *
+     * @param mavenLogger Wrapper for Maven internal plugin logger
+     */
     public FindFileInAbsolutePath(Logger mavenLogger) {
         this.mavenLogger = mavenLogger;
     }

@@ -13,7 +13,12 @@ public class EchoOutputWrapper {
     private final EchoOutput echoOutput;
     private final OutputLevelType level;
 
-
+    /**
+     * Creates a new instance of the EchoOutputWrapper class
+     *
+     * @param echoOutput       the utility class to output to standard output (in Maven)
+     * @param pluginParameters The user-supplied plugin parameters
+     */
     public EchoOutputWrapper(EchoOutput echoOutput, PluginParameters pluginParameters) {
         this.echoOutput = echoOutput;
         this.level = pluginParameters.getLevel();

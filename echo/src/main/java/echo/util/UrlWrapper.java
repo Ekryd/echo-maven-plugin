@@ -14,6 +14,7 @@ import java.net.URL;
 class UrlWrapper {
     private final String spec;
 
+    /** Creates a new UrlWrapper with a supplied url */
     public UrlWrapper(String spec) {
         this.spec = spec;
     }

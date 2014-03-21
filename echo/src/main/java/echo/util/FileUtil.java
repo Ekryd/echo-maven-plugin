@@ -25,6 +25,12 @@ public class FileUtil {
     private final boolean appendToFile;
     private final boolean forceOverwrite;
 
+    /**
+     * Create a new instace of the FileUtil
+     *
+     * @param parameters  The user-supplied plugin parameters
+     * @param mavenLogger Wrapper for Maven internal plugin logger
+     */
     public FileUtil(PluginParameters parameters, Logger mavenLogger) {
         this.mavenLogger = mavenLogger;
         this.encoding = parameters.getEncoding();

@@ -12,6 +12,11 @@ public class NewlineFormatter {
     private static final String NEWLINES_REG_EX = "\\r\\n|\\r|\\n";
     private final String lineSeparator;
 
+    /**
+     * Creates a new instance of NewlineSeparator
+     *
+     * @param pluginParameters The user-supplied plugin parameters
+     */
     public NewlineFormatter(PluginParameters pluginParameters) {
         this.lineSeparator = pluginParameters.getLineSeparator().toString();
     }

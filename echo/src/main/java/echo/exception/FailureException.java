@@ -11,10 +11,12 @@ package echo.exception;
 public class FailureException extends RuntimeException {
     public static final String UNSUPPORTED_ENCODING = "Unsupported encoding: ";
 
+    /** Create a new instance with message and what caused the failure */
     public FailureException(String msg, Throwable cause) {
         super(msg, cause);
     }
 
+    /** Create a new instance with a message describing what happened */
     public FailureException(String msg) {
         super(msg);
     }

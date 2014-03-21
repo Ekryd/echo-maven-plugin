@@ -4,12 +4,15 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
 
 /**
+ * Wraps the Maven standard output to decouple from output functionality
+ *
  * @author bjorn
  * @since 2013-09-09
  */
 public class MavenEchoOutput implements EchoOutput {
     private final Log log;
 
+    /** Creates an MavenEchoOutput wrapper */
     public MavenEchoOutput(Log log) {
         this.log = log;
     }

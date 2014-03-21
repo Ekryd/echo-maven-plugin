@@ -8,6 +8,7 @@ import echo.util.FileUtil;
 
 /**
  * The concrete implementation of the echo plugin functionality
+ *
  * @author bjorn
  * @since 2013-08-08
  */
@@ -20,6 +21,13 @@ class EchoPlugin {
 
     private final boolean writeMessageToFile;
 
+    /**
+     * Creates an new instance of the EchoPlugin
+     *
+     * @param mavenLogger      wrapper for the maven internal plugin logger
+     * @param pluginParameters the user-supplied plugin parameters
+     * @param echoOutput       the utility class to output to standard output (in Maven)
+     */
     public EchoPlugin(Logger mavenLogger, PluginParameters pluginParameters, EchoOutput echoOutput) {
         this.mavenLogger = mavenLogger;
         this.echoOutput = new EchoOutputWrapper(echoOutput, pluginParameters);
@@ -30,6 +38,7 @@ class EchoPlugin {
         this.writeMessageToFile = pluginParameters.getToFile() != null;
     }
 
+    /** Output the message */
     public void echo() {
         if (characterOutput.isWriteOutput()) {
             String characterArray = characterOutput.getOutput();
