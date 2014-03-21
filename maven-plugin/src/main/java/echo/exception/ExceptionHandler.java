@@ -6,6 +6,7 @@ import org.apache.maven.plugin.MojoFailureException;
 public final class ExceptionHandler {
     private final FailureException fex;
 
+    /** Creates an ExceptionHandler with the exception to handle */
     public ExceptionHandler(FailureException fex) {
         this.fex = fex;
     }

@@ -18,6 +18,7 @@ public class PluginParameters {
     private final LineSeparator lineSeparator;
     private final boolean characterOutput;
 
+    /** Creates an instance of PluginParameters with user-supplied plugin parameters */
     public PluginParameters(String message, String fromFile, File defaultOutputPath, String toFile, boolean appendToFile, boolean force, OutputLevelType level,
                             String encoding, LineSeparator lineSeparator, boolean characterOutput) {
         this.message = message;

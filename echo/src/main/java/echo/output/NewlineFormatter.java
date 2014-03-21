@@ -18,7 +18,7 @@ public class NewlineFormatter {
      * @param pluginParameters The user-supplied plugin parameters
      */
     public NewlineFormatter(PluginParameters pluginParameters) {
-        this.lineSeparator = pluginParameters.getLineSeparator().toString();
+        this.lineSeparator = pluginParameters.getLineSeparator().getFormattedLineSeparator();
     }
 
     /** Format the message with the desired end of line characters */

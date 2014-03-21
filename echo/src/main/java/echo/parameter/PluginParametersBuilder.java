@@ -38,9 +38,9 @@ public class PluginParametersBuilder {
     }
 
     /** Sets message formatting for plugin */
-    public PluginParametersBuilder setFormatting(String encoding, String lineSeparator) {
+    public PluginParametersBuilder setFormatting(String encoding, String lineSeparatorString) {
         this.encoding = encoding;
-        this.lineSeparator = new LineSeparator(lineSeparator);
+        this.lineSeparator = new LineSeparator(lineSeparatorString);
         return this;
     }
 
@@ -52,6 +52,8 @@ public class PluginParametersBuilder {
 
     /** Builds the PluginParameters instance */
     public PluginParameters createPluginParameters() {
+        lineSeparator.checkLineSeparator();
+
         return new PluginParameters(message, fromFile, defaultOutputPath, toFile, appendToFile, force, level, encoding, lineSeparator, characterOutput);
     }
 }
