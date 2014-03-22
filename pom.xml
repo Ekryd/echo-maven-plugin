@@ -154,13 +154,6 @@
     <url>http://code.google.com/p/echo-maven-plugin/issues/list</url>
   </issueManagement>
 
-  <pluginRepositories>
-    <pluginRepository>
-      <id>echo plugin repo</id>
-      <url>https://oss.sonatype.org/content/repositories/comgooglecodesortpom-1000</url>
-    </pluginRepository>
-  </pluginRepositories>
-
   <!-- Profiles -->
   <profiles>
     <profile>
@@ -203,8 +196,7 @@
                 <!-- JSE -->
                 <link>http://download.oracle.com/javase/6/docs/api/</link>
                 <!-- Libraries -->
-                <link>http://www.junit.org/junit/javadoc/</link>
-                <link>http://www.slf4j.org/api/</link>
+                <link>http://maven.apache.org/ref/3.1.1/maven-plugin-api/apidocs/</link>
               </links>
             </configuration>
             <executions>
