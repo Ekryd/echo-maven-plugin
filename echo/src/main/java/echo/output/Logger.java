@@ -20,4 +20,7 @@ public interface Logger {
      * @param throwable the "exception" to log
      */
     void debug(Throwable throwable);
+
+    /** Log the content to the debug level. */
+    void debug(String content);
 }

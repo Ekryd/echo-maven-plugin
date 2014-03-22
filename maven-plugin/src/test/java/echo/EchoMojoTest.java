@@ -1,6 +1,8 @@
 package echo;
 
 import echo.exception.FailureException;
+import echo.output.MavenEchoOutput;
+import echo.output.MavenLogger;
 import org.apache.maven.plugin.MojoFailureException;
 import org.junit.Before;
 import org.junit.Rule;
@@ -23,12 +25,17 @@ public class EchoMojoTest {
     public ExpectedException expectedException = ExpectedException.none();
     private EchoMojo echoMojo;
 
+    private final MavenLogger mavenLoggerMock = mock(MavenLogger.class);
+    private final MavenEchoOutput mavenEchoOutputMock = mock(MavenEchoOutput.class);
+
     @Before
     public void setUp() throws Exception {
         echoMojo = new EchoMojo();
         ReflectionHelper echoMojoHelper = new ReflectionHelper(echoMojo);
         echoMojoHelper.setField("level", "INFO");
         echoMojoHelper.setField("lineSeparator", "\\n");
+        echoMojoHelper.setField(mavenLoggerMock);
+        echoMojoHelper.setField(mavenEchoOutputMock);
     }
 
     @Test
@@ -50,7 +57,7 @@ public class EchoMojoTest {
     }
 
     @Test
-    public void mavenExecuteShouldRunEchoPlugin() throws Exception {
+    public void mavenEchoShouldRunEchoPlugin() throws Exception {
         EchoPlugin echoPlugin = mock(EchoPlugin.class);
 
         new ReflectionHelper(echoMojo).setField(echoPlugin);
@@ -58,6 +65,28 @@ public class EchoMojoTest {
         echoMojo.echo();
 
         verify(echoPlugin).echo();
+    }
+
+    @Test
+    public void executeShouldRunTheWholePlugin() throws Exception {
+        new ReflectionHelper(echoMojo).setField("message", "Björn");
+
+        echoMojo.execute();
+
+        verify(mavenEchoOutputMock).info("Björn");
+        verifyNoMoreInteractions(mavenLoggerMock);
+        verifyNoMoreInteractions(mavenEchoOutputMock);
+    }
+
+    @Test
+    public void noMessageShouldGenerateException() throws Exception {
+        expectedException.expect(MojoFailureException.class);
+        expectedException.expectMessage("There was nothing to output. Specify either message or fromFile");
+
+        echoMojo.execute();
+
+        verifyNoMoreInteractions(mavenLoggerMock);
+        verifyNoMoreInteractions(mavenEchoOutputMock);
     }
 
     @Test

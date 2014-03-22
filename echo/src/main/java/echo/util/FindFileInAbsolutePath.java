@@ -11,11 +11,12 @@ import java.io.FileNotFoundException;
  * @author bjorn
  * @since 2014-03-19
  */
-public class FindFileInAbsolutePath {
+class FindFileInAbsolutePath {
 
     private final Logger mavenLogger;
 
     private FileInputStream inputStream;
+    private String absoluteFilePath;
 
     /**
      * Creates a new instance of the class
@@ -29,7 +30,8 @@ public class FindFileInAbsolutePath {
     /** Try to open a stream to the file location */
     public void openFile(String absoluteFilePath) {
         try {
-            inputStream = new FileInputStream(absoluteFilePath);
+            this.inputStream = new FileInputStream(absoluteFilePath);
+            this.absoluteFilePath = absoluteFilePath;
         } catch (FileNotFoundException fex) {
             mavenLogger.debug(fex);
             inputStream = null;
@@ -41,8 +43,14 @@ public class FindFileInAbsolutePath {
         return inputStream != null;
     }
 
+    public String getAbsoluteFilePath() {
+        return absoluteFilePath;
+    }
+
     /** Return stream to file path content */
     public FileInputStream getInputStream() {
         return inputStream;
     }
+
+
 }

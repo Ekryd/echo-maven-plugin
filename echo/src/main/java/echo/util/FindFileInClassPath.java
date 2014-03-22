@@ -12,11 +12,12 @@ import java.net.URL;
  * @author bjorn
  * @since 2014-03-19
  */
-public class FindFileInClassPath {
+class FindFileInClassPath {
 
     private final Logger mavenLogger;
 
     private InputStream inputStream;
+    private String absoluteFilePath;
 
     /**
      * Creates a new instance of the class
@@ -32,7 +33,8 @@ public class FindFileInClassPath {
         try {
             URL resource = this.getClass().getClassLoader().getResource(fileName);
             if (resource != null) {
-                inputStream = resource.openStream();
+                this.inputStream = resource.openStream();
+                this.absoluteFilePath = resource.getPath();
             }
         } catch (IOException iex) {
             mavenLogger.debug(iex);
@@ -47,5 +49,9 @@ public class FindFileInClassPath {
     /** Return stream to file content */
     public InputStream getInputStream() {
         return inputStream;
+    }
+
+    public String getAbsoluteFilePath() {
+        return absoluteFilePath;
     }
 }

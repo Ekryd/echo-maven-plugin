@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.Matchers;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -27,7 +28,7 @@ public class TestFromFile {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    private Logger logger = mock(Logger.class);
+    private final Logger logger = mock(Logger.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
 
     @Test
@@ -65,12 +66,32 @@ public class TestFromFile {
     }
 
     @Test
-    public void foundFileShouldOutputToInfo() {
+    public void foundFileInClassPathShouldOutputToInfo() {
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, "messageText.txt").createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
         echoPlugin.echo();
 
         verify(echoOutput).info("Björn");
+    }
+
+    @Test
+    public void foundFileInAbsolutePathShouldOutputReadingLocation() {
+        String absolutePath = new File("src/test/resources/messageText.txt").getAbsolutePath();
+        PluginParameters parameters = new PluginParametersBuilder().setMessage(null, absolutePath).createPluginParameters();
+        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        echoPlugin.echo();
+
+        verify(logger).debug("Reading input from " + absolutePath);
+    }
+
+    @Test
+    public void foundFileInClassPathShouldOutputReadingLocation() {
+        PluginParameters parameters = new PluginParametersBuilder().setMessage(null, "messageText.txt").createPluginParameters();
+        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        echoPlugin.echo();
+
+        String absolutePath = new File("target/test-classes/messageText.txt").getAbsolutePath();
+        verify(logger).debug("Reading input from " + absolutePath);
     }
 
     @Test

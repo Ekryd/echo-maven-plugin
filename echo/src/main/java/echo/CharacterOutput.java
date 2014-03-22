@@ -13,7 +13,7 @@ class CharacterOutput {
     private final String message;
 
     private boolean firstCharacter = true;
-    private final StringBuilder outputStringBuilder = new StringBuilder();
+    private StringBuilder outputStringBuilder;
     private String output;
 
     /**
@@ -28,13 +28,13 @@ class CharacterOutput {
 
     /** Returns message content as a debug string, ready to be output */
     public String getOutput() {
-        if (output == null) {
-            generateOutput(message.toCharArray());
-        }
+        generateOutput(message.toCharArray());
+
         return output;
     }
 
     private void generateOutput(char[] messageChars) {
+        outputStringBuilder = new StringBuilder();
         outputStringBuilder.append("[");
         for (char messageChar : messageChars) {
             appendOneCharOutput(messageChar);

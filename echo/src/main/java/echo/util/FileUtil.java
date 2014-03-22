@@ -26,7 +26,7 @@ public class FileUtil {
     private final boolean forceOverwrite;
 
     /**
-     * Create a new instace of the FileUtil
+     * Create a new instance of the FileUtil
      *
      * @param parameters  The user-supplied plugin parameters
      * @param mavenLogger Wrapper for Maven internal plugin logger
@@ -112,12 +112,16 @@ public class FileUtil {
         FindFileInAbsolutePath findFileInAbsolutePath = new FindFileInAbsolutePath(mavenLogger);
         findFileInAbsolutePath.openFile(file);
         if (findFileInAbsolutePath.isFound()) {
+            mavenLogger.debug("Reading input from " + findFileInAbsolutePath.getAbsoluteFilePath());
+
             return findFileInAbsolutePath.getInputStream();
         }
 
         FindFileInClassPath findFileInClassPath = new FindFileInClassPath(mavenLogger);
         findFileInClassPath.openFile(file);
         if (findFileInClassPath.isFound()) {
+            mavenLogger.debug("Reading input from " + findFileInClassPath.getAbsoluteFilePath());
+
             return findFileInClassPath.getInputStream();
         }
 

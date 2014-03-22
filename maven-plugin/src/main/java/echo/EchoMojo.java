@@ -26,7 +26,7 @@ import java.io.File;
         requiresProject = false,
         inheritByDefault = false)
 @SuppressWarnings({"UnusedDeclaration"})
-public class EchoMojo extends AbstractMojo {
+class EchoMojo extends AbstractMojo {
     /** The message text that should be echoed */
     @Parameter(property = "echo.message")
     private String message;
@@ -70,6 +70,8 @@ public class EchoMojo extends AbstractMojo {
 
 
     private EchoPlugin echoPlugin;
+    private final MavenLogger mavenLogger = new MavenLogger(getLog());
+    private final MavenEchoOutput echoOutput = new MavenEchoOutput(getLog());
 
     public EchoMojo() {
     }
@@ -96,7 +98,7 @@ public class EchoMojo extends AbstractMojo {
                     .setDebug(characterOutput)
                     .createPluginParameters();
 
-            echoPlugin = new EchoPlugin(new MavenLogger(getLog()), pluginParameters, new MavenEchoOutput(getLog()));
+            echoPlugin = new EchoPlugin(mavenLogger, pluginParameters, echoOutput);
         } catch (FailureException fex) {
             new ExceptionHandler(fex).throwMojoFailureException();
         }

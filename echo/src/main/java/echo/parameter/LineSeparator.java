@@ -22,7 +22,7 @@ public class LineSeparator {
         this.lineSeparatorString = lineSeparatorString;
         this.formattedLineSeparator = lineSeparatorString.replaceAll("\\\\r", "\r").replaceAll("\\\\n", "\n");
     }
-    
+
     void checkLineSeparator() {
         if (isIllegalString()) {
             throw new FailureException(
@@ -30,7 +30,7 @@ public class LineSeparator {
                             + Arrays.toString(lineSeparatorString.getBytes()));
         }
     }
-    
+
     private boolean isIllegalString() {
         return !(formattedLineSeparator.equalsIgnoreCase("\n") ||
                 formattedLineSeparator.equalsIgnoreCase("\r") ||

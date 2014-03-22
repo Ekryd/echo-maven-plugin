@@ -28,5 +28,10 @@ public class MavenLogger implements Logger {
         }
     }
 
-
+    @Override
+    public void debug(String content) {
+        if (log.isDebugEnabled()) {
+            log.debug(content);
+        }
+    }
 }

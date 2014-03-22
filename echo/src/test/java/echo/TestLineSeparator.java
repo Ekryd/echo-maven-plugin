@@ -1,13 +1,15 @@
 package echo;
 
+import echo.exception.FailureException;
 import echo.output.EchoOutput;
 import echo.output.Logger;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * @author bjorn
@@ -15,6 +17,9 @@ import static org.mockito.Mockito.verify;
  */
 public class TestLineSeparator {
     private Logger logger = mock(Logger.class);
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void formattingTextWithNLShouldResultInLineBreaks() throws Exception {
@@ -50,5 +55,20 @@ public class TestLineSeparator {
         echoPlugin.echo();
 
         verify(echoOutput).info("ABC\r\n\r\n\r\nDEF\r\n\r\n\r\nGHI\r\n\r\n\r\n");
+    }
+
+    @Test
+    public void formattingWithIllegalLineBreaksShouldThrowException() throws Exception {
+        EchoOutput echoOutput = mock(EchoOutput.class);
+
+        expectedException.expect(FailureException.class);
+        expectedException.expectMessage("LineSeparator must be either \\n, \\r or \\r\\n, but separator characters were [9]");
+
+        PluginParameters parameters = new PluginParametersBuilder().setMessage("ABC\n\n\nDEF\r\r\rGHI\r\n\r\n\r\n", null)
+                .setFormatting("UTF-8", "\t").createPluginParameters();
+        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        echoPlugin.echo();
+
+        verifyNoMoreInteractions(logger);
     }
 }

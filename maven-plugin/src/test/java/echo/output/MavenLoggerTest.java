@@ -26,4 +26,44 @@ public class MavenLoggerTest {
         verify(logMock).info("Gurka");
         verifyNoMoreInteractions(logMock);
     }
+
+    @Test
+    public void debugExceptionLevelShouldLogToDebugIfEnabled() throws Exception {
+        when(logMock.isDebugEnabled()).thenReturn(true);
+
+        mavenLogger.debug(new OutOfMemoryError("Ta daa!"));
+
+        verify(logMock).isDebugEnabled();
+        verify(logMock).debug(any(OutOfMemoryError.class));
+        verifyNoMoreInteractions(logMock);
+    }
+
+    @Test
+    public void debugExceptionLevelShouldNotLogToDebugIfDisabled() throws Exception {
+        mavenLogger.debug(new OutOfMemoryError("Ta daa!"));
+
+        when(logMock.isDebugEnabled()).thenReturn(false);
+        verify(logMock).isDebugEnabled();
+        verifyNoMoreInteractions(logMock);
+    }
+
+    @Test
+    public void debugMessageLevelShouldLogToDebugIfEnabled() throws Exception {
+        when(logMock.isDebugEnabled()).thenReturn(true);
+
+        mavenLogger.debug("Ta daa!");
+
+        verify(logMock).isDebugEnabled();
+        verify(logMock).debug("Ta daa!");
+        verifyNoMoreInteractions(logMock);
+    }
+
+    @Test
+    public void debugMessageLevelShouldNotLogToDebugIfDisabled() throws Exception {
+        mavenLogger.debug("Ta daa!");
+
+        when(logMock.isDebugEnabled()).thenReturn(false);
+        verify(logMock).isDebugEnabled();
+        verifyNoMoreInteractions(logMock);
+    }
 }
