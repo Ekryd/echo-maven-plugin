@@ -9,11 +9,13 @@
   </parent>
 
   <!-- Basics -->
-  <groupId>com.google.code.echo</groupId>
+  <groupId>com.google.code.echo-maven-plugin</groupId>
   <artifactId>echo-plugin</artifactId>
   <version>0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Echo plugin parent</name>
+
+  <description>Maven plugin that outputs text during a maven build.</description>
 
   <prerequisites>
     <maven>2.2.1</maven>
@@ -189,6 +191,7 @@
             <artifactId>maven-javadoc-plugin</artifactId>
             <version>2.9.1</version>
             <configuration>
+              <show>package</show>
               <minmemory>128m</minmemory>
               <maxmemory>512</maxmemory>
               <breakiterator>true</breakiterator>
