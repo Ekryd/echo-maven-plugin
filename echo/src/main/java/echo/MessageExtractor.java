@@ -20,6 +20,7 @@ class MessageExtractor {
 
     private final String message;
     private final String fromFile;
+    private String originalMessage;
 
     /**
      * Create a new instance of the MessageExtractor
@@ -37,18 +38,21 @@ class MessageExtractor {
 
     /** Returns a message the is ready for output */
     public String getFormattedMessage() {
-        return newlineFormatter.format(extractMessage());
+        extractMessage();
+        
+        return newlineFormatter.format(originalMessage);
     }
 
-    private String extractMessage() {
+    private void extractMessage() {
         checkMissingMessage();
         if (message != null) {
-            return message;
-        }
-        try {
-            return fileUtil.getFromFile();
-        } catch (IOException ex) {
-            throw new FailureException(ex.getMessage(), ex);
+            originalMessage = message;
+        } else {
+            try {
+                originalMessage = fileUtil.getFromFile();
+            } catch (IOException ex) {
+                throw new FailureException(ex.getMessage(), ex);
+            }
         }
     }
 
@@ -61,4 +65,7 @@ class MessageExtractor {
         }
     }
 
+    public String getOriginalMessage() {
+        return originalMessage;
+    }
 }

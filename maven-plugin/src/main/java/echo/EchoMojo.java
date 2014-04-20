@@ -51,7 +51,7 @@ class EchoMojo extends AbstractMojo {
     @Parameter(property = "echo.force", defaultValue = "false")
     private boolean force;
 
-    /** Which output level the message should have. The following values are available 'ERROR',  'WARNING', 'INFO', 'VERBOSE' and 'DEBUG' */
+    /** Which output level the message should have. The following values are available 'FAIL', 'ERROR',  'WARNING', 'INFO', and 'DEBUG' */
     @Parameter(property = "echo.level", defaultValue = "INFO")
     private String level;
 
@@ -69,9 +69,9 @@ class EchoMojo extends AbstractMojo {
     private boolean characterOutput;
 
 
+    private MavenLogger mavenLogger;
+    private MavenEchoOutput echoOutput;
     private EchoPlugin echoPlugin;
-    private final MavenLogger mavenLogger = new MavenLogger(getLog());
-    private final MavenEchoOutput echoOutput = new MavenEchoOutput(getLog());
 
     public EchoMojo() {
     }
@@ -84,11 +84,18 @@ class EchoMojo extends AbstractMojo {
      */
     @Override
     public void execute() throws MojoFailureException {
+        initLoggers();
         setup();
         echo();
     }
 
+    private void initLoggers() {
+        mavenLogger = new MavenLogger(getLog());
+        echoOutput = new MavenEchoOutput(getLog());
+    }
+
     void setup() throws MojoFailureException {
+
         try {
             PluginParameters pluginParameters = new PluginParametersBuilder()
                     .setMessage(message, fromFile)

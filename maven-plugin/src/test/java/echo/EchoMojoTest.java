@@ -68,10 +68,16 @@ public class EchoMojoTest {
     }
 
     @Test
-    public void executeShouldRunTheWholePlugin() throws Exception {
-        new ReflectionHelper(echoMojo).setField("message", "Björn");
+    public void echoShouldRunTheWholePlugin() throws Exception {
+        ReflectionHelper reflectionHelper = new ReflectionHelper(echoMojo);
+        // Init values
+        reflectionHelper.setField("message", "Björn");
+        // Init loggers
+        reflectionHelper.setField(mavenLoggerMock);
+        reflectionHelper.setField(mavenEchoOutputMock);
 
-        echoMojo.execute();
+        echoMojo.setup();
+        echoMojo.echo();
 
         verify(mavenEchoOutputMock).info("Björn");
         verifyNoMoreInteractions(mavenLoggerMock);

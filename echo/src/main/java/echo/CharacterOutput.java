@@ -10,11 +10,9 @@ import echo.parameter.PluginParameters;
  */
 class CharacterOutput {
     private final boolean writeOutput;
-    private final String message;
 
     private boolean firstCharacter = true;
     private StringBuilder outputStringBuilder;
-    private String output;
 
     /**
      * Create a new instance of the CharacterOutput class
@@ -23,14 +21,16 @@ class CharacterOutput {
      */
     public CharacterOutput(PluginParameters pluginParameters) {
         writeOutput = pluginParameters.isCharacterOutput();
-        message = pluginParameters.getMessage();
     }
 
     /** Returns message content as a debug string, ready to be output */
-    public String getOutput() {
+    public String getOutput(String message) {
+        if (!writeOutput) {
+            return "";
+        }
         generateOutput(message.toCharArray());
 
-        return output;
+        return outputStringBuilder.toString();
     }
 
     private void generateOutput(char[] messageChars) {
@@ -40,8 +40,6 @@ class CharacterOutput {
             appendOneCharOutput(messageChar);
         }
         outputStringBuilder.append("]");
-
-        output = outputStringBuilder.toString();
     }
 
     private void appendOneCharOutput(char messageChar) {

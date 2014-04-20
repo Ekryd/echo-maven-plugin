@@ -73,20 +73,4 @@ public class PluginParameters {
         return characterOutput;
     }
 
-    @Override
-    public String toString() {
-        return "PluginParameters{" +
-                "appendToFile=" + appendToFile +
-                ", message='" + message + '\'' +
-                ", fromFile=" + fromFile +
-                ", defaultOutputPath=" + defaultOutputPath +
-                ", toFile=" + toFile +
-                ", force=" + force +
-                ", level='" + level + '\'' +
-                ", encoding='" + encoding + '\'' +
-                ", lineSeparator='" + lineSeparator + '\'' +
-                ", characterOutput=" + characterOutput +
-                '}';
-    }
-
 }

@@ -40,12 +40,13 @@ class EchoPlugin {
 
     /** Output the message */
     public void echo() {
+        String messageWithCorrectNewlines = messageExtractor.getFormattedMessage();
+
         if (characterOutput.isWriteOutput()) {
-            String characterArray = characterOutput.getOutput();
+            String characterArray = characterOutput.getOutput(messageExtractor.getOriginalMessage());
             mavenLogger.info(characterArray);
         }
 
-        String messageWithCorrectNewlines = messageExtractor.getFormattedMessage();
 
         if (writeMessageToFile) {
             fileUtil.saveToFile(messageWithCorrectNewlines);
