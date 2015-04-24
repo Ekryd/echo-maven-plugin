@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.code.echo-maven-plugin</groupId>
     <artifactId>echo-plugin</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>echo-maven-plugin</artifactId>
@@ -14,6 +14,12 @@
   <description>A maven plugin that outputs text during Maven build</description>
 
   <dependencies>
+    <dependency>
+      <groupId>com.google.code.echo-maven-plugin</groupId>
+      <artifactId>echo-output</artifactId>
+      <version>1.1.0-SNAPSHOT</version>
+    </dependency>
+
     <!-- dependencies to annotations -->
     <dependency>
       <groupId>org.apache.maven.plugin-tools</groupId>
@@ -22,6 +28,7 @@
       <!-- annotations are not needed for plugin execution so you can remove this dependency for execution with using provided scope -->
       <scope>provided</scope>
     </dependency>
+    
     <!-- generated help mojo has a dependency to plexus-utils -->
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
@@ -33,12 +40,6 @@
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
       <version>3.2.1</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.code.echo-maven-plugin</groupId>
-      <artifactId>echo-output</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
