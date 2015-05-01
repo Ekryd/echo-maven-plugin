@@ -85,6 +85,17 @@ public class TestFromFile {
     }
 
     @Test
+    public void foundFileInSubModuleShouldOutputReadingLocation() {
+        String fileName = "test/resources/messageText.txt";
+        File basePath = new File("src");
+        PluginParameters parameters = new PluginParametersBuilder().setMessage(null, fileName).setFile(basePath, null, false, false) .createPluginParameters();
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
+        echoPlugin.echo();
+
+        verify(pluginLog).debug("Reading input from " + new File(basePath, fileName).getAbsolutePath());
+    }
+
+    @Test
     public void foundFileInClassPathShouldOutputReadingLocation() {
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, "messageText.txt").createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);

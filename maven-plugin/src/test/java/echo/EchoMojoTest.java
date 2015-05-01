@@ -113,14 +113,22 @@ public class EchoMojoTest {
 
     @Test
     public void skipShouldOnlyOutputMessage() throws Exception {
-        EchoPlugin echoPlugin = mock(EchoPlugin.class);
-        new ReflectionHelper(echoMojo).setField(echoPlugin);
         new ReflectionHelper(echoMojo).setField("skip", true);
         new ReflectionHelper(echoMojo, AbstractMojo.class).setField(pluginLogMock);
 
         echoMojo.execute();
 
-        verifyZeroInteractions(echoPlugin);
         verify(pluginLogMock).info("Skipping echo-maven-plugin");
+    }
+
+    @Test
+    public void executeShouldOutputMessage() throws Exception {
+        new ReflectionHelper(echoMojo).setField("message", "Björn");
+        new ReflectionHelper(echoMojo, AbstractMojo.class).setField(pluginLogMock);
+
+        echoMojo.execute();
+
+        verify(pluginLogMock).info("Björn");
+        verifyNoMoreInteractions(pluginLogMock);
     }
 }

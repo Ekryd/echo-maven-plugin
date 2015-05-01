@@ -34,6 +34,14 @@ public class TestLevel {
     }
 
     @Test
+    public void nullLevelShouldThrowException() {
+        expectedException.expect(FailureException.class);
+        expectedException.expectMessage("level must be either FAIL, ERROR, WARNING, INFO or DEBUG. Was: null");
+
+        new PluginParametersBuilder().setLevel(null).createPluginParameters();
+    }
+
+    @Test
     public void infoLevelShouldBeDefault() {
         PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", null).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
