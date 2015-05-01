@@ -2,23 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>7</version>
-  </parent>
-
   <!-- Basics -->
-  <groupId>com.google.code.echo-maven-plugin</groupId>
+  <groupId>com.github.ekryd.echo-maven-plugin</groupId>
   <artifactId>echo-plugin</artifactId>
   <version>1.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Echo plugin parent</name>
-
   <description>Maven plugin that outputs text during a maven build.</description>
 
   <prerequisites>
-    <maven>2.2.1</maven>
+    <maven>3.0.4</maven>
   </prerequisites>
 
   <modules>
@@ -36,13 +29,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.code.reflection-utils</groupId>
-      <artifactId>reflection-utils</artifactId>
-      <version>0.0.1</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -52,31 +39,28 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>com.github.ekryd.reflection-utils</groupId>
+      <artifactId>reflection-utils</artifactId>
+      <version>0.0.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
-      <version>1.9.5</version>
+      <version>1.10.19</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
+
   <!-- Build -->
   <build>
     <defaultGoal>install</defaultGoal>
 
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>versions-maven-plugin</artifactId>
-          <version>2.1</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-
     <plugins>
       <plugin>
-        <groupId>com.google.code.sortpom</groupId>
-        <artifactId>maven-sortpom-plugin</artifactId>
-        <version>2.3.0</version>
+        <groupId>com.github.ekryd.sortpom</groupId>
+        <artifactId>sortpom-maven-plugin</artifactId>
+        <version>2.4.0</version>
         <configuration>
           <createBackupFile>false</createBackupFile>
           <predefinedSortOrder>custom_1</predefinedSortOrder>
@@ -84,6 +68,7 @@
           <encoding>${project.build.sourceEncoding}</encoding>
           <sortProperties>true</sortProperties>
           <keepBlankLines>true</keepBlankLines>
+          <sortDependencies>scope</sortDependencies>
         </configuration>
         <executions>
           <execution>
@@ -97,7 +82,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
+        <version>3.2</version>
         <configuration>
           <source>${compileSource}</source>
           <target>${compileSource}</target>
@@ -105,20 +90,125 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>2.4</version>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.2</version>
+        <dependencies>
+          <dependency>
+            <groupId>com.thoughtworks.qdox</groupId>
+            <artifactId>qdox</artifactId>
+            <version>1.9</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>2.5</version>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>1.4</version>
+        <executions>
+          <execution>
+            <id>enforce-plugin-versions</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requirePluginVersions>
+                  <message>Best Practice is to always define plugin versions!</message>
+                  <banLatest>true</banLatest>
+                  <banRelease>true</banRelease>
+                  <banSnapshots>true</banSnapshots>
+                </requirePluginVersions>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
 
+      <!-- Release handling -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.1</version>
+        <configuration>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+          <useReleaseProfile>false</useReleaseProfile>
+          <releaseProfiles>release</releaseProfiles>
+          <goals>deploy</goals>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.5</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>false</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+
+      <!-- Coverage -->
+      <plugin>
+        <groupId>org.eluder.coveralls</groupId>
+        <artifactId>coveralls-maven-plugin</artifactId>
+        <version>3.1.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.7.4.201502262128</version>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Define versions for standard plugins -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.6.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.7</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.18.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.5</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>2.5.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.8.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.4</version>
+      </plugin>
     </plugins>
   </build>
 
   <!-- Misc -->
-  <url>http://code.google.com/p/echo-maven-plugin/</url>
+  <url>https://github.com/Ekryd/echo-maven-plugin/</url>
   <inceptionYear>2013</inceptionYear>
 
   <licenses>
@@ -145,15 +235,22 @@
   </developers>
 
   <scm>
-    <connection>scm:git:https://code.google.com/p/echo-maven-plugin/</connection>
-    <developerConnection>scm:git:https://code.google.com/p/echo-maven-plugin/</developerConnection>
+    <connection>scm:git:https://github.com/Ekryd/echo-maven-plugin/</connection>
+    <developerConnection>sscm:git:https://github.com/Ekryd/echo-maven-plugin/</developerConnection>
     <tag>HEAD</tag>
-    <url>http://code.google.com/p/echo-maven-plugin/source/browse/</url>
+    <url>scm:git:https://github.com/Ekryd/echo-maven-plugin/</url>
   </scm>
   <issueManagement>
-    <system>Google Code</system>
-    <url>http://code.google.com/p/echo-maven-plugin/issues/list</url>
+    <system>GitHub</system>
+    <url>https://github.com/Ekryd/echo-maven-plugin/issues</url>
   </issueManagement>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
 
   <!-- Profiles -->
   <profiles>
@@ -168,22 +265,8 @@
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.5</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-                <phase>verify</phase>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.9.1</version>
+            <version>2.10.1</version>
             <configuration>
               <show>package</show>
               <minmemory>128m</minmemory>
@@ -195,10 +278,20 @@
               <linksource>true</linksource>
               <links>
                 <!-- JSE -->
-                <link>http://download.oracle.com/javase/6/docs/api/</link>
-                <!-- Libraries -->
-                <link>http://maven.apache.org/ref/3.1.1/maven-plugin-api/apidocs/</link>
+                <link>http://docs.oracle.com/javase/6/docs/api/</link>
               </links>
+              <tags>
+                <tag>
+                  <name>goal</name>
+                  <placement>a</placement>
+                  <head>Maven plugin goal:</head>
+                </tag>
+                <tag>
+                  <name>threadSafe</name>
+                  <placement>a</placement>
+                  <head>Is plugin thread safe:</head>
+                </tag>
+              </tags>
             </configuration>
             <executions>
               <execution>
@@ -210,15 +303,30 @@
               </execution>
             </executions>
           </plugin>
+
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
-            <version>2.2.1</version>
+            <version>2.4</version>
             <executions>
               <execution>
                 <id>attach-sources</id>
                 <goals>
-                  <goal>jar</goal>
+                  <goal>jar-no-fork</goal>
+                </goals>
+                <phase>verify</phase>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <goals>
+                  <goal>sign</goal>
                 </goals>
                 <phase>verify</phase>
               </execution>
@@ -228,4 +336,5 @@
       </build>
     </profile>
   </profiles>
+
 </project>

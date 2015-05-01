@@ -6,7 +6,7 @@ import java.io.File;
 public class PluginParametersBuilder {
     private String message;
     private String fromFile;
-    private File defaultOutputPath;
+    private File basePath;
     private String toFile;
     private boolean appendToFile;
     private boolean force;
@@ -23,8 +23,8 @@ public class PluginParametersBuilder {
     }
 
     /** Sets file output for plugin */
-    public PluginParametersBuilder setFile(File defaultOutputPath, String toFile, boolean appendToFile, boolean force) {
-        this.defaultOutputPath = defaultOutputPath;
+    public PluginParametersBuilder setFile(File basePath, String toFile, boolean appendToFile, boolean force) {
+        this.basePath = basePath;
         this.toFile = toFile;
         this.appendToFile = appendToFile;
         this.force = force;
@@ -54,6 +54,6 @@ public class PluginParametersBuilder {
     public PluginParameters createPluginParameters() {
         lineSeparator.checkLineSeparator();
 
-        return new PluginParameters(message, fromFile, defaultOutputPath, toFile, appendToFile, force, level, encoding, lineSeparator, characterOutput);
+        return new PluginParameters(message, fromFile, basePath, toFile, appendToFile, force, level, encoding, lineSeparator, characterOutput);
     }
 }

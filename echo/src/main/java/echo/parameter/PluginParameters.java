@@ -9,7 +9,7 @@ public class PluginParameters {
 
     private final String message;
     private final String fromFile;
-    private final File defaultOutputPath;
+    private final File basePath;
     private final String toFile;
     private final boolean appendToFile;
     private final boolean force;
@@ -19,11 +19,11 @@ public class PluginParameters {
     private final boolean characterOutput;
 
     /** Creates an instance of PluginParameters with user-supplied plugin parameters */
-    public PluginParameters(String message, String fromFile, File defaultOutputPath, String toFile, boolean appendToFile, boolean force, OutputLevelType level,
+    public PluginParameters(String message, String fromFile, File basePath, String toFile, boolean appendToFile, boolean force, OutputLevelType level,
                             String encoding, LineSeparator lineSeparator, boolean characterOutput) {
         this.message = message;
         this.fromFile = fromFile;
-        this.defaultOutputPath = defaultOutputPath;
+        this.basePath = basePath;
         this.toFile = toFile;
         this.appendToFile = appendToFile;
         this.force = force;
@@ -41,8 +41,8 @@ public class PluginParameters {
         return fromFile;
     }
 
-    public File getDefaultOutputPath() {
-        return defaultOutputPath;
+    public File getBasePath() {
+        return basePath;
     }
 
     public String getToFile() {

@@ -8,9 +8,6 @@ import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.File;
 
@@ -18,56 +15,94 @@ import java.io.File;
  * Mojo (Maven plugin) that outputs messages during Maven build.
  *
  * @author Bjorn Ekryd
+ * @goal echo
+ * @threadSafe true
+ * @requiresProject false
+ * @inheritByDefault false
+ * @phase initialize
  */
-@Mojo(
-        name = "echo",
-        threadSafe = true,
-        defaultPhase = LifecyclePhase.INITIALIZE,
-        requiresProject = false,
-        inheritByDefault = false)
-@SuppressWarnings({"UnusedDeclaration"})
+@SuppressWarnings({"UnusedDeclaration", "JavaDoc"})
 class EchoMojo extends AbstractMojo {
-    /** The message text that should be echoed */
-    @Parameter(property = "echo.message")
+    /**
+     * The message text that should be echoed
+     *
+     * @parameter property="echo.message"
+     */
     private String message;
 
-    /** If the message fetched from a file instead of message tag */
-    @Parameter(property = "echo.fromFile")
+    /**
+     * If the message fetched from a file (or URL) instead of message tag
+     *
+     * @parameter property="echo.fromFile"
+     */
     private String fromFile;
 
-    /** The default output path for toFile. The toFile will be created relative to this path. READ-ONLY */
-    @Parameter(defaultValue = "${basedir}", readonly = true)
-    private File defaultOutputPath;
+    /**
+     * The default path for fromFile and toFile. 
+     * The fromFile will be read relative to this path. 
+     * The toFile will be created relative to this path. READ-ONLY
+     *
+     * @parameter default-value="${basedir}"
+     * @readonly
+     */
+    private File basePath;
 
-    /** If the message should be sent to a file instead of standard output */
-    @Parameter(property = "echo.toFile")
+    /**
+     * If the message should be sent to a file instead of standard output
+     *
+     * @parameter property="echo.toFile"
+     */
     private String toFile;
 
-    /** If the message should be appended to the toFile instead of opening a new file/overwrite an existing file */
-    @Parameter(property = "echo.append", defaultValue = "false")
+    /**
+     * If the message should be appended to the toFile instead of opening a new file/overwrite an existing file
+     *
+     * @parameter property="echo.append" default-value="false"
+     */
     private boolean append;
 
-    /** Overwrite read-only destination files */
-    @Parameter(property = "echo.force", defaultValue = "false")
+    /**
+     * Overwrite read-only destination files
+     *
+     * @parameter property="echo.force" default-value="false"
+     */
     private boolean force;
 
-    /** Which output level the message should have. The following values are available 'FAIL', 'ERROR',  'WARNING', 'INFO', and 'DEBUG' */
-    @Parameter(property = "echo.level", defaultValue = "INFO")
+    /**
+     * Which output level the message should have. The following values are available 'FAIL', 'ERROR',  'WARNING', 'INFO', and 'DEBUG'
+     *
+     * @parameter property="echo.level" default-value="INFO"
+     */
     private String level;
 
-    /** Encoding for the messages. */
-    @Parameter(property = "echo.encoding", defaultValue = "UTF-8")
+    /**
+     * Encoding for the messages.
+     *
+     * @parameter property="echo.encoding" default-value="UTF-8"
+     */
     private String encoding;
 
-    /** Line separator messages. Can be either \n, \r or \r\n */
-    @Parameter(property = "echo.lineSeparator", defaultValue = "${line.separator}")
+    /**
+     * Line separator messages. Can be either \n, \r or \r\n
+     *
+     * @parameter property="echo.lineSeparator" default-value="${line.separator}"
+     */
     private String lineSeparator;
 
 
-    /** Debug flag that outputs the message as a character list */
-    @Parameter(property = "echo.characterOutput", defaultValue = "false")
+    /**
+     * Debug flag that outputs the message as a character list
+     *
+     * @parameter property="echo.characterOutput" default-value="false"
+     */
     private boolean characterOutput;
 
+    /**
+     * Set this to 'true' to bypass echo plugin
+     *
+     * @parameter property="sort.skip" default-value="false"
+     */
+    private boolean skip;
 
     private MavenLogger mavenLogger;
     private MavenEchoOutput echoOutput;
@@ -85,8 +120,12 @@ class EchoMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoFailureException {
         initLoggers();
-        setup();
-        echo();
+        if (skip) {
+            mavenLogger.info("Skipping echo-plugin");
+        } else {
+            setup();
+            echo();
+        }
     }
 
     private void initLoggers() {
@@ -99,7 +138,7 @@ class EchoMojo extends AbstractMojo {
         try {
             PluginParameters pluginParameters = new PluginParametersBuilder()
                     .setMessage(message, fromFile)
-                    .setFile(defaultOutputPath, toFile, append, force)
+                    .setFile(basePath, toFile, append, force)
                     .setLevel(level)
                     .setFormatting(encoding, lineSeparator)
                     .setDebug(characterOutput)

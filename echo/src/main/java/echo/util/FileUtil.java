@@ -20,7 +20,7 @@ public class FileUtil {
     private final Logger mavenLogger;
     private final String encoding;
     private final String fromFile;
-    private final File defaultOutputPath;
+    private final File basePath;
     private final String toFile;
     private final boolean appendToFile;
     private final boolean forceOverwrite;
@@ -35,7 +35,7 @@ public class FileUtil {
         this.mavenLogger = mavenLogger;
         this.encoding = parameters.getEncoding();
         this.fromFile = parameters.getFromFile();
-        this.defaultOutputPath = parameters.getDefaultOutputPath();
+        this.basePath = parameters.getBasePath();
         this.toFile = parameters.getToFile();
         this.appendToFile = parameters.isAppendToFile();
         this.forceOverwrite = parameters.isForce();
@@ -47,7 +47,7 @@ public class FileUtil {
      * @param message The text to save
      */
     public void saveToFile(final String message) {
-        File saveFile = new File(defaultOutputPath, toFile);
+        File saveFile = new File(basePath, toFile);
         String absolutePath = saveFile.getAbsolutePath();
         mavenLogger.info("Saving output to " + absolutePath);
 
@@ -96,7 +96,7 @@ public class FileUtil {
             if (urlWrapper.isUrl()) {
                 inputStream = urlWrapper.openStream();
             } else {
-                inputStream = getFileFromRelativeOrClassPath(fromFile);
+                inputStream = getFileFromRelativeOrClassPath(basePath, fromFile);
             }
             return IOUtils.toString(inputStream, encoding);
         } catch (UnsupportedEncodingException ex) {
@@ -108,9 +108,17 @@ public class FileUtil {
         }
     }
 
-    private InputStream getFileFromRelativeOrClassPath(String file) throws IOException {
+    private InputStream getFileFromRelativeOrClassPath(File basePath, String file) throws IOException {
         FindFileInAbsolutePath findFileInAbsolutePath = new FindFileInAbsolutePath(mavenLogger);
-        findFileInAbsolutePath.openFile(file);
+
+        findFileInAbsolutePath.openFile(new File(file));
+        if (findFileInAbsolutePath.isFound()) {
+            mavenLogger.debug("Reading input from " + findFileInAbsolutePath.getAbsoluteFilePath());
+
+            return findFileInAbsolutePath.getInputStream();
+        }
+
+        findFileInAbsolutePath.openFile(new File(basePath, file));
         if (findFileInAbsolutePath.isFound()) {
             mavenLogger.debug("Reading input from " + findFileInAbsolutePath.getAbsoluteFilePath());
 
@@ -125,7 +133,9 @@ public class FileUtil {
             return findFileInClassPath.getInputStream();
         }
 
-        throw new FileNotFoundException(String.format("Could not find %s or %s in classpath",
-                new File(file).getAbsolutePath(), file));
+        throw new FileNotFoundException(String.format("Could not find %s, %s or %s in classpath",
+                new File(file).getAbsolutePath(), 
+                new File(basePath, file).getAbsolutePath(), 
+                file));
     }
 }

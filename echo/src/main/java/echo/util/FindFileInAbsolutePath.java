@@ -2,6 +2,7 @@ package echo.util;
 
 import echo.output.Logger;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
@@ -28,10 +29,10 @@ class FindFileInAbsolutePath {
     }
 
     /** Try to open a stream to the file location */
-    public void openFile(String absoluteFilePath) {
+    public void openFile(File absoluteFilePath) {
         try {
             this.inputStream = new FileInputStream(absoluteFilePath);
-            this.absoluteFilePath = absoluteFilePath;
+            this.absoluteFilePath = absoluteFilePath.getAbsolutePath();
         } catch (FileNotFoundException fex) {
             mavenLogger.debug(fex);
             inputStream = null;
