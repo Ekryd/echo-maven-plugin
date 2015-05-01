@@ -2,7 +2,7 @@ package echo;
 
 import echo.exception.FailureException;
 import echo.output.EchoOutput;
-import echo.output.Logger;
+import echo.output.PluginLog;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
 import org.junit.Rule;
@@ -21,7 +21,7 @@ public class TestLevel {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    private Logger logger = mock(Logger.class);
+    private PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
 
 
@@ -36,7 +36,7 @@ public class TestLevel {
     @Test
     public void infoLevelShouldBeDefault() {
         PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", null).createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
         verify(echoOutput).info("Björn");
@@ -45,7 +45,7 @@ public class TestLevel {
     @Test
     public void failLevelShouldOutputOnFailLevel() throws Exception {
         PluginParameters parameters = new PluginParametersBuilder().setLevel("fAIl").setMessage("Björn", null).createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
         verify(echoOutput).fail("Björn");
@@ -54,7 +54,7 @@ public class TestLevel {
     @Test
     public void errorLevelShouldOutputOnErrorLevel() throws Exception {
         PluginParameters parameters = new PluginParametersBuilder().setLevel("ErRoR").setMessage("Björn", null).createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
         verify(echoOutput).error("Björn");
@@ -63,7 +63,7 @@ public class TestLevel {
     @Test
     public void warnLevelShouldOutputOnWarningLevel() throws Exception {
         PluginParameters parameters = new PluginParametersBuilder().setLevel("WARNiNg").setMessage("Björn", null).createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
         verify(echoOutput).warning("Björn");
@@ -73,7 +73,7 @@ public class TestLevel {
     @Test
     public void infoLevelShouldOutputOnInfoLevel() throws Exception {
         PluginParameters parameters = new PluginParametersBuilder().setLevel("infO").setMessage("Björn", null).createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
         verify(echoOutput).info("Björn");
@@ -83,7 +83,7 @@ public class TestLevel {
     @Test
     public void debugLevelShouldOutputOnDebugLevel() throws Exception {
         PluginParameters parameters = new PluginParametersBuilder().setLevel("deBug").setMessage("Björn", null).createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
         verify(echoOutput).debug("Björn");

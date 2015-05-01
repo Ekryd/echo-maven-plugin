@@ -2,7 +2,7 @@ package echo;
 
 import echo.exception.FailureException;
 import echo.output.EchoOutput;
-import echo.output.Logger;
+import echo.output.PluginLog;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
 import org.apache.commons.io.FileUtils;
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
  * @since 2014-02-27
  */
 public class TestForceOption {
-    private Logger logger = mock(Logger.class);
+    private PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
     private String fileName = null;
 
@@ -40,7 +40,7 @@ public class TestForceOption {
                 }
                 return null;
             }
-        }).when(logger).info(anyString());
+        }).when(pluginLog).info(anyString());
     }
 
     @Test
@@ -51,7 +51,7 @@ public class TestForceOption {
 
         try {
             parameters = new PluginParametersBuilder().setMessage("One", null).setFile(new File("."), "test.txt", false, true).createPluginParameters();
-            echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+            echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
             echoPlugin.echo();
 
             output = FileUtils.readFileToString(new File(fileName), "UTF-8");
@@ -60,7 +60,7 @@ public class TestForceOption {
             new File(fileName).setReadOnly();
 
             parameters = new PluginParametersBuilder().setMessage("Two", null).setFile(new File("."), "test.txt", false, true).createPluginParameters();
-            echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+            echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
             echoPlugin.echo();
 
             verifyZeroInteractions(echoOutput);
@@ -82,7 +82,7 @@ public class TestForceOption {
 
         try {
             parameters = new PluginParametersBuilder().setMessage("One", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
-            echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+            echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
             echoPlugin.echo();
 
             output = FileUtils.readFileToString(new File(fileName), "UTF-8");
@@ -91,7 +91,7 @@ public class TestForceOption {
             new File(fileName).setReadOnly();
 
             parameters = new PluginParametersBuilder().setMessage("Two", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
-            echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+            echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
             echoPlugin.echo();
 
             fail("Read only file should not work");

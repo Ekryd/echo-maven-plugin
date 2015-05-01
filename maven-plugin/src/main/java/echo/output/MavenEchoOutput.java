@@ -10,11 +10,11 @@ import org.apache.maven.plugin.logging.Log;
  * @since 2013-09-09
  */
 public class MavenEchoOutput implements EchoOutput {
-    private final Log log;
+    private final Log wrappedLog;
 
     /** Creates an MavenEchoOutput wrapper */
-    public MavenEchoOutput(Log log) {
-        this.log = log;
+    public MavenEchoOutput(Log wrappedLog) {
+        this.wrappedLog = wrappedLog;
     }
 
     @Override
@@ -24,22 +24,22 @@ public class MavenEchoOutput implements EchoOutput {
 
     @Override
     public void error(String content) {
-        log.error(content);
+        wrappedLog.error(content);
     }
 
     @Override
     public void warning(String content) {
-        log.warn(content);
+        wrappedLog.warn(content);
     }
 
     @Override
     public void info(String content) {
-        log.info(content);
+        wrappedLog.info(content);
     }
 
     @Override
     public void debug(String content) {
-        log.debug(content);
+        wrappedLog.debug(content);
     }
 
     @SuppressWarnings("unchecked")

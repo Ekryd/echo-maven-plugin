@@ -1,6 +1,6 @@
 package echo.util;
 
-import echo.output.Logger;
+import echo.output.PluginLog;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,7 +14,7 @@ import java.io.FileNotFoundException;
  */
 class FindFileInAbsolutePath {
 
-    private final Logger mavenLogger;
+    private final PluginLog mavenPluginLog;
 
     private FileInputStream inputStream;
     private String absoluteFilePath;
@@ -22,10 +22,10 @@ class FindFileInAbsolutePath {
     /**
      * Creates a new instance of the class
      *
-     * @param mavenLogger Wrapper for Maven internal plugin logger
+     * @param mavenPluginLog Wrapper for Maven internal plugin logger
      */
-    public FindFileInAbsolutePath(Logger mavenLogger) {
-        this.mavenLogger = mavenLogger;
+    public FindFileInAbsolutePath(PluginLog mavenPluginLog) {
+        this.mavenPluginLog = mavenPluginLog;
     }
 
     /** Try to open a stream to the file location */
@@ -34,7 +34,7 @@ class FindFileInAbsolutePath {
             this.inputStream = new FileInputStream(absoluteFilePath);
             this.absoluteFilePath = absoluteFilePath.getAbsolutePath();
         } catch (FileNotFoundException fex) {
-            mavenLogger.debug(fex);
+            mavenPluginLog.debug(fex);
             inputStream = null;
         }
     }

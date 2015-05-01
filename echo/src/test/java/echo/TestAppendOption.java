@@ -1,7 +1,7 @@
 package echo;
 
 import echo.output.EchoOutput;
-import echo.output.Logger;
+import echo.output.PluginLog;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
 import org.apache.commons.io.FileUtils;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
  * @since 2014-02-27
  */
 public class TestAppendOption {
-    private Logger logger = mock(Logger.class);
+    private PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
     private String fileName = null;
 
@@ -38,13 +38,13 @@ public class TestAppendOption {
                 }
                 return null;
             }
-        }).when(logger).info(anyString());
+        }).when(pluginLog).info(anyString());
     }
 
     @Test
     public void explicitAppendFlagShouldAppendToFile() throws IOException {
         PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile(new File("."), "test.txt", true, false).createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
         try {
             // Echo twice
@@ -68,14 +68,14 @@ public class TestAppendOption {
 
         try {
             parameters = new PluginParametersBuilder().setMessage("One", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
-            echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+            echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
             echoPlugin.echo();
 
             output = FileUtils.readFileToString(new File(fileName), "UTF-8");
             assertThat(output, is("One"));
 
             parameters = new PluginParametersBuilder().setMessage("Two", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
-            echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+            echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
             echoPlugin.echo();
 
             verifyZeroInteractions(echoOutput);

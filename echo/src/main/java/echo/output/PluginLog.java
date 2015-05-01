@@ -6,7 +6,7 @@ package echo.output;
  * @author bjorn
  * @since 2012-12-21
  */
-public interface Logger {
+public interface PluginLog {
     /**
      * Send a message to the log in the <b>info</b> level.
      *

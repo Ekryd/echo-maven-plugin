@@ -2,7 +2,7 @@ package echo;
 
 import echo.exception.FailureException;
 import echo.output.EchoOutput;
-import echo.output.Logger;
+import echo.output.PluginLog;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
 import org.junit.Rule;
@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
  * @since 2013-09-09
  */
 public class TestLineSeparator {
-    private Logger logger = mock(Logger.class);
+    private PluginLog pluginLog = mock(PluginLog.class);
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
@@ -27,7 +27,7 @@ public class TestLineSeparator {
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage("ABC\n\n\nDEF\r\r\rGHI\r\n\r\n\r\n", null)
                 .setFormatting("UTF-8", "\n").createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
         verify(echoOutput).info("ABC\n\n\nDEF\n\n\nGHI\n\n\n");
@@ -39,7 +39,7 @@ public class TestLineSeparator {
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage("ABC\n\n\nDEF\r\r\rGHI\r\n\r\n\r\n", null)
                 .setFormatting("UTF-8", "\r").createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
         verify(echoOutput).info("ABC\r\r\rDEF\r\r\rGHI\r\r\r");
@@ -51,7 +51,7 @@ public class TestLineSeparator {
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage("ABC\n\n\nDEF\r\r\rGHI\r\n\r\n\r\n", null)
                 .setFormatting("UTF-8", "\r\n").createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
         verify(echoOutput).info("ABC\r\n\r\n\r\nDEF\r\n\r\n\r\nGHI\r\n\r\n\r\n");
@@ -66,9 +66,9 @@ public class TestLineSeparator {
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage("ABC\n\n\nDEF\r\r\rGHI\r\n\r\n\r\n", null)
                 .setFormatting("UTF-8", "\t").createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
-        verifyNoMoreInteractions(logger);
+        verifyNoMoreInteractions(pluginLog);
     }
 }

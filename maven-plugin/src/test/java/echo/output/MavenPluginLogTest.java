@@ -10,13 +10,13 @@ import static org.mockito.Mockito.*;
  * @author bjorn
  * @since 2013-10-19
  */
-public class MavenLoggerTest {
+public class MavenPluginLogTest {
     private Log logMock = mock(Log.class);
-    private MavenLogger mavenLogger;
+    private MavenPluginLog mavenLogger;
 
     @Before
     public void setUp() throws Exception {
-        mavenLogger = new MavenLogger(logMock);
+        mavenLogger = new MavenPluginLog(logMock);
     }
 
     @Test

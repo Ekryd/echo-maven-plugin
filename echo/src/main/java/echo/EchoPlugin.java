@@ -2,7 +2,7 @@ package echo;
 
 import echo.output.EchoOutput;
 import echo.output.EchoOutputWrapper;
-import echo.output.Logger;
+import echo.output.PluginLog;
 import echo.parameter.PluginParameters;
 import echo.util.FileUtil;
 
@@ -13,7 +13,7 @@ import echo.util.FileUtil;
  * @since 2013-08-08
  */
 class EchoPlugin {
-    private final Logger mavenLogger;
+    private final PluginLog mavenPluginLog;
     private final EchoOutputWrapper echoOutput;
     private final FileUtil fileUtil;
     private final MessageExtractor messageExtractor;
@@ -24,14 +24,14 @@ class EchoPlugin {
     /**
      * Creates an new instance of the EchoPlugin
      *
-     * @param mavenLogger      wrapper for the maven internal plugin logger
+     * @param mavenPluginLog      wrapper for the maven internal plugin logger
      * @param pluginParameters the user-supplied plugin parameters
      * @param echoOutput       the utility class to output to standard output (in Maven)
      */
-    public EchoPlugin(Logger mavenLogger, PluginParameters pluginParameters, EchoOutput echoOutput) {
-        this.mavenLogger = mavenLogger;
+    public EchoPlugin(PluginLog mavenPluginLog, PluginParameters pluginParameters, EchoOutput echoOutput) {
+        this.mavenPluginLog = mavenPluginLog;
         this.echoOutput = new EchoOutputWrapper(echoOutput, pluginParameters);
-        this.fileUtil = new FileUtil(pluginParameters, mavenLogger);
+        this.fileUtil = new FileUtil(pluginParameters, mavenPluginLog);
         this.messageExtractor = new MessageExtractor(pluginParameters, fileUtil);
         this.characterOutput = new CharacterOutput(pluginParameters);
 
@@ -44,7 +44,7 @@ class EchoPlugin {
 
         if (characterOutput.isWriteOutput()) {
             String characterArray = characterOutput.getOutput(messageExtractor.getOriginalMessage());
-            mavenLogger.info(characterArray);
+            mavenPluginLog.info(characterArray);
         }
 
 

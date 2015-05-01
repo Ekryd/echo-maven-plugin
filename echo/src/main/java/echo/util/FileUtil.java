@@ -1,7 +1,7 @@
 package echo.util;
 
 import echo.exception.FailureException;
-import echo.output.Logger;
+import echo.output.PluginLog;
 import echo.parameter.PluginParameters;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -17,7 +17,7 @@ import static echo.exception.FailureException.UNSUPPORTED_ENCODING;
  * @author Bjorn
  */
 public class FileUtil {
-    private final Logger mavenLogger;
+    private final PluginLog mavenPluginLog;
     private final String encoding;
     private final String fromFile;
     private final File basePath;
@@ -29,10 +29,10 @@ public class FileUtil {
      * Create a new instance of the FileUtil
      *
      * @param parameters  The user-supplied plugin parameters
-     * @param mavenLogger Wrapper for Maven internal plugin logger
+     * @param mavenPluginLog Wrapper for Maven internal plugin logger
      */
-    public FileUtil(PluginParameters parameters, Logger mavenLogger) {
-        this.mavenLogger = mavenLogger;
+    public FileUtil(PluginParameters parameters, PluginLog mavenPluginLog) {
+        this.mavenPluginLog = mavenPluginLog;
         this.encoding = parameters.getEncoding();
         this.fromFile = parameters.getFromFile();
         this.basePath = parameters.getBasePath();
@@ -49,7 +49,7 @@ public class FileUtil {
     public void saveToFile(final String message) {
         File saveFile = new File(basePath, toFile);
         String absolutePath = saveFile.getAbsolutePath();
-        mavenLogger.info("Saving output to " + absolutePath);
+        mavenPluginLog.info("Saving output to " + absolutePath);
 
         try {
             checkForNonWritableFile(saveFile);
@@ -60,7 +60,7 @@ public class FileUtil {
         } catch (UnsupportedCharsetException ex) {
             throw new FailureException(UNSUPPORTED_ENCODING + ex.getMessage(), ex);
         } catch (IOException ex) {
-            mavenLogger.debug(ex);
+            mavenPluginLog.debug(ex);
             throw new FailureException("Could not save file: " + absolutePath, ex);
         }
     }
@@ -109,26 +109,26 @@ public class FileUtil {
     }
 
     private InputStream getFileFromRelativeOrClassPath(File basePath, String file) throws IOException {
-        FindFileInAbsolutePath findFileInAbsolutePath = new FindFileInAbsolutePath(mavenLogger);
+        FindFileInAbsolutePath findFileInAbsolutePath = new FindFileInAbsolutePath(mavenPluginLog);
 
         findFileInAbsolutePath.openFile(new File(file));
         if (findFileInAbsolutePath.isFound()) {
-            mavenLogger.debug("Reading input from " + findFileInAbsolutePath.getAbsoluteFilePath());
+            mavenPluginLog.debug("Reading input from " + findFileInAbsolutePath.getAbsoluteFilePath());
 
             return findFileInAbsolutePath.getInputStream();
         }
 
         findFileInAbsolutePath.openFile(new File(basePath, file));
         if (findFileInAbsolutePath.isFound()) {
-            mavenLogger.debug("Reading input from " + findFileInAbsolutePath.getAbsoluteFilePath());
+            mavenPluginLog.debug("Reading input from " + findFileInAbsolutePath.getAbsoluteFilePath());
 
             return findFileInAbsolutePath.getInputStream();
         }
 
-        FindFileInClassPath findFileInClassPath = new FindFileInClassPath(mavenLogger);
+        FindFileInClassPath findFileInClassPath = new FindFileInClassPath(mavenPluginLog);
         findFileInClassPath.openFile(file);
         if (findFileInClassPath.isFound()) {
-            mavenLogger.debug("Reading input from " + findFileInClassPath.getAbsoluteFilePath());
+            mavenPluginLog.debug("Reading input from " + findFileInClassPath.getAbsoluteFilePath());
 
             return findFileInClassPath.getInputStream();
         }

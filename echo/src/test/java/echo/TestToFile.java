@@ -2,7 +2,7 @@ package echo;
 
 import echo.exception.FailureException;
 import echo.output.EchoOutput;
-import echo.output.Logger;
+import echo.output.PluginLog;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
 import org.apache.commons.io.FileUtils;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
  */
 public class TestToFile {
 
-    private Logger logger = mock(Logger.class);
+    private PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
     private String fileName = null;
 
@@ -42,13 +42,13 @@ public class TestToFile {
                 }
                 return null;
             }
-        }).when(logger).info(anyString());
+        }).when(pluginLog).info(anyString());
     }
 
     @Test
     public void saveToNonExistingToFileShouldWork() throws IOException {
         PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
         try {
             echoPlugin.echo();
@@ -65,7 +65,7 @@ public class TestToFile {
     @Test
     public void emptyMessageShouldCreateEmptyFile() throws IOException {
         PluginParameters parameters = new PluginParametersBuilder().setMessage("", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
         try {
             echoPlugin.echo();
@@ -82,7 +82,7 @@ public class TestToFile {
     @Test
     public void saveToNonExistingDirectoryShouldWork() throws IOException {
         PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile(new File("."), "gurka/test.txt", false, false).createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
         try {
             echoPlugin.echo();
@@ -104,13 +104,13 @@ public class TestToFile {
 
         try {
             parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile(new File("."), "gurka/test.txt", false, false).createPluginParameters();
-            echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+            echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
             //Create directory
             echoPlugin.echo();
 
             parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile(new File("."), "gurka", false, false).createPluginParameters();
-            echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+            echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
             echoPlugin.echo();
 

@@ -2,7 +2,7 @@ package echo;
 
 import echo.exception.FailureException;
 import echo.output.EchoOutput;
-import echo.output.Logger;
+import echo.output.PluginLog;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
 import org.apache.commons.io.FileUtils;
@@ -30,7 +30,7 @@ public class TestEncoding {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    private Logger logger = mock(Logger.class);
+    private PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
 
     private String fileName = null;
@@ -46,7 +46,7 @@ public class TestEncoding {
                 }
                 return null;
             }
-        }).when(logger).info(anyString());
+        }).when(pluginLog).info(anyString());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class TestEncoding {
                 .setMessage(null, "messageEncoding.txt")
                 .setFormatting("Gurka", "\n")
                 .createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
         expectedException.expect(FailureException.class);
         expectedException.expectMessage("Unsupported encoding: Gurka");
@@ -70,7 +70,7 @@ public class TestEncoding {
                 .setFormatting("Gurka", "\n")
                 .setFile(new File("."), "out.txt", false, false)
                 .createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
         expectedException.expect(FailureException.class);
         expectedException.expectMessage("Unsupported encoding: Gurka");
@@ -83,7 +83,7 @@ public class TestEncoding {
         PluginParameters parameters = new PluginParametersBuilder()
                 .setMessage(null, "messageEncoding.txt")
                 .setFormatting("iso-8859-1", "\n").createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
         echoPlugin.echo();
 
@@ -95,7 +95,7 @@ public class TestEncoding {
         PluginParameters parameters = new PluginParametersBuilder()
                 .setMessage(new String("Björn"), null)
                 .setFormatting("iso-8859-1", "\n").createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
         echoPlugin.echo();
 
@@ -109,7 +109,7 @@ public class TestEncoding {
         PluginParameters parameters = new PluginParametersBuilder()
                 .setMessage("\u00e4\u00a9", null)
                 .setFormatting("UTF-8", "\n").createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
         verify(echoOutput).info("\u00e4\u00a9");
@@ -121,7 +121,7 @@ public class TestEncoding {
                 .setMessage("\u00e4\u00a9", null)
                 .setFile(new File("."), "test.txt", false, false)
                 .setFormatting("UTF-8", "\n").createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
         try {
             echoPlugin.echo();
@@ -141,7 +141,7 @@ public class TestEncoding {
                 .setMessage("&#169;", null)
                 .setFile(new File("."), "test.txt", false, false)
                 .setFormatting("UTF16", "\n").createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
         try {
             echoPlugin.echo();

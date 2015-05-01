@@ -2,8 +2,10 @@ package echo;
 
 import echo.exception.FailureException;
 import echo.output.MavenEchoOutput;
-import echo.output.MavenLogger;
+import echo.output.MavenPluginLog;
+import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugin.logging.Log;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,8 +27,9 @@ public class EchoMojoTest {
     public ExpectedException expectedException = ExpectedException.none();
     private EchoMojo echoMojo;
 
-    private final MavenLogger mavenLoggerMock = mock(MavenLogger.class);
+    private final MavenPluginLog mavenLoggerMock = mock(MavenPluginLog.class);
     private final MavenEchoOutput mavenEchoOutputMock = mock(MavenEchoOutput.class);
+    private final Log pluginLogMock = mock(Log.class);
 
     @Before
     public void setUp() throws Exception {
@@ -106,5 +109,18 @@ public class EchoMojoTest {
         expectedException.expectMessage(is("Gurka"));
 
         echoMojo.echo();
+    }
+
+    @Test
+    public void skipShouldOnlyOutputMessage() throws Exception {
+        EchoPlugin echoPlugin = mock(EchoPlugin.class);
+        new ReflectionHelper(echoMojo).setField(echoPlugin);
+        new ReflectionHelper(echoMojo).setField("skip", true);
+        new ReflectionHelper(echoMojo, AbstractMojo.class).setField(pluginLogMock);
+
+        echoMojo.execute();
+
+        verifyZeroInteractions(echoPlugin);
+        verify(pluginLogMock).info("Skipping echo-maven-plugin");
     }
 }

@@ -32,9 +32,9 @@ public class LineSeparator {
     }
 
     private boolean isIllegalString() {
-        return !(formattedLineSeparator.equalsIgnoreCase("\n") ||
-                formattedLineSeparator.equalsIgnoreCase("\r") ||
-                formattedLineSeparator.equalsIgnoreCase("\r\n"));
+        return !("\n".equalsIgnoreCase(formattedLineSeparator) ||
+                "\r".equalsIgnoreCase(formattedLineSeparator) ||
+                "\r\n".equalsIgnoreCase(formattedLineSeparator));
     }
 
     public String getFormattedLineSeparator() {

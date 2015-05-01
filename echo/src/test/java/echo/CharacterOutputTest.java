@@ -1,7 +1,7 @@
 package echo;
 
 import echo.output.EchoOutput;
-import echo.output.Logger;
+import echo.output.PluginLog;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
 import org.junit.Test;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
  * @since 2014-01-26
  */
 public class CharacterOutputTest {
-    private final Logger logger = mock(Logger.class);
+    private final PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
 
     @Test
@@ -42,10 +42,10 @@ public class CharacterOutputTest {
         @Test
     public void foundFileInClassPathShouldOutputToInfo() {
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, "messageText.txt").setDebug(true).createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
-        verify(logger).info("[['B' , 66 ],['j' , 106 ],['ö' , 246 ],['r' , 114 ],['n' , 110 ]]");
+        verify(pluginLog).info("[['B' , 66 ],['j' , 106 ],['ö' , 246 ],['r' , 114 ],['n' , 110 ]]");
         verify(echoOutput).info("Björn");
     }
 

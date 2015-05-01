@@ -8,30 +8,30 @@ import org.apache.maven.plugin.logging.Log;
  * @author bjorn
  * @since 2012-12-22
  */
-public class MavenLogger implements Logger {
-    private final Log log;
+public class MavenPluginLog implements PluginLog {
+    private final Log wrappedLog;
 
     /** Create new MavenLogger wrapper */
-    public MavenLogger(Log log) {
-        this.log = log;
+    public MavenPluginLog(Log wrappedLog) {
+        this.wrappedLog = wrappedLog;
     }
 
     @Override
     public void info(String content) {
-        log.info(content);
+        wrappedLog.info(content);
     }
 
     @Override
     public void debug(Throwable throwable) {
-        if (log.isDebugEnabled()) {
-            log.debug(throwable);
+        if (wrappedLog.isDebugEnabled()) {
+            wrappedLog.debug(throwable);
         }
     }
 
     @Override
     public void debug(String content) {
-        if (log.isDebugEnabled()) {
-            log.debug(content);
+        if (wrappedLog.isDebugEnabled()) {
+            wrappedLog.debug(content);
         }
     }
 }

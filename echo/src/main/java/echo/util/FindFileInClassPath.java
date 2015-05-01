@@ -1,6 +1,6 @@
 package echo.util;
 
-import echo.output.Logger;
+import echo.output.PluginLog;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +14,7 @@ import java.net.URL;
  */
 class FindFileInClassPath {
 
-    private final Logger mavenLogger;
+    private final PluginLog mavenPluginLog;
 
     private InputStream inputStream;
     private String absoluteFilePath;
@@ -22,10 +22,10 @@ class FindFileInClassPath {
     /**
      * Creates a new instance of the class
      *
-     * @param mavenLogger Wrapper for Maven internal plugin logger
+     * @param mavenPluginLog Wrapper for Maven internal plugin logger
      */
-    public FindFileInClassPath(Logger mavenLogger) {
-        this.mavenLogger = mavenLogger;
+    public FindFileInClassPath(PluginLog mavenPluginLog) {
+        this.mavenPluginLog = mavenPluginLog;
     }
 
     /** Try to open a stream to the file location in the class path */
@@ -37,7 +37,7 @@ class FindFileInClassPath {
                 this.absoluteFilePath = resource.getPath();
             }
         } catch (IOException iex) {
-            mavenLogger.debug(iex);
+            mavenPluginLog.debug(iex);
         }
     }
 

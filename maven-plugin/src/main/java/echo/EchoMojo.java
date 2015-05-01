@@ -3,7 +3,7 @@ package echo;
 import echo.exception.ExceptionHandler;
 import echo.exception.FailureException;
 import echo.output.MavenEchoOutput;
-import echo.output.MavenLogger;
+import echo.output.MavenPluginLog;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
 import org.apache.maven.plugin.AbstractMojo;
@@ -104,7 +104,7 @@ class EchoMojo extends AbstractMojo {
      */
     private boolean skip;
 
-    private MavenLogger mavenLogger;
+    private MavenPluginLog mavenLogger;
     private MavenEchoOutput echoOutput;
     private EchoPlugin echoPlugin;
 
@@ -121,7 +121,7 @@ class EchoMojo extends AbstractMojo {
     public void execute() throws MojoFailureException {
         initLoggers();
         if (skip) {
-            mavenLogger.info("Skipping echo-plugin");
+            mavenLogger.info("Skipping echo-maven-plugin");
         } else {
             setup();
             echo();
@@ -129,7 +129,7 @@ class EchoMojo extends AbstractMojo {
     }
 
     private void initLoggers() {
-        mavenLogger = new MavenLogger(getLog());
+        mavenLogger = new MavenPluginLog(getLog());
         echoOutput = new MavenEchoOutput(getLog());
     }
 

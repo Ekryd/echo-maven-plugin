@@ -2,7 +2,7 @@ package echo;
 
 import echo.exception.FailureException;
 import echo.output.EchoOutput;
-import echo.output.Logger;
+import echo.output.PluginLog;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
 import org.junit.Rule;
@@ -28,13 +28,13 @@ public class TestFromFile {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    private final Logger logger = mock(Logger.class);
+    private final PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
 
     @Test
     public void noInputShouldThrowException() {
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, null).createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
         expectedException.expect(FailureException.class);
         expectedException.expectMessage("There was nothing to output. Specify either message or fromFile");
@@ -45,7 +45,7 @@ public class TestFromFile {
     @Test
     public void doubleInputShouldThrowException() {
         PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", "Gurka").createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
         expectedException.expect(FailureException.class);
         expectedException.expectMessage("Specify either message or fromFile, not both");
@@ -56,7 +56,7 @@ public class TestFromFile {
     @Test
     public void fileNotFoundShouldThrowException() {
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, "Gurka_doesNotExist").createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
         expectedException.expect(FailureException.class);
         expectedException.expectMessage(startsWith("Could not find "));
@@ -68,7 +68,7 @@ public class TestFromFile {
     @Test
     public void foundFileInClassPathShouldOutputToInfo() {
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, "messageText.txt").createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
         verify(echoOutput).info("Björn");
@@ -78,20 +78,20 @@ public class TestFromFile {
     public void foundFileInAbsolutePathShouldOutputReadingLocation() {
         String absolutePath = new File("src/test/resources/messageText.txt").getAbsolutePath();
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, absolutePath).createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
-        verify(logger).debug("Reading input from " + absolutePath);
+        verify(pluginLog).debug("Reading input from " + absolutePath);
     }
 
     @Test
     public void foundFileInClassPathShouldOutputReadingLocation() {
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, "messageText.txt").createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
         String absolutePath = new File("target/test-classes/messageText.txt").getAbsolutePath();
-        verify(logger).debug("Reading input from " + absolutePath);
+        verify(pluginLog).debug("Reading input from " + absolutePath);
     }
 
     @Test
@@ -101,7 +101,7 @@ public class TestFromFile {
         }
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, "http://opensource.org/licenses/gpl-license").createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(logger, parameters, echoOutput);
+        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
         verify(echoOutput).info(Matchers.startsWith("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML+RDFa 1.0//EN"));
