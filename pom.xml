@@ -291,6 +291,21 @@
                   <placement>a</placement>
                   <head>Is plugin thread safe:</head>
                 </tag>
+                <tag>
+                  <name>requiresProject</name>
+                  <placement>a</placement>
+                  <head>Does plugin require a project to run:</head>
+                </tag>
+                <tag>
+                  <name>inheritByDefault</name>
+                  <placement>a</placement>
+                  <head>Should plugin configuration be inherited:</head>
+                </tag>
+                <tag>
+                  <name>phase</name>
+                  <placement>a</placement>
+                  <head>In which phase should plugin execute:</head>
+                </tag>
               </tags>
             </configuration>
             <executions>
