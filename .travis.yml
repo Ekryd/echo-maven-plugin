@@ -1,0 +1,10 @@
+language: java
+
+install: mvn install -Ddev
+
+jdk:
+  - openjdk6
+  - oraclejdk8
+    
+after_success:
+  - mvn clean test jacoco:report coveralls:report -Ddev
