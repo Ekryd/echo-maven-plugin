@@ -236,7 +236,7 @@
 
   <scm>
     <connection>scm:git:https://github.com/Ekryd/echo-maven-plugin/</connection>
-    <developerConnection>sscm:git:https://github.com/Ekryd/echo-maven-plugin/</developerConnection>
+    <developerConnection>scm:git:https://github.com/Ekryd/echo-maven-plugin/</developerConnection>
     <tag>HEAD</tag>
     <url>scm:git:https://github.com/Ekryd/echo-maven-plugin/</url>
   </scm>
