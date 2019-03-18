@@ -111,11 +111,11 @@ public class TestFromFile {
             return;
         }
 
-        PluginParameters parameters = new PluginParametersBuilder().setMessage(null, "http://opensource.org/licenses/gpl-license").createPluginParameters();
+        PluginParameters parameters = new PluginParametersBuilder().setMessage(null, "https://www.nsf.gov/").createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
-        verify(echoOutput).info(Matchers.startsWith("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML+RDFa 1.0//EN"));
+        verify(echoOutput).info(Matchers.startsWith("<!DOCTYPE html"));
     }
 
     private boolean noConnectionToInternet() {
