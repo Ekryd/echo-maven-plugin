@@ -157,7 +157,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.7.4.201502262128</version>
+        <version>0.8.2</version>
         <executions>
           <execution>
             <id>prepare-agent</id>
@@ -237,8 +237,8 @@
   <scm>
     <connection>scm:git:https://github.com/Ekryd/echo-maven-plugin/</connection>
     <developerConnection>scm:git:https://github.com/Ekryd/echo-maven-plugin/</developerConnection>
-    <tag>HEAD</tag>
     <url>scm:git:https://github.com/Ekryd/echo-maven-plugin/</url>
+    <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <system>GitHub</system>

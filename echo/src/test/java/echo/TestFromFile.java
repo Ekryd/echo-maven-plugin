@@ -120,7 +120,7 @@ public class TestFromFile {
 
     private boolean noConnectionToInternet() {
         try {
-            new URL("http://opensource.org/licenses/gpl-license").openStream();
+            new URL("https://www.nsf.gov/").openStream();
         } catch (IOException e) {
             System.err.println("Cannot connect to Internet, skipping this test!!!");
             return true;
