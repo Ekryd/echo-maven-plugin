@@ -8,6 +8,9 @@ import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.File;
 
@@ -15,94 +18,77 @@ import java.io.File;
  * Mojo (Maven plugin) that outputs messages during Maven build.
  *
  * @author Bjorn Ekryd
- * @goal echo
- * @threadSafe true
- * @requiresProject false
- * @inheritByDefault false
- * @phase initialize
  */
-@SuppressWarnings({"UnusedDeclaration", "JavaDoc"})
+@Mojo(name = "echo", threadSafe = true, defaultPhase = LifecyclePhase.INITIALIZE, inheritByDefault = false, requiresProject = false)
 class EchoMojo extends AbstractMojo {
     /**
      * The message text that should be echoed
-     *
-     * @parameter property="echo.message"
      */
-    private String message;
+    @Parameter(property = "echo.message")
+    String message;
 
     /**
      * If the message fetched from a file (or URL) instead of message tag
-     *
-     * @parameter property="echo.fromFile"
      */
-    private String fromFile;
+    @Parameter(property = "echo.fromFile")
+    String fromFile;
 
     /**
-     * The default path for fromFile and toFile. 
-     * The fromFile will be read relative to this path. 
+     * The default path for fromFile and toFile.
+     * The fromFile will be read relative to this path.
      * The toFile will be created relative to this path. READ-ONLY
-     *
-     * @parameter default-value="${basedir}"
-     * @readonly
      */
-    private File basePath;
+    @Parameter(defaultValue = "${basedir}", readonly = true)
+    File basePath;
 
     /**
      * If the message should be sent to a file instead of standard output
-     *
-     * @parameter property="echo.toFile"
      */
-    private String toFile;
+    @Parameter(property = "echo.toFile")
+    String toFile;
 
     /**
      * If the message should be appended to the toFile instead of opening a new file/overwrite an existing file
-     *
-     * @parameter property="echo.append" default-value="false"
      */
-    private boolean append;
+    @Parameter(property = "echo.append", defaultValue = "false")
+    boolean append;
 
     /**
      * Overwrite read-only destination files
-     *
-     * @parameter property="echo.force" default-value="false"
      */
-    private boolean force;
+    @Parameter(property = "echo.force", defaultValue = "false")
+    boolean force;
 
     /**
      * Which output level the message should have. The following values are available 'FAIL', 'ERROR',  'WARNING', 'INFO', and 'DEBUG'
-     *
-     * @parameter property="echo.level" default-value="INFO"
      */
-    private String level;
+    @Parameter(property = "echo.level", defaultValue = "INFO")
+    String level;
 
     /**
      * Encoding for the messages.
-     *
-     * @parameter property="echo.encoding" default-value="UTF-8"
      */
-    private String encoding;
+    @Parameter(property = "echo.encoding", defaultValue = "UTF-8")
+    String encoding;
 
     /**
      * Line separator messages. Can be either \n, \r or \r\n
-     *
-     * @parameter property="echo.lineSeparator" default-value="${line.separator}"
      */
-    private String lineSeparator;
+    @Parameter(property = "echo.lineSeparator", defaultValue = "${line.separator}")
+    String lineSeparator;
 
 
     /**
      * Debug flag that outputs the message as a character list
-     *
-     * @parameter property="echo.characterOutput" default-value="false"
      */
-    private boolean characterOutput;
+    @Parameter(property = "echo.characterOutput", defaultValue = "false")
+    boolean characterOutput;
 
     /**
      * Set this to 'true' to bypass echo plugin
-     *
-     * @parameter property="sort.skip" default-value="false"
      */
-    private boolean skip;
+    @Parameter(property = "echo.skip", defaultValue = "false")
+    boolean skip;
 
     private MavenPluginLog mavenLogger;
     private MavenEchoOutput echoOutput;

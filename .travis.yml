@@ -1,14 +1,29 @@
-dist: trusty
-
 language: java
 
-install: mvn install -Ddev
+# We are running in container-based infrastructure and we don't need sudo
+sudo: false
+
+install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+addons:
+  sonarcloud:
+    organization: "ekryd-github"
+    token:
+      secure: "cxEwq7EGkJzQGDwUqh/9EjnUA984bRL41c3MakaWK7Wqan0shsQNeVvbXBv6Yv2LKB1DANY9/f4x56i2nV9tI2e9aKsNh9cgkF9XbeWdI2yQ9ab9jIfH5qmiAkYJliaf5/Y1nI6InBghaBtcdMOkr3qPZokI0Fqmr7JEA/NBKXs="
+
+
+script: bash scripts/build.sh
 
 jdk:
-  - openjdk7
   - openjdk8
-  - oraclejdk9
   - oraclejdk11
-    
+  - openjdk12
+
 after_success:
-  - mvn clean test jacoco:report coveralls:report -Ddev
+  - mvn test jacoco:report
+  - if [ "$JAVA_HOME" = "/home/travis/oraclejdk11" ]; then mvn coveralls:report; fi
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'

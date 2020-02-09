@@ -1,4 +1,4 @@
-# Echo Maven Plugin ![Icon](https://raw.githubusercontent.com/Ekryd/echo-maven-plugin/master/echo.png)
+# Echo Maven Plugin ![Icon](https://raw.githubusercontent.com/Ekryd/echo-maven-plugin/master/misc/echo.png)
 
 [![Build Status](https://travis-ci.org/Ekryd/echo-maven-plugin.svg?branch=master)](https://travis-ci.org/Ekryd/echo-maven-plugin)
 [![Coverage Status](https://coveralls.io/repos/Ekryd/echo-maven-plugin/badge.svg?branch=master)](https://coveralls.io/r/Ekryd/echo-maven-plugin?branch=master)
