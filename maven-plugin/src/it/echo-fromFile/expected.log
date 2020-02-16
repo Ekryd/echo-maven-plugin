@@ -1,4 +1,3 @@
-[INFO] --- echo-maven-plugin:@pom.version@:echo (1) @ default ---
 [INFO] FileMessage2
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS

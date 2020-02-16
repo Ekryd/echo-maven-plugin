@@ -1,4 +1,3 @@
-[INFO] --- echo-maven-plugin:@pom.version@:echo (end) @ default ---
 [INFO] 
  To run the plugin directly:
  mvn com.github.ekryd.echo-maven-plugin.its:default:0.0.1-SNAPSHOT:gurka
