@@ -1,0 +1,89 @@
+Name: Echo Maven plugin
+Description: A maven plugin that outputs text during Maven build
+Group Id: com.github.ekryd.echo-maven-plugin
+Artifact Id: echo-maven-plugin
+Version: 1.2.1-SNAPSHOT
+Goal Prefix: echo
+
+This plugin has 2 goals:
+
+echo:echo
+  Description: Mojo (Maven plugin) that outputs messages during Maven build.
+  Implementation: echo.EchoMojo
+  Language: java
+  Bound to phase: initialize
+
+  Available parameters:
+
+    append (Default: false)
+      User property: echo.append
+      If the message should be appended to the toFile instead of opening a new
+      file/overwrite an existing file
+
+    characterOutput (Default: false)
+      User property: echo.characterOutput
+      Debug flag that outputs the message as a character list
+
+    encoding (Default: UTF-8)
+      User property: echo.encoding
+      Encoding for the messages.
+
+    force (Default: false)
+      User property: echo.force
+      Overwrite read-only destination files
+
+    fromFile
+      User property: echo.fromFile
+      If the message fetched from a file (or URL) instead of message tag
+
+    level (Default: INFO)
+      User property: echo.level
+      Which output level the message should have. The following values are
+      available 'FAIL', 'ERROR', 'WARNING', 'INFO', and 'DEBUG'
+
+    lineSeparator (Default: ${line.separator})
+      User property: echo.lineSeparator
+      Line separator messages. Can be either \n, \r or \r\n
+
+    message
+      User property: echo.message
+      The message text that should be echoed
+
+    skip (Default: false)
+      User property: echo.skip
+      Set this to 'true' to bypass echo plugin
+
+    toFile
+      User property: echo.toFile
+      If the message should be sent to a file instead of standard output
+
+echo:help
+  Description: Display help information on echo-maven-plugin.
+    Call mvn echo:help -Ddetail=true -Dgoal=<goal-name> to display parameter
+    details.
+  Implementation: echo.HelpMojo
+  Language: java
+
+  Available parameters:
+
+    detail (Default: false)
+      User property: detail
+      If true, display all settable properties for each goal.
+
+    goal
+      User property: goal
+      The name of the goal for which to show help. If unspecified, all goals
+      will be displayed.
+
+    indentSize (Default: 2)
+      User property: indentSize
+      The number of spaces per indentation level, should be positive.
+
+    lineLength (Default: 80)
+      User property: lineLength
+      The maximum length of a display line, should be positive.
+
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------

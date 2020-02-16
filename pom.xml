@@ -137,6 +137,23 @@
           <version>3.1.1</version>
         </plugin>
 
+        <!-- Used for Maven integration testing -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-invoker-plugin</artifactId>
+          <version>3.2.1</version>
+          <configuration>
+            <!-- for jacoco to analyze integration test runs, the jar-file has to be in the local repository used by the invoker plugin when running tests -->
+            <extraArtifacts>
+              <extraArtifact>org.jacoco:org.jacoco.agent:0.8.5:jar:runtime</extraArtifact>
+            </extraArtifacts>
+            <!-- skip any .mavenrc file to override what the jacoco agent defined in the invoker.mavenOpts variable -->
+            <environmentVariables>
+              <MAVEN_SKIP_RC>1</MAVEN_SKIP_RC>
+            </environmentVariables>
+          </configuration>
+        </plugin>
+
         <!-- Coverage -->
         <plugin>
           <groupId>org.jacoco</groupId>
@@ -314,6 +331,35 @@
               <goal>prepare-agent</goal>
             </goals>
           </execution>
+          <!-- create the invoker.mavenOpts variable, containing what is needed for the agent to run during the integration tests. -->
+          <execution>
+            <id>pre-integration-test</id>
+            <goals>
+              <goal>prepare-agent-integration</goal>
+            </goals>
+            <configuration>
+              <propertyName>invoker.mavenOpts</propertyName>
+            </configuration>
+          </execution>
+          <!-- merge the two data files of jacoco (the one for the unit tests, the other for the integration tests) into only one file, and generate only one report (disabling the two others) -->
+          <execution>
+            <id>merge</id>
+            <goals>
+              <goal>merge</goal>
+            </goals>
+            <phase>post-integration-test</phase>
+            <configuration>
+              <fileSets>
+                <fileSet implementation="org.apache.maven.shared.model.fileset.FileSet">
+                  <directory>${project.build.directory}</directory>
+                  <includes>
+                    <include>*.exec</include>
+                  </includes>
+                </fileSet>
+              </fileSets>
+              <destFile>${project.build.directory}/jacocoAll.exec</destFile>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>
@@ -349,7 +395,7 @@
   <scm>
     <connection>scm:git:https://github.com/Ekryd/echo-maven-plugin/</connection>
     <developerConnection>scm:git:https://github.com/Ekryd/echo-maven-plugin/</developerConnection>
-    <url>scm:git:https://github.com/Ekryd/echo-maven-plugin/</url>
+    <url>https://github.com/Ekryd/echo-maven-plugin/</url>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
