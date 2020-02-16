@@ -17,6 +17,7 @@ import static echo.exception.FailureException.UNSUPPORTED_ENCODING;
  * @author Bjorn
  */
 public class FileUtil {
+    private static final String READING_INPUT_FROM = "Reading input from ";
     private final PluginLog mavenPluginLog;
     private final String encoding;
     private final String fromFile;
@@ -28,7 +29,7 @@ public class FileUtil {
     /**
      * Create a new instance of the FileUtil
      *
-     * @param parameters  The user-supplied plugin parameters
+     * @param parameters     The user-supplied plugin parameters
      * @param mavenPluginLog Wrapper for Maven internal plugin logger
      */
     public FileUtil(PluginParameters parameters, PluginLog mavenPluginLog) {
@@ -55,9 +56,7 @@ public class FileUtil {
             checkForNonWritableFile(saveFile);
             makeFileWritable(saveFile);
             FileUtils.write(saveFile, message, encoding, appendToFile);
-        } catch (UnsupportedEncodingException ex) {
-            throw new FailureException(UNSUPPORTED_ENCODING + ex.getMessage(), ex);
-        } catch (UnsupportedCharsetException ex) {
+        } catch (UnsupportedEncodingException | UnsupportedCharsetException ex) {
             throw new FailureException(UNSUPPORTED_ENCODING + ex.getMessage(), ex);
         } catch (IOException ex) {
             mavenPluginLog.debug(ex);
@@ -90,21 +89,12 @@ public class FileUtil {
      * @return Content of the default sort order file
      */
     public String getFromFile() throws IOException {
-        InputStream inputStream = null;
-        try {
-            UrlWrapper urlWrapper = new UrlWrapper(fromFile);
-            if (urlWrapper.isUrl()) {
-                inputStream = urlWrapper.openStream();
-            } else {
-                inputStream = getFileFromRelativeOrClassPath(basePath, fromFile);
-            }
+        UrlWrapper urlWrapper = new UrlWrapper(fromFile);
+        try (InputStream inputStream = urlWrapper.isUrl() ?
+                urlWrapper.openStream() : getFileFromRelativeOrClassPath(basePath, fromFile)) {
             return IOUtils.toString(inputStream, encoding);
-        } catch (UnsupportedEncodingException ex) {
+        } catch (UnsupportedEncodingException | UnsupportedCharsetException ex) {
             throw new FailureException(UNSUPPORTED_ENCODING + ex.getMessage(), ex);
-        } catch (UnsupportedCharsetException ex) {
-            throw new FailureException(UNSUPPORTED_ENCODING + ex.getMessage(), ex);
-        } finally {
-            IOUtils.closeQuietly(inputStream);
         }
     }
 
@@ -113,14 +103,14 @@ public class FileUtil {
 
         findFileInAbsolutePath.openFile(new File(file));
         if (findFileInAbsolutePath.isFound()) {
-            mavenPluginLog.debug("Reading input from " + findFileInAbsolutePath.getAbsoluteFilePath());
+            mavenPluginLog.debug(READING_INPUT_FROM + findFileInAbsolutePath.getAbsoluteFilePath());
 
             return findFileInAbsolutePath.getInputStream();
         }
 
         findFileInAbsolutePath.openFile(new File(basePath, file));
         if (findFileInAbsolutePath.isFound()) {
-            mavenPluginLog.debug("Reading input from " + findFileInAbsolutePath.getAbsoluteFilePath());
+            mavenPluginLog.debug(READING_INPUT_FROM + findFileInAbsolutePath.getAbsoluteFilePath());
 
             return findFileInAbsolutePath.getInputStream();
         }
@@ -128,14 +118,14 @@ public class FileUtil {
         FindFileInClassPath findFileInClassPath = new FindFileInClassPath(mavenPluginLog);
         findFileInClassPath.openFile(file);
         if (findFileInClassPath.isFound()) {
-            mavenPluginLog.debug("Reading input from " + findFileInClassPath.getAbsoluteFilePath());
+            mavenPluginLog.debug(READING_INPUT_FROM + findFileInClassPath.getAbsoluteFilePath());
 
             return findFileInClassPath.getInputStream();
         }
 
         throw new FileNotFoundException(String.format("Could not find %s, %s or %s in classpath",
-                new File(file).getAbsolutePath(), 
-                new File(basePath, file).getAbsolutePath(), 
+                new File(file).getAbsolutePath(),
+                new File(basePath, file).getAbsolutePath(),
                 file));
     }
 }

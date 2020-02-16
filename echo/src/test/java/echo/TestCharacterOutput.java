@@ -20,7 +20,7 @@ public class TestCharacterOutput {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    private PluginLog pluginLog = mock(PluginLog.class);
+    private final PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
 
     @Test

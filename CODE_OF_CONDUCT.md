@@ -13,7 +13,7 @@ Be nice to each other!
 
 We will remove any content which is not appropriate. 
 
-## Timeframe
+## Time frame
 
 This project is done during spare time. The goal is to respond as soon as possible, but patience is a virtue.
 

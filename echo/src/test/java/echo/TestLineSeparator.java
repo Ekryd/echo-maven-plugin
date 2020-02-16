@@ -16,13 +16,13 @@ import static org.mockito.Mockito.*;
  * @since 2013-09-09
  */
 public class TestLineSeparator {
-    private PluginLog pluginLog = mock(PluginLog.class);
+    private final PluginLog pluginLog = mock(PluginLog.class);
 
     @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+    public final ExpectedException expectedException = ExpectedException.none();
 
     @Test
-    public void formattingTextWithNLShouldResultInLineBreaks() throws Exception {
+    public void formattingTextWithNLShouldResultInLineBreaks() {
         EchoOutput echoOutput = mock(EchoOutput.class);
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage("ABC\n\n\nDEF\r\r\rGHI\r\n\r\n\r\n", null)
@@ -34,7 +34,7 @@ public class TestLineSeparator {
     }
 
     @Test
-    public void formattingXmlWithCRShouldResultInOneLineBreaks() throws Exception {
+    public void formattingXmlWithCRShouldResultInOneLineBreaks() {
         EchoOutput echoOutput = mock(EchoOutput.class);
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage("ABC\n\n\nDEF\r\r\rGHI\r\n\r\n\r\n", null)
@@ -46,7 +46,7 @@ public class TestLineSeparator {
     }
 
     @Test
-    public void formattingXmlWithCRNLShouldResultInOneLineBreaks() throws Exception {
+    public void formattingXmlWithCRNLShouldResultInOneLineBreaks() {
         EchoOutput echoOutput = mock(EchoOutput.class);
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage("ABC\n\n\nDEF\r\r\rGHI\r\n\r\n\r\n", null)
@@ -58,7 +58,7 @@ public class TestLineSeparator {
     }
 
     @Test
-    public void formattingWithIllegalLineBreaksShouldThrowException() throws Exception {
+    public void formattingWithIllegalLineBreaksShouldThrowException() {
         EchoOutput echoOutput = mock(EchoOutput.class);
 
         expectedException.expect(FailureException.class);

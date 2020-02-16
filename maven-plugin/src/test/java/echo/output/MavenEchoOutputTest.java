@@ -14,19 +14,19 @@ import static org.mockito.Mockito.*;
  * @since 2013-09-19
  */
 public class MavenEchoOutputTest {
-    private Log logMock = mock(Log.class);
+    private final Log logMock = mock(Log.class);
     private MavenEchoOutput mavenEchoOutput;
 
     @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+    public final ExpectedException expectedException = ExpectedException.none();
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         mavenEchoOutput = new MavenEchoOutput(logMock);
     }
 
     @Test
-    public void failLevelShouldThrowException() throws Exception {
+    public void failLevelShouldThrowException() {
         expectedException.expect(MojoFailureException.class);
         expectedException.expectMessage("Gurkas");
 
@@ -34,7 +34,7 @@ public class MavenEchoOutputTest {
     }
 
     @Test
-    public void errorShouldOutputErrorLevel() throws Exception {
+    public void errorShouldOutputErrorLevel() {
         mavenEchoOutput.error("Gurka");
 
         verify(logMock).error("Gurka");
@@ -42,7 +42,7 @@ public class MavenEchoOutputTest {
     }
 
     @Test
-    public void warnShouldOutputWarnLevel() throws Exception {
+    public void warnShouldOutputWarnLevel() {
         mavenEchoOutput.warning("Gurka");
 
         verify(logMock).warn("Gurka");
@@ -50,7 +50,7 @@ public class MavenEchoOutputTest {
     }
 
     @Test
-    public void infoShouldOutputInfoLevel() throws Exception {
+    public void infoShouldOutputInfoLevel() {
         mavenEchoOutput.info("Gurka");
 
         verify(logMock).info("Gurka");
@@ -58,7 +58,7 @@ public class MavenEchoOutputTest {
     }
 
     @Test
-    public void debugShouldOutputDebugLevel() throws Exception {
+    public void debugShouldOutputDebugLevel() {
         mavenEchoOutput.debug("Gurka");
 
         verify(logMock).debug("Gurka");

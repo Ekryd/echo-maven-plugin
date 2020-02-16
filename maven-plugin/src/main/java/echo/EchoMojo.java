@@ -20,18 +20,19 @@ import java.io.File;
  * @author Bjorn Ekryd
  */
 @Mojo(name = "echo", threadSafe = true, defaultPhase = LifecyclePhase.INITIALIZE, inheritByDefault = false, requiresProject = false)
+@SuppressWarnings({"UnusedDeclaration"})
 class EchoMojo extends AbstractMojo {
     /**
      * The message text that should be echoed
      */
     @Parameter(property = "echo.message")
-    String message;
+    private String message;
 
     /**
      * If the message fetched from a file (or URL) instead of message tag
      */
     @Parameter(property = "echo.fromFile")
-    String fromFile;
+    private String fromFile;
 
     /**
      * The default path for fromFile and toFile.
@@ -39,43 +40,43 @@ class EchoMojo extends AbstractMojo {
      * The toFile will be created relative to this path. READ-ONLY
      */
     @Parameter(defaultValue = "${basedir}", readonly = true)
-    File basePath;
+    private File basePath;
 
     /**
      * If the message should be sent to a file instead of standard output
      */
     @Parameter(property = "echo.toFile")
-    String toFile;
+    private String toFile;
 
     /**
      * If the message should be appended to the toFile instead of opening a new file/overwrite an existing file
      */
     @Parameter(property = "echo.append", defaultValue = "false")
-    boolean append;
+    private boolean append;
 
     /**
      * Overwrite read-only destination files
      */
     @Parameter(property = "echo.force", defaultValue = "false")
-    boolean force;
+    private boolean force;
 
     /**
      * Which output level the message should have. The following values are available 'FAIL', 'ERROR',  'WARNING', 'INFO', and 'DEBUG'
      */
     @Parameter(property = "echo.level", defaultValue = "INFO")
-    String level;
+    private String level;
 
     /**
      * Encoding for the messages.
      */
     @Parameter(property = "echo.encoding", defaultValue = "UTF-8")
-    String encoding;
+    private String encoding;
 
     /**
      * Line separator messages. Can be either \n, \r or \r\n
      */
     @Parameter(property = "echo.lineSeparator", defaultValue = "${line.separator}")
-    String lineSeparator;
+    private String lineSeparator;
 
 
     /**
@@ -88,14 +89,11 @@ class EchoMojo extends AbstractMojo {
      * Set this to 'true' to bypass echo plugin
      */
     @Parameter(property = "echo.skip", defaultValue = "false")
-    boolean skip;
+    private boolean skip;
 
     private MavenPluginLog mavenLogger;
     private MavenEchoOutput echoOutput;
     private EchoPlugin echoPlugin;
-
-    public EchoMojo() {
-    }
 
     /**
      * Execute plugin.

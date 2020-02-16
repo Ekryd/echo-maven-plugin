@@ -19,18 +19,18 @@ import static org.mockito.Mockito.verify;
 public class TestLevel {
 
     @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+    public final ExpectedException expectedException = ExpectedException.none();
 
-    private PluginLog pluginLog = mock(PluginLog.class);
+    private final PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
 
 
     @Test
     public void illegalLevelShouldThrowException() {
         expectedException.expect(FailureException.class);
-        expectedException.expectMessage("level must be either FAIL, ERROR, WARNING, INFO or DEBUG. Was: SOmething");
+        expectedException.expectMessage("level must be either FAIL, ERROR, WARNING, INFO or DEBUG. Was: Something");
 
-        new PluginParametersBuilder().setLevel("SOmething").createPluginParameters();
+        new PluginParametersBuilder().setLevel("Something").createPluginParameters();
     }
 
     @Test
@@ -51,7 +51,7 @@ public class TestLevel {
     }
 
     @Test
-    public void failLevelShouldOutputOnFailLevel() throws Exception {
+    public void failLevelShouldOutputOnFailLevel() {
         PluginParameters parameters = new PluginParametersBuilder().setLevel("fAIl").setMessage("Björn", null).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
@@ -60,7 +60,7 @@ public class TestLevel {
     }
 
     @Test
-    public void errorLevelShouldOutputOnErrorLevel() throws Exception {
+    public void errorLevelShouldOutputOnErrorLevel() {
         PluginParameters parameters = new PluginParametersBuilder().setLevel("ErRoR").setMessage("Björn", null).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
@@ -69,7 +69,7 @@ public class TestLevel {
     }
 
     @Test
-    public void warnLevelShouldOutputOnWarningLevel() throws Exception {
+    public void warnLevelShouldOutputOnWarningLevel() {
         PluginParameters parameters = new PluginParametersBuilder().setLevel("WARNiNg").setMessage("Björn", null).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
@@ -79,7 +79,7 @@ public class TestLevel {
 
 
     @Test
-    public void infoLevelShouldOutputOnInfoLevel() throws Exception {
+    public void infoLevelShouldOutputOnInfoLevel() {
         PluginParameters parameters = new PluginParametersBuilder().setLevel("infO").setMessage("Björn", null).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
@@ -89,7 +89,7 @@ public class TestLevel {
 
 
     @Test
-    public void debugLevelShouldOutputOnDebugLevel() throws Exception {
+    public void debugLevelShouldOutputOnDebugLevel() {
         PluginParameters parameters = new PluginParametersBuilder().setLevel("deBug").setMessage("Björn", null).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();

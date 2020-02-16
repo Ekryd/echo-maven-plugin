@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
 public class TestFromFile {
 
     @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+    public final ExpectedException expectedException = ExpectedException.none();
 
     private final PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);

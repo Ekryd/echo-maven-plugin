@@ -7,15 +7,12 @@ import echo.parameter.PluginParametersBuilder;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import java.io.File;
 import java.io.IOException;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 /**
@@ -23,21 +20,18 @@ import static org.mockito.Mockito.*;
  * @since 2014-02-27
  */
 public class TestAppendOption {
-    private PluginLog pluginLog = mock(PluginLog.class);
+    private final PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
     private String fileName = null;
 
     @Before
     public void setup() {
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                String content = invocation.getArguments()[0].toString();
-                if (content.startsWith("Saving output to ")) {
-                    fileName = content.substring(17);
-                }
-                return null;
+        doAnswer(invocation -> {
+            String content = invocation.getArguments()[0].toString();
+            if (content.startsWith("Saving output to ")) {
+                fileName = content.substring(17);
             }
+            return null;
         }).when(pluginLog).info(anyString());
     }
 

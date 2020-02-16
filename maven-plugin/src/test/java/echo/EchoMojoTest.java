@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 public class EchoMojoTest {
 
     @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+    public final ExpectedException expectedException = ExpectedException.none();
     private EchoMojo echoMojo;
 
     private final MavenPluginLog mavenLoggerMock = mock(MavenPluginLog.class);
@@ -32,7 +32,7 @@ public class EchoMojoTest {
     private final Log pluginLogMock = mock(Log.class);
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         echoMojo = new EchoMojo();
         ReflectionHelper echoMojoHelper = new ReflectionHelper(echoMojo);
         echoMojoHelper.setField("level", "INFO");
@@ -99,7 +99,7 @@ public class EchoMojoTest {
     }
 
     @Test
-    public void exceptionInEchoSHouldBeConverted() throws Exception {
+    public void exceptionInEchoShouldBeConverted() throws Exception {
         EchoPlugin echoPlugin = mock(EchoPlugin.class);
 
         doThrow(new FailureException("Gurka")).when(echoPlugin).echo();

@@ -19,7 +19,7 @@ public class MavenEchoOutput implements EchoOutput {
 
     @Override
     public void fail(String content) {
-        this.<RuntimeException>throwAsUnchecked(new MojoFailureException(content));
+        this.throwAsUnchecked(new MojoFailureException(content));
     }
 
     @Override

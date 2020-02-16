@@ -11,16 +11,16 @@ import static org.mockito.Mockito.*;
  * @since 2013-10-19
  */
 public class MavenPluginLogTest {
-    private Log logMock = mock(Log.class);
+    private final Log logMock = mock(Log.class);
     private MavenPluginLog mavenLogger;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         mavenLogger = new MavenPluginLog(logMock);
     }
 
     @Test
-    public void infoShouldOutputInfoLevel() throws Exception {
+    public void infoShouldOutputInfoLevel() {
         mavenLogger.info("Gurka");
 
         verify(logMock).info("Gurka");
@@ -28,7 +28,7 @@ public class MavenPluginLogTest {
     }
 
     @Test
-    public void debugExceptionLevelShouldLogToDebugIfEnabled() throws Exception {
+    public void debugExceptionLevelShouldLogToDebugIfEnabled() {
         when(logMock.isDebugEnabled()).thenReturn(true);
 
         mavenLogger.debug(new OutOfMemoryError("Ta daa!"));
@@ -39,7 +39,7 @@ public class MavenPluginLogTest {
     }
 
     @Test
-    public void debugExceptionLevelShouldNotLogToDebugIfDisabled() throws Exception {
+    public void debugExceptionLevelShouldNotLogToDebugIfDisabled() {
         mavenLogger.debug(new OutOfMemoryError("Ta daa!"));
 
         when(logMock.isDebugEnabled()).thenReturn(false);
@@ -48,7 +48,7 @@ public class MavenPluginLogTest {
     }
 
     @Test
-    public void debugMessageLevelShouldLogToDebugIfEnabled() throws Exception {
+    public void debugMessageLevelShouldLogToDebugIfEnabled() {
         when(logMock.isDebugEnabled()).thenReturn(true);
 
         mavenLogger.debug("Ta daa!");
@@ -59,7 +59,7 @@ public class MavenPluginLogTest {
     }
 
     @Test
-    public void debugMessageLevelShouldNotLogToDebugIfDisabled() throws Exception {
+    public void debugMessageLevelShouldNotLogToDebugIfDisabled() {
         mavenLogger.debug("Ta daa!");
 
         when(logMock.isDebugEnabled()).thenReturn(false);

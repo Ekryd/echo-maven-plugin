@@ -8,15 +8,13 @@ import echo.parameter.PluginParametersBuilder;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import java.io.File;
 import java.io.IOException;
 
 import static org.hamcrest.Matchers.endsWith;
-import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -27,21 +25,18 @@ import static org.mockito.Mockito.*;
  */
 public class TestToFile {
 
-    private PluginLog pluginLog = mock(PluginLog.class);
+    private final PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
     private String fileName = null;
 
     @Before
     public void setup() {
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                String content = invocation.getArguments()[0].toString();
-                if (content.startsWith("Saving output to ")) {
-                    fileName = content.substring(17);
-                }
-                return null;
+        doAnswer(invocation -> {
+            String content = invocation.getArguments()[0].toString();
+            if (content.startsWith("Saving output to ")) {
+                fileName = content.substring(17);
             }
+            return null;
         }).when(pluginLog).info(anyString());
     }
 
@@ -98,7 +93,7 @@ public class TestToFile {
     }
 
     @Test
-    public void saveToExistingDirectoryShouldThrowException() throws IOException {
+    public void saveToExistingDirectoryShouldThrowException() {
         PluginParameters parameters;
         EchoPlugin echoPlugin;
 

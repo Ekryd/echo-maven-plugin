@@ -13,7 +13,7 @@ import static org.hamcrest.Matchers.is;
  */
 public class ExceptionHandlerTest {
     @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+    public final ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void failureExceptionShouldThrowMojoFailureException() throws MojoFailureException {

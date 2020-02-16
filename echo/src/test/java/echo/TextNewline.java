@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 public class TextNewline {
 
     @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+    public final ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void illegalNewlineShouldThrowException() {

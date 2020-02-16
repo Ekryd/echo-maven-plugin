@@ -13,7 +13,7 @@ import static org.mockito.Mockito.*;
  * @since 2013-09-09
  */
 public class TestMessage {
-    private PluginLog pluginLog = mock(PluginLog.class);
+    private final PluginLog pluginLog = mock(PluginLog.class);
 
     @Test
     public void stringWithSpecialCharactersShouldBeOutput() {

@@ -10,15 +10,12 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import java.io.File;
 import java.io.IOException;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 /**
@@ -28,24 +25,21 @@ import static org.mockito.Mockito.*;
 public class TestEncoding {
 
     @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+    public final ExpectedException expectedException = ExpectedException.none();
 
-    private PluginLog pluginLog = mock(PluginLog.class);
+    private final PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
 
     private String fileName = null;
 
     @Before
     public void setupForSaveToFile() {
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                String content = invocation.getArguments()[0].toString();
-                if (content.startsWith("Saving output to ")) {
-                    fileName = content.substring(17);
-                }
-                return null;
+        doAnswer(invocation -> {
+            String content = invocation.getArguments()[0].toString();
+            if (content.startsWith("Saving output to ")) {
+                fileName = content.substring(17);
             }
+            return null;
         }).when(pluginLog).info(anyString());
     }
 
@@ -93,7 +87,7 @@ public class TestEncoding {
     @Test
     public void differentEncodingShouldBeIgnoredFromInput() {
         PluginParameters parameters = new PluginParametersBuilder()
-                .setMessage(new String("Björn"), null)
+                .setMessage("Björn", null)
                 .setFormatting("iso-8859-1", "\n").createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
