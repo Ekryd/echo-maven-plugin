@@ -21,17 +21,16 @@
                 <inherited>false</inherited>
                 <executions>
                     <execution>
-                        <id>end</id>
+                        <id>1</id>
                         <goals>
                             <goal>echo</goal>
                         </goals>
                         <phase>install</phase>
                         <configuration>
-                            <message>${line.separator} To run the plugin directly:${line.separator} mvn ${project.groupId}:${project.artifactId}:${project.version}:gurka${line.separator}
-                            </message>
+                            <fromFile>fileMessage2.txt</fromFile>
                         </configuration>
                     </execution>
-               </executions>
+                </executions>
             </plugin>
         </plugins>
     </build>
