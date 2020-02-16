@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/Ekryd/echo-maven-plugin.svg?branch=master)](https://travis-ci.org/Ekryd/echo-maven-plugin)
 [![Coverage Status](https://coveralls.io/repos/Ekryd/echo-maven-plugin/badge.svg?branch=master)](https://coveralls.io/r/Ekryd/echo-maven-plugin?branch=master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.ekryd.echo-maven-plugin/echo-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.ekryd.echo-maven-plugin/echo-maven-plugin)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=com.github.ekryd.echo-maven-plugin%3Aecho-plugin&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.github.ekryd.echo-maven-plugin%3Aecho-plugin)
 
 A maven plugin that lets you output text during Maven build
 
