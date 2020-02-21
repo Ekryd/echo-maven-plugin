@@ -101,7 +101,7 @@ public class TestFromFile {
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
-        String absolutePath = new File("target/test-classes/messageText.txt").getAbsolutePath();
+        String absolutePath = new File("target/test-classes/messageText.txt").toURI().getPath();
         verify(pluginLog).debug("Reading input from " + absolutePath);
     }
 
