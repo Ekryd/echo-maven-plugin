@@ -2,7 +2,7 @@ Name: Echo Maven plugin
 Description: A maven plugin that outputs text during Maven build
 Group Id: com.github.ekryd.echo-maven-plugin
 Artifact Id: echo-maven-plugin
-Version: 1.2.1-SNAPSHOT
+Version: @pom.version@
 Goal Prefix: echo
 
 This plugin has 2 goals:
