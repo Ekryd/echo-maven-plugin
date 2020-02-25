@@ -6,15 +6,17 @@ import echo.output.MavenPluginLog;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import refutils.ReflectionHelper;
 
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -26,15 +28,13 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
  */
 public class EchoMojoTest {
 
-    @Rule
-    public final ExpectedException expectedException = ExpectedException.none();
     private EchoMojo echoMojo;
 
     private final MavenPluginLog mavenLoggerMock = mock(MavenPluginLog.class);
     private final MavenEchoOutput mavenEchoOutputMock = mock(MavenEchoOutput.class);
     private final Log pluginLogMock = mock(Log.class);
 
-    @Before
+    @BeforeEach
     public void setUp() {
         echoMojo = new EchoMojo();
         ReflectionHelper echoMojoHelper = new ReflectionHelper(echoMojo);
@@ -53,13 +53,15 @@ public class EchoMojoTest {
     }
 
     @Test
-    public void exceptionInSetupShouldBeConverted() throws Exception {
+    public void exceptionInSetupShouldBeConverted() {
+
         new ReflectionHelper(echoMojo).setField("level", "Gurka");
 
-        expectedException.expect(MojoFailureException.class);
-        expectedException.expectMessage(is("level must be either FAIL, ERROR, WARNING, INFO or DEBUG. Was: Gurka"));
+        final Executable testMethod = () -> echoMojo.setup();
 
-        echoMojo.setup();
+        final MojoFailureException thrown = assertThrows(MojoFailureException.class, testMethod);
+
+        assertThat(thrown.getMessage(), is(equalTo("level must be either FAIL, ERROR, WARNING, INFO or DEBUG. Was: Gurka")));
     }
 
     @Test
@@ -91,27 +93,32 @@ public class EchoMojoTest {
     }
 
     @Test
-    public void noMessageShouldGenerateException() throws Exception {
-        expectedException.expect(MojoFailureException.class);
-        expectedException.expectMessage("There was nothing to output. Specify either message or fromFile");
+    public void noMessageShouldGenerateException() {
 
-        echoMojo.execute();
+        final Executable testMethod = () -> echoMojo.execute();
 
-        verifyNoMoreInteractions(mavenLoggerMock);
-        verifyNoMoreInteractions(mavenEchoOutputMock);
+        final MojoFailureException thrown = assertThrows(MojoFailureException.class, testMethod);
+
+        assertAll(
+                () -> assertThat(thrown.getMessage(), is(equalTo("There was nothing to output. Specify either message or fromFile"))),
+
+                () -> verifyNoMoreInteractions(mavenLoggerMock),
+                () -> verifyNoMoreInteractions(mavenEchoOutputMock)
+        );
     }
 
     @Test
-    public void exceptionInEchoShouldBeConverted() throws Exception {
+    public void exceptionInEchoShouldBeConverted() {
         EchoPlugin echoPlugin = mock(EchoPlugin.class);
 
         doThrow(new FailureException("Gurka")).when(echoPlugin).echo();
         new ReflectionHelper(echoMojo).setField(echoPlugin);
 
-        expectedException.expect(MojoFailureException.class);
-        expectedException.expectMessage(is("Gurka"));
+        final Executable testMethod = () -> echoMojo.echo();
 
-        echoMojo.echo();
+        final MojoFailureException thrown = assertThrows(MojoFailureException.class, testMethod);
+
+        assertThat(thrown.getMessage(), is(equalTo("Gurka")));
     }
 
     @Test

@@ -6,15 +6,18 @@ import echo.output.PluginLog;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.io.File;
 import java.io.IOException;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.*;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -29,7 +32,7 @@ public class TestForceOption {
     private final EchoOutput echoOutput = mock(EchoOutput.class);
     private String fileName = null;
 
-    @Before
+    @BeforeEach
     public void setup() {
         doAnswer(invocation -> {
             String content = invocation.getArguments()[0].toString();
@@ -73,27 +76,26 @@ public class TestForceOption {
 
     @Test
     public void noForceFlagShouldThrowExceptionForReadOnlyFile() throws IOException {
-        PluginParameters parameters;
-        EchoPlugin echoPlugin;
-        String output;
 
         try {
-            parameters = new PluginParametersBuilder().setMessage("One", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
-            echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
-            echoPlugin.echo();
+            final PluginParameters parameters1 = new PluginParametersBuilder().setMessage("One", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
+            final EchoPlugin echoPlugin1 = new EchoPlugin(pluginLog, parameters1, echoOutput);
+            echoPlugin1.echo();
 
-            output = FileUtils.readFileToString(new File(fileName), "UTF-8");
+            final String output = FileUtils.readFileToString(new File(fileName), "UTF-8");
             assertThat(output, is("One"));
 
             assertTrue(new File(fileName).setReadOnly());
 
-            parameters = new PluginParametersBuilder().setMessage("Two", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
-            echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
-            echoPlugin.echo();
+            final PluginParameters parameters2 = new PluginParametersBuilder().setMessage("Two", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
+            final  EchoPlugin echoPlugin2 = new EchoPlugin(pluginLog, parameters2, echoOutput);
 
-            fail("Read only file should not work");
-        } catch (FailureException e) {
-            assertThat(e.getMessage(), is("Cannot write to read-only file " + fileName));
+            final Executable testMethod = echoPlugin2::echo;
+
+            final FailureException thrown = assertThrows(FailureException.class, testMethod);
+
+            assertThat(thrown.getMessage(), is(equalTo("Cannot write to read-only file " + fileName)));
+
         } finally {
             FileUtils.deleteQuietly(new File(fileName));
         }

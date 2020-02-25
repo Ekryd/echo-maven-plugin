@@ -4,10 +4,13 @@ import echo.exception.FailureException;
 import echo.output.EchoOutput;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -17,15 +20,16 @@ import static org.mockito.Mockito.verify;
  */
 public class TextNewline {
 
-    @Rule
-    public final ExpectedException expectedException = ExpectedException.none();
-
     @Test
     public void illegalNewlineShouldThrowException() {
-        expectedException.expect(FailureException.class);
-        expectedException.expectMessage("LineSeparator must be either \\n, \\r or \\r\\n, but separator characters were [9]");
 
-        new PluginParametersBuilder().setFormatting(null, "\t").createPluginParameters();
+        final Executable testMethod = () -> new PluginParametersBuilder()
+                .setFormatting(null, "\t")
+                .createPluginParameters();
+
+        final FailureException thrown = assertThrows(FailureException.class, testMethod);
+
+        assertThat(thrown.getMessage(), is(equalTo("LineSeparator must be either \\n, \\r or \\r\\n, but separator characters were [9]")));
     }
 
     @Test

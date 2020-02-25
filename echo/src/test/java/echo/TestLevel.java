@@ -5,10 +5,13 @@ import echo.output.EchoOutput;
 import echo.output.PluginLog;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -18,27 +21,32 @@ import static org.mockito.Mockito.verify;
  */
 public class TestLevel {
 
-    @Rule
-    public final ExpectedException expectedException = ExpectedException.none();
-
     private final PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
 
 
     @Test
     public void illegalLevelShouldThrowException() {
-        expectedException.expect(FailureException.class);
-        expectedException.expectMessage("level must be either FAIL, ERROR, WARNING, INFO or DEBUG. Was: Something");
 
-        new PluginParametersBuilder().setLevel("Something").createPluginParameters();
+        final Executable testMethod = () -> new PluginParametersBuilder()
+                .setLevel("Something")
+                .createPluginParameters();
+
+        final FailureException thrown = assertThrows(FailureException.class, testMethod);
+
+        assertThat(thrown.getMessage(), is(equalTo("level must be either FAIL, ERROR, WARNING, INFO or DEBUG. Was: Something")));
     }
 
     @Test
     public void nullLevelShouldThrowException() {
-        expectedException.expect(FailureException.class);
-        expectedException.expectMessage("level must be either FAIL, ERROR, WARNING, INFO or DEBUG. Was: null");
 
-        new PluginParametersBuilder().setLevel(null).createPluginParameters();
+        final Executable testMethod = () -> new PluginParametersBuilder()
+                .setLevel(null)
+                .createPluginParameters();
+
+        final FailureException thrown = assertThrows(FailureException.class, testMethod);
+
+        assertThat(thrown.getMessage(), is(equalTo("level must be either FAIL, ERROR, WARNING, INFO or DEBUG. Was: null")));
     }
 
     @Test

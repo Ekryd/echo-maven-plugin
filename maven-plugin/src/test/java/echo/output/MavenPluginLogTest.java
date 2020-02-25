@@ -1,8 +1,8 @@
 package echo.output;
 
 import org.apache.maven.plugin.logging.Log;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
@@ -18,7 +18,7 @@ public class MavenPluginLogTest {
     private final Log logMock = mock(Log.class);
     private MavenPluginLog mavenLogger;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         mavenLogger = new MavenPluginLog(logMock);
     }

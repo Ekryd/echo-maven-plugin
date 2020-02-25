@@ -5,8 +5,8 @@ import echo.output.PluginLog;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +27,7 @@ public class TestAppendOption {
     private final EchoOutput echoOutput = mock(EchoOutput.class);
     private String fileName = null;
 
-    @Before
+    @BeforeEach
     public void setup() {
         doAnswer(invocation -> {
             String content = invocation.getArguments()[0].toString();

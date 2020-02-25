@@ -4,9 +4,7 @@ import echo.output.EchoOutput;
 import echo.output.PluginLog;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -16,9 +14,6 @@ import static org.mockito.Mockito.verify;
  * @since 2013-11-13
  */
 public class TestCharacterOutput {
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     private final PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);

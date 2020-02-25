@@ -6,16 +6,17 @@ import echo.output.PluginLog;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.io.File;
 import java.io.IOException;
 
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -28,15 +29,12 @@ import static org.mockito.Mockito.verifyZeroInteractions;
  */
 public class TestEncoding {
 
-    @Rule
-    public final ExpectedException expectedException = ExpectedException.none();
-
     private final PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
 
     private String fileName = null;
 
-    @Before
+    @BeforeEach
     public void setupForSaveToFile() {
         doAnswer(invocation -> {
             String content = invocation.getArguments()[0].toString();
@@ -49,20 +47,23 @@ public class TestEncoding {
 
     @Test
     public void illegalEncodingShouldThrowExceptionWhenReadFromFile() {
+
         PluginParameters parameters = new PluginParametersBuilder()
                 .setMessage(null, "messageEncoding.txt")
                 .setFormatting("Gurka", "\n")
                 .createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
-        expectedException.expect(FailureException.class);
-        expectedException.expectMessage("Unsupported encoding: Gurka");
+        final Executable testMethod = echoPlugin::echo;
 
-        echoPlugin.echo();
+        final FailureException thrown = assertThrows(FailureException.class, testMethod);
+
+        assertThat(thrown.getMessage(), is(equalTo("Unsupported encoding: Gurka")));
     }
 
     @Test
     public void illegalEncodingShouldThrowExceptionWhenWriteToFile() {
+
         PluginParameters parameters = new PluginParametersBuilder()
                 .setMessage("TestMessage", null)
                 .setFormatting("Gurka", "\n")
@@ -70,10 +71,11 @@ public class TestEncoding {
                 .createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
-        expectedException.expect(FailureException.class);
-        expectedException.expectMessage("Unsupported encoding: Gurka");
+        final Executable testMethod = echoPlugin::echo;
 
-        echoPlugin.echo();
+        final FailureException thrown = assertThrows(FailureException.class, testMethod);
+
+        assertThat(thrown.getMessage(), is(equalTo("Unsupported encoding: Gurka")));
     }
 
     @Test
