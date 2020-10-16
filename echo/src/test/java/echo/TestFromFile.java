@@ -14,8 +14,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import static org.hamcrest.Matchers.endsWith;
-import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.core.StringEndsWith.endsWith;
+import static org.hamcrest.core.StringStartsWith.startsWith;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
