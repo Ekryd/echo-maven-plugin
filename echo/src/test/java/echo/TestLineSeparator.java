@@ -5,10 +5,14 @@ import echo.output.EchoOutput;
 import echo.output.PluginLog;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -19,9 +23,6 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
  */
 public class TestLineSeparator {
     private final PluginLog pluginLog = mock(PluginLog.class);
-
-    @Rule
-    public final ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void formattingTextWithNLShouldResultInLineBreaks() {
@@ -61,16 +62,17 @@ public class TestLineSeparator {
 
     @Test
     public void formattingWithIllegalLineBreaksShouldThrowException() {
-        EchoOutput echoOutput = mock(EchoOutput.class);
 
-        expectedException.expect(FailureException.class);
-        expectedException.expectMessage("LineSeparator must be either \\n, \\r or \\r\\n, but separator characters were [9]");
+        final Executable testMethod = () -> new PluginParametersBuilder()
+                .setMessage("ABC\n\n\nDEF\r\r\rGHI\r\n\r\n\r\n", null)
+                .setFormatting("UTF-8", "\t")
+                .createPluginParameters();
 
-        PluginParameters parameters = new PluginParametersBuilder().setMessage("ABC\n\n\nDEF\r\r\rGHI\r\n\r\n\r\n", null)
-                .setFormatting("UTF-8", "\t").createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
-        echoPlugin.echo();
+        final FailureException thrown = assertThrows(FailureException.class, testMethod);
 
-        verifyNoMoreInteractions(pluginLog);
+        assertAll(
+                () -> assertThat(thrown.getMessage(), is(equalTo("LineSeparator must be either \\n, \\r or \\r\\n, but separator characters were [9]"))),
+                () -> verifyNoMoreInteractions(pluginLog)
+        );
     }
 }

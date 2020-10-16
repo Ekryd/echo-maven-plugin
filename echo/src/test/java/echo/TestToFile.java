@@ -6,8 +6,9 @@ import echo.output.PluginLog;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +17,8 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.StringEndsWith.endsWith;
 import static org.hamcrest.core.StringStartsWith.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -32,7 +34,7 @@ public class TestToFile {
     private final EchoOutput echoOutput = mock(EchoOutput.class);
     private String fileName = null;
 
-    @Before
+    @BeforeEach
     public void setup() {
         doAnswer(invocation -> {
             String content = invocation.getArguments()[0].toString();
@@ -97,25 +99,26 @@ public class TestToFile {
 
     @Test
     public void saveToExistingDirectoryShouldThrowException() {
-        PluginParameters parameters;
-        EchoPlugin echoPlugin;
 
         try {
-            parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile(new File("."), "gurka/test.txt", false, false).createPluginParameters();
-            echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
+            final PluginParameters parameters1 = new PluginParametersBuilder().setMessage("Björn", null).setFile(new File("."), "gurka/test.txt", false, false).createPluginParameters();
+            final EchoPlugin echoPlugin1 = new EchoPlugin(pluginLog, parameters1, echoOutput);
 
             //Create directory
-            echoPlugin.echo();
+            echoPlugin1.echo();
 
-            parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile(new File("."), "gurka", false, false).createPluginParameters();
-            echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
+            final PluginParameters parameters2 = new PluginParametersBuilder().setMessage("Björn", null).setFile(new File("."), "gurka", false, false).createPluginParameters();
+            final EchoPlugin echoPlugin2 = new EchoPlugin(pluginLog, parameters2, echoOutput);
 
-            echoPlugin.echo();
+            final Executable testMethod = echoPlugin2::echo;
 
-            fail("Should not work");
-        } catch (FailureException e) {
-            assertThat(e.getMessage(), startsWith("File "));
-            assertThat(e.getMessage(), endsWith("gurka exists but is a directory"));
+            final FailureException thrown = assertThrows(FailureException.class, testMethod);
+
+            assertAll(
+                    () -> assertThat(thrown.getMessage(), startsWith("File ")),
+                    () -> assertThat(thrown.getMessage(), endsWith("gurka exists but is a directory"))
+            );
+
         } finally {
             FileUtils.deleteQuietly(new File(fileName));
         }

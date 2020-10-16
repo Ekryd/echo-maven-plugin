@@ -2,11 +2,14 @@ package echo.output;
 
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -19,20 +22,19 @@ public class MavenEchoOutputTest {
     private final Log logMock = mock(Log.class);
     private MavenEchoOutput mavenEchoOutput;
 
-    @Rule
-    public final ExpectedException expectedException = ExpectedException.none();
-
-    @Before
+    @BeforeEach
     public void setUp() {
         mavenEchoOutput = new MavenEchoOutput(logMock);
     }
 
     @Test
     public void failLevelShouldThrowException() {
-        expectedException.expect(MojoFailureException.class);
-        expectedException.expectMessage("Gurkas");
 
-        mavenEchoOutput.fail("Gurkas");
+        final Executable testMethod = () -> mavenEchoOutput.fail("Gurkas");
+
+        final MojoFailureException thrown = assertThrows(MojoFailureException.class, testMethod);
+
+        assertThat(thrown.getMessage(), is(equalTo("Gurkas")));
     }
 
     @Test
