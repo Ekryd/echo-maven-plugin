@@ -18,6 +18,9 @@ jdk:
   - openjdk8
   - oraclejdk11
   - openjdk12
+  - openjdk13
+  - openjdk14
+  - openjdk15
 
 after_success:
   - mvn integration-test jacoco:report
