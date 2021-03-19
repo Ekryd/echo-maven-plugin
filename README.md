@@ -51,4 +51,6 @@ Or with a string directly (note that Maven properties can be used):
           </execution>
         </executions>
       </plugin>
+```
 
+See more in the [Cookbook](https://github.com/Ekryd/echo-maven-plugin/wiki/Cookbook)
