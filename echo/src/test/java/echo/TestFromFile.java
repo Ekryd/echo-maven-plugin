@@ -7,17 +7,17 @@ import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import org.mockito.Matchers;
+import org.mockito.ArgumentMatchers;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.StringEndsWith.endsWith;
 import static org.hamcrest.core.StringStartsWith.startsWith;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
@@ -27,13 +27,13 @@ import static org.mockito.Mockito.verify;
  * @author bjorn
  * @since 2013-09-09
  */
-public class TestFromFile {
+class TestFromFile {
 
     private final PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
 
     @Test
-    public void noInputShouldThrowException() {
+    void noInputShouldThrowException() {
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, null).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
@@ -46,7 +46,7 @@ public class TestFromFile {
     }
 
     @Test
-    public void doubleInputShouldThrowException() {
+    void doubleInputShouldThrowException() {
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", "Gurka").createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
@@ -59,7 +59,7 @@ public class TestFromFile {
     }
 
     @Test
-    public void fileNotFoundShouldThrowException() {
+    void fileNotFoundShouldThrowException() {
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, "Gurka_doesNotExist").createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
@@ -75,7 +75,7 @@ public class TestFromFile {
     }
 
     @Test
-    public void foundFileInClassPathShouldOutputToInfo() {
+    void foundFileInClassPathShouldOutputToInfo() {
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, "messageText.txt").createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
@@ -84,7 +84,7 @@ public class TestFromFile {
     }
 
     @Test
-    public void foundFileInAbsolutePathShouldOutputReadingLocation() {
+    void foundFileInAbsolutePathShouldOutputReadingLocation() {
         String absolutePath = new File("src/test/resources/messageText.txt").getAbsolutePath();
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, absolutePath).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
@@ -94,7 +94,7 @@ public class TestFromFile {
     }
 
     @Test
-    public void foundFileInSubModuleShouldOutputReadingLocation() {
+    void foundFileInSubModuleShouldOutputReadingLocation() {
         String fileName = "test/resources/messageText.txt";
         File basePath = new File("src");
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, fileName).setFile(basePath, null, false, false) .createPluginParameters();
@@ -105,7 +105,7 @@ public class TestFromFile {
     }
 
     @Test
-    public void foundFileInClassPathShouldOutputReadingLocation() {
+    void foundFileInClassPathShouldOutputReadingLocation() {
         PluginParameters parameters = new PluginParametersBuilder().setMessage(null, "messageText.txt").createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
@@ -115,7 +115,7 @@ public class TestFromFile {
     }
 
     @Test
-    public void urlFromWebShouldReturnText() {
+    void urlFromWebShouldReturnText() {
         if (noConnectionToInternet()) {
             return;
         }
@@ -124,7 +124,7 @@ public class TestFromFile {
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
-        verify(echoOutput).info(Matchers.startsWith("<!DOCTYPE html"));
+        verify(echoOutput).info(ArgumentMatchers.startsWith("<!DOCTYPE html"));
     }
 
     private boolean noConnectionToInternet() {

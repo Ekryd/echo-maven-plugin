@@ -14,10 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @author bjorn
  * @since 2013-10-19
  */
-public class ExceptionHandlerTest {
+class ExceptionHandlerTest {
 
     @Test
-    public void failureExceptionShouldThrowMojoFailureException() {
+    void failureExceptionShouldThrowMojoFailureException() {
 
         FailureException failureException = new FailureException("Gurka");
 
@@ -30,7 +30,7 @@ public class ExceptionHandlerTest {
     }
 
     @Test
-    public void failureExceptionShouldKeepCause() {
+    void failureExceptionShouldKeepCause() {
 
         IllegalArgumentException cause = new IllegalArgumentException("not valid");
         FailureException failureException = new FailureException("Gurka", cause);

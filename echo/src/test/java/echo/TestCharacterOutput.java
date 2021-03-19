@@ -13,13 +13,13 @@ import static org.mockito.Mockito.verify;
  * @author bjorn
  * @since 2013-11-13
  */
-public class TestCharacterOutput {
+class TestCharacterOutput {
 
     private final PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
 
     @Test
-    public void characterDebugOutputShouldOutputToInfoLevel() {
+    void characterDebugOutputShouldOutputToInfoLevel() {
         PluginParameters parameters = new PluginParametersBuilder().setMessage("Gurka", null).setLevel("DEBUG").setDebug(true).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 

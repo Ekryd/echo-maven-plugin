@@ -6,19 +6,17 @@ import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.*;
 
 /**
  * @author bjorn
  * @since 2013-09-09
  */
-public class TestMessage {
+class TestMessage {
     private final PluginLog pluginLog = mock(PluginLog.class);
 
     @Test
-    public void stringWithSpecialCharactersShouldBeOutput() {
+    void stringWithSpecialCharactersShouldBeOutput() {
         EchoOutput echoOutput = mock(EchoOutput.class);
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", null).createPluginParameters();
@@ -29,14 +27,14 @@ public class TestMessage {
     }
 
     @Test
-    public void emptyMessageShouldOutputNothing() {
+    void emptyMessageShouldOutputNothing() {
         EchoOutput echoOutput = mock(EchoOutput.class);
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage("", null).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
         echoPlugin.echo();
 
-        verifyZeroInteractions(echoOutput);
+        verifyNoInteractions(echoOutput);
     }
 
 }

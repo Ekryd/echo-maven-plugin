@@ -21,11 +21,11 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
  * @author bjorn
  * @since 2013-09-09
  */
-public class TestLineSeparator {
+class TestLineSeparator {
     private final PluginLog pluginLog = mock(PluginLog.class);
 
     @Test
-    public void formattingTextWithNLShouldResultInLineBreaks() {
+    void formattingTextWithNLShouldResultInLineBreaks() {
         EchoOutput echoOutput = mock(EchoOutput.class);
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage("ABC\n\n\nDEF\r\r\rGHI\r\n\r\n\r\n", null)
@@ -37,7 +37,7 @@ public class TestLineSeparator {
     }
 
     @Test
-    public void formattingXmlWithCRShouldResultInOneLineBreaks() {
+    void formattingXmlWithCRShouldResultInOneLineBreaks() {
         EchoOutput echoOutput = mock(EchoOutput.class);
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage("ABC\n\n\nDEF\r\r\rGHI\r\n\r\n\r\n", null)
@@ -49,7 +49,7 @@ public class TestLineSeparator {
     }
 
     @Test
-    public void formattingXmlWithCRNLShouldResultInOneLineBreaks() {
+    void formattingXmlWithCRNLShouldResultInOneLineBreaks() {
         EchoOutput echoOutput = mock(EchoOutput.class);
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage("ABC\n\n\nDEF\r\r\rGHI\r\n\r\n\r\n", null)
@@ -61,7 +61,7 @@ public class TestLineSeparator {
     }
 
     @Test
-    public void formattingWithIllegalLineBreaksShouldThrowException() {
+    void formattingWithIllegalLineBreaksShouldThrowException() {
 
         final Executable testMethod = () -> new PluginParametersBuilder()
                 .setMessage("ABC\n\n\nDEF\r\r\rGHI\r\n\r\n\r\n", null)

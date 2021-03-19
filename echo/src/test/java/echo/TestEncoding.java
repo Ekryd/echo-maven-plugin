@@ -17,17 +17,13 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.*;
 
 /**
  * @author bjorn
  * @since 2013-09-09
  */
-public class TestEncoding {
+class TestEncoding {
 
     private final PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
@@ -35,7 +31,7 @@ public class TestEncoding {
     private String fileName = null;
 
     @BeforeEach
-    public void setupForSaveToFile() {
+    void setupForSaveToFile() {
         doAnswer(invocation -> {
             String content = invocation.getArguments()[0].toString();
             if (content.startsWith("Saving output to ")) {
@@ -46,7 +42,7 @@ public class TestEncoding {
     }
 
     @Test
-    public void illegalEncodingShouldThrowExceptionWhenReadFromFile() {
+    void illegalEncodingShouldThrowExceptionWhenReadFromFile() {
 
         PluginParameters parameters = new PluginParametersBuilder()
                 .setMessage(null, "messageEncoding.txt")
@@ -62,7 +58,7 @@ public class TestEncoding {
     }
 
     @Test
-    public void illegalEncodingShouldThrowExceptionWhenWriteToFile() {
+    void illegalEncodingShouldThrowExceptionWhenWriteToFile() {
 
         PluginParameters parameters = new PluginParametersBuilder()
                 .setMessage("TestMessage", null)
@@ -79,7 +75,7 @@ public class TestEncoding {
     }
 
     @Test
-    public void differentEncodingShouldWorkFromFile() {
+    void differentEncodingShouldWorkFromFile() {
         PluginParameters parameters = new PluginParametersBuilder()
                 .setMessage(null, "messageEncoding.txt")
                 .setFormatting("iso-8859-1", "\n").createPluginParameters();
@@ -91,7 +87,7 @@ public class TestEncoding {
     }
 
     @Test
-    public void differentEncodingShouldBeIgnoredFromInput() {
+    void differentEncodingShouldBeIgnoredFromInput() {
         PluginParameters parameters = new PluginParametersBuilder()
                 .setMessage("Björn", null)
                 .setFormatting("iso-8859-1", "\n").createPluginParameters();
@@ -103,7 +99,7 @@ public class TestEncoding {
     }
 
     @Test
-    public void outputUtf8ShouldWorkToStdOut() {
+    void outputUtf8ShouldWorkToStdOut() {
         EchoOutput echoOutput = mock(EchoOutput.class);
 
         PluginParameters parameters = new PluginParametersBuilder()
@@ -116,7 +112,7 @@ public class TestEncoding {
     }
 
     @Test
-    public void outputUtf8ShouldWorkToFile() throws IOException {
+    void outputUtf8ShouldWorkToFile() throws IOException {
         PluginParameters parameters = new PluginParametersBuilder()
                 .setMessage("\u00e4\u00a9", null)
                 .setFile(new File("."), "test.txt", false, false)
@@ -126,7 +122,7 @@ public class TestEncoding {
         try {
             echoPlugin.echo();
 
-            verifyZeroInteractions(echoOutput);
+            verifyNoInteractions(echoOutput);
 
             String output = FileUtils.readFileToString(new File(fileName), "UTF-8");
             assertThat(output, is("\u00e4\u00a9"));
@@ -136,7 +132,7 @@ public class TestEncoding {
     }
 
     @Test
-    public void outputUtf16ShouldWorkToFile() throws IOException {
+    void outputUtf16ShouldWorkToFile() throws IOException {
         PluginParameters parameters = new PluginParametersBuilder()
                 .setMessage("&#169;", null)
                 .setFile(new File("."), "test.txt", false, false)
@@ -146,7 +142,7 @@ public class TestEncoding {
         try {
             echoPlugin.echo();
 
-            verifyZeroInteractions(echoOutput);
+            verifyNoInteractions(echoOutput);
 
             String output = FileUtils.readFileToString(new File(fileName), "UTF16");
             assertThat(output, is("&#169;"));

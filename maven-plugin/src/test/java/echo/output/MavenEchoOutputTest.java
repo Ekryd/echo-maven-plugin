@@ -18,17 +18,17 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
  * @author bjorn
  * @since 2013-09-19
  */
-public class MavenEchoOutputTest {
+class MavenEchoOutputTest {
     private final Log logMock = mock(Log.class);
     private MavenEchoOutput mavenEchoOutput;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         mavenEchoOutput = new MavenEchoOutput(logMock);
     }
 
     @Test
-    public void failLevelShouldThrowException() {
+    void failLevelShouldThrowException() {
 
         final Executable testMethod = () -> mavenEchoOutput.fail("Gurkas");
 
@@ -38,7 +38,7 @@ public class MavenEchoOutputTest {
     }
 
     @Test
-    public void errorShouldOutputErrorLevel() {
+    void errorShouldOutputErrorLevel() {
         mavenEchoOutput.error("Gurka");
 
         verify(logMock).error("Gurka");
@@ -46,7 +46,7 @@ public class MavenEchoOutputTest {
     }
 
     @Test
-    public void warnShouldOutputWarnLevel() {
+    void warnShouldOutputWarnLevel() {
         mavenEchoOutput.warning("Gurka");
 
         verify(logMock).warn("Gurka");
@@ -54,7 +54,7 @@ public class MavenEchoOutputTest {
     }
 
     @Test
-    public void infoShouldOutputInfoLevel() {
+    void infoShouldOutputInfoLevel() {
         mavenEchoOutput.info("Gurka");
 
         verify(logMock).info("Gurka");
@@ -62,7 +62,7 @@ public class MavenEchoOutputTest {
     }
 
     @Test
-    public void debugShouldOutputDebugLevel() {
+    void debugShouldOutputDebugLevel() {
         mavenEchoOutput.debug("Gurka");
 
         verify(logMock).debug("Gurka");

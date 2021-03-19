@@ -18,22 +18,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.*;
 
 /**
  * @author bjorn
  * @since 2014-02-27
  */
-public class TestForceOption {
+class TestForceOption {
     private final PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
     private String fileName = null;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         doAnswer(invocation -> {
             String content = invocation.getArguments()[0].toString();
             if (content.startsWith("Saving output to ")) {
@@ -44,7 +41,7 @@ public class TestForceOption {
     }
 
     @Test
-    public void explicitForceFlagShouldOverwriteReadOnlyFile() throws IOException {
+    void explicitForceFlagShouldOverwriteReadOnlyFile() throws IOException {
         PluginParameters parameters;
         EchoPlugin echoPlugin;
         String output;
@@ -63,7 +60,7 @@ public class TestForceOption {
             echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
             echoPlugin.echo();
 
-            verifyZeroInteractions(echoOutput);
+            verifyNoInteractions(echoOutput);
 
             output = FileUtils.readFileToString(new File(fileName), "UTF-8");
             assertThat(output, is("Two"));
@@ -75,7 +72,7 @@ public class TestForceOption {
     }
 
     @Test
-    public void noForceFlagShouldThrowExceptionForReadOnlyFile() throws IOException {
+    void noForceFlagShouldThrowExceptionForReadOnlyFile() throws IOException {
 
         try {
             final PluginParameters parameters1 = new PluginParametersBuilder().setMessage("One", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();

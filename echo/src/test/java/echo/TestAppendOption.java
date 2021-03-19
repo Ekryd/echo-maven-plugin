@@ -13,22 +13,19 @@ import java.io.IOException;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.*;
 
 /**
  * @author bjorn
  * @since 2014-02-27
  */
-public class TestAppendOption {
+class TestAppendOption {
     private final PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
     private String fileName = null;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         doAnswer(invocation -> {
             String content = invocation.getArguments()[0].toString();
             if (content.startsWith("Saving output to ")) {
@@ -39,7 +36,7 @@ public class TestAppendOption {
     }
 
     @Test
-    public void explicitAppendFlagShouldAppendToFile() throws IOException {
+    void explicitAppendFlagShouldAppendToFile() throws IOException {
         PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile(new File("."), "test.txt", true, false).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
@@ -48,7 +45,7 @@ public class TestAppendOption {
             echoPlugin.echo();
             echoPlugin.echo();
 
-            verifyZeroInteractions(echoOutput);
+            verifyNoInteractions(echoOutput);
 
             String output = FileUtils.readFileToString(new File(fileName), "UTF-8");
             assertThat(output, is("BjörnBjörn"));
@@ -58,7 +55,7 @@ public class TestAppendOption {
     }
 
     @Test
-    public void noAppendFlagShouldOverwriteFile() {
+    void noAppendFlagShouldOverwriteFile() {
         PluginParameters parameters;
         EchoPlugin echoPlugin;
         String output;
@@ -75,7 +72,7 @@ public class TestAppendOption {
             echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
             echoPlugin.echo();
 
-            verifyZeroInteractions(echoOutput);
+            verifyNoInteractions(echoOutput);
 
             output = FileUtils.readFileToString(new File(fileName), "UTF-8");
             assertThat(output, is("Two"));

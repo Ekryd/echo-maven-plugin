@@ -18,10 +18,10 @@ import static org.mockito.Mockito.verify;
  * @author bjorn
  * @since 2013-09-20
  */
-public class TextNewline {
+class TestNewline {
 
     @Test
-    public void illegalNewlineShouldThrowException() {
+    void illegalNewlineShouldThrowException() {
 
         final Executable testMethod = () -> new PluginParametersBuilder()
                 .setFormatting(null, "\t")
@@ -33,7 +33,7 @@ public class TextNewline {
     }
 
     @Test
-    public void newlineShouldBeReplacedWithLineSeparator1() {
+    void newlineShouldBeReplacedWithLineSeparator1() {
         EchoOutput echoOutput = mock(EchoOutput.class);
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage("Hex\nover\rthe\r\nphone", null).setFormatting(null, "\n").createPluginParameters();
@@ -44,7 +44,7 @@ public class TextNewline {
     }
 
     @Test
-    public void newlineShouldBeReplacedWithLineSeparator2() {
+    void newlineShouldBeReplacedWithLineSeparator2() {
         EchoOutput echoOutput = mock(EchoOutput.class);
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage("Hex\nover\rthe\r\nphone", null).setFormatting(null, "\r").createPluginParameters();
@@ -55,7 +55,7 @@ public class TextNewline {
     }
 
     @Test
-    public void newlineShouldBeReplacedWithLineSeparator3() {
+    void newlineShouldBeReplacedWithLineSeparator3() {
         EchoOutput echoOutput = mock(EchoOutput.class);
 
         PluginParameters parameters = new PluginParametersBuilder().setMessage("Hex\nover\rthe\r\nphone", null).setFormatting(null, "\r\n").createPluginParameters();

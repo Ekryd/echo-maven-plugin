@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
  * @author bjorn
  * @since 2013-08-09
  */
-public class EchoMojoTest {
+class EchoMojoTest {
 
     private EchoMojo echoMojo;
 
@@ -35,7 +35,7 @@ public class EchoMojoTest {
     private final Log pluginLogMock = mock(Log.class);
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         echoMojo = new EchoMojo();
         ReflectionHelper echoMojoHelper = new ReflectionHelper(echoMojo);
         echoMojoHelper.setField("level", "INFO");
@@ -45,7 +45,7 @@ public class EchoMojoTest {
     }
 
     @Test
-    public void setupShouldSetupEchoPluginInstance() throws Exception {
+    void setupShouldSetupEchoPluginInstance() throws Exception {
         echoMojo.setup();
 
         EchoPlugin echoPlugin = new ReflectionHelper(echoMojo).getField(EchoPlugin.class);
@@ -53,7 +53,7 @@ public class EchoMojoTest {
     }
 
     @Test
-    public void exceptionInSetupShouldBeConverted() {
+    void exceptionInSetupShouldBeConverted() {
 
         new ReflectionHelper(echoMojo).setField("level", "Gurka");
 
@@ -65,7 +65,7 @@ public class EchoMojoTest {
     }
 
     @Test
-    public void mavenEchoShouldRunEchoPlugin() throws Exception {
+    void mavenEchoShouldRunEchoPlugin() throws Exception {
         EchoPlugin echoPlugin = mock(EchoPlugin.class);
 
         new ReflectionHelper(echoMojo).setField(echoPlugin);
@@ -76,7 +76,7 @@ public class EchoMojoTest {
     }
 
     @Test
-    public void echoShouldRunTheWholePlugin() throws Exception {
+    void echoShouldRunTheWholePlugin() throws Exception {
         ReflectionHelper reflectionHelper = new ReflectionHelper(echoMojo);
         // Init values
         reflectionHelper.setField("message", "Björn");
@@ -93,7 +93,7 @@ public class EchoMojoTest {
     }
 
     @Test
-    public void noMessageShouldGenerateException() {
+    void noMessageShouldGenerateException() {
 
         final Executable testMethod = () -> echoMojo.execute();
 
@@ -108,7 +108,7 @@ public class EchoMojoTest {
     }
 
     @Test
-    public void exceptionInEchoShouldBeConverted() {
+    void exceptionInEchoShouldBeConverted() {
         EchoPlugin echoPlugin = mock(EchoPlugin.class);
 
         doThrow(new FailureException("Gurka")).when(echoPlugin).echo();
@@ -122,7 +122,7 @@ public class EchoMojoTest {
     }
 
     @Test
-    public void skipShouldOnlyOutputMessage() throws Exception {
+    void skipShouldOnlyOutputMessage() throws Exception {
         new ReflectionHelper(echoMojo).setField("skip", true);
         new ReflectionHelper(echoMojo, AbstractMojo.class).setField(pluginLogMock);
 
@@ -132,7 +132,7 @@ public class EchoMojoTest {
     }
 
     @Test
-    public void executeShouldOutputMessage() throws Exception {
+    void executeShouldOutputMessage() throws Exception {
         new ReflectionHelper(echoMojo).setField("message", "Björn");
         new ReflectionHelper(echoMojo, AbstractMojo.class).setField(pluginLogMock);
 

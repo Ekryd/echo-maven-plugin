@@ -19,23 +19,20 @@ import static org.hamcrest.core.StringStartsWith.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.*;
 
 /**
  * @author bjorn
  * @since 2013-09-09
  */
-public class TestToFile {
+class TestToFile {
 
     private final PluginLog pluginLog = mock(PluginLog.class);
     private final EchoOutput echoOutput = mock(EchoOutput.class);
     private String fileName = null;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         doAnswer(invocation -> {
             String content = invocation.getArguments()[0].toString();
             if (content.startsWith("Saving output to ")) {
@@ -46,14 +43,14 @@ public class TestToFile {
     }
 
     @Test
-    public void saveToNonExistingToFileShouldWork() throws IOException {
+    void saveToNonExistingToFileShouldWork() throws IOException {
         PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
         try {
             echoPlugin.echo();
 
-            verifyZeroInteractions(echoOutput);
+            verifyNoInteractions(echoOutput);
 
             String output = FileUtils.readFileToString(new File(fileName), "UTF-8");
             assertThat(output, is("Björn"));
@@ -63,14 +60,14 @@ public class TestToFile {
     }
 
     @Test
-    public void emptyMessageShouldCreateEmptyFile() throws IOException {
+    void emptyMessageShouldCreateEmptyFile() throws IOException {
         PluginParameters parameters = new PluginParametersBuilder().setMessage("", null).setFile(new File("."), "test.txt", false, false).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
         try {
             echoPlugin.echo();
 
-            verifyZeroInteractions(echoOutput);
+            verifyNoInteractions(echoOutput);
 
             String output = FileUtils.readFileToString(new File(fileName), "UTF-8");
             assertThat(output, is(""));
@@ -80,14 +77,14 @@ public class TestToFile {
     }
 
     @Test
-    public void saveToNonExistingDirectoryShouldWork() throws IOException {
+    void saveToNonExistingDirectoryShouldWork() throws IOException {
         PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", null).setFile(new File("."), "gurka/test.txt", false, false).createPluginParameters();
         EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
         try {
             echoPlugin.echo();
 
-            verifyZeroInteractions(echoOutput);
+            verifyNoInteractions(echoOutput);
 
             String output = FileUtils.readFileToString(new File(fileName), "UTF-8");
             assertThat(output, is("Björn"));
@@ -98,7 +95,7 @@ public class TestToFile {
     }
 
     @Test
-    public void saveToExistingDirectoryShouldThrowException() {
+    void saveToExistingDirectoryShouldThrowException() {
 
         try {
             final PluginParameters parameters1 = new PluginParametersBuilder().setMessage("Björn", null).setFile(new File("."), "gurka/test.txt", false, false).createPluginParameters();
