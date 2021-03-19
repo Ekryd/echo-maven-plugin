@@ -84,7 +84,6 @@
               <scriptVariables>
                 <projectversion>${project.version}</projectversion>
               </scriptVariables>
-              <skipInvocation>${skipTests}</skipInvocation>
             </configuration>
           </execution>
         </executions>

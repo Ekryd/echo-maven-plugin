@@ -55,9 +55,9 @@ workflows:
   work:
     jobs:
       - jdk8
-      - jdk11
-      - jdk12
-      - jdk13
-      - jdk14
-      - jdk15
+#      - jdk11
+#      - jdk12
+#      - jdk13
+#      - jdk14
+#      - jdk15
         
