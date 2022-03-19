@@ -54,3 +54,4 @@ Or with a string directly (note that Maven properties can be used):
 ```
 
 See more in the [Cookbook](https://github.com/Ekryd/echo-maven-plugin/wiki/Cookbook)
+ 
