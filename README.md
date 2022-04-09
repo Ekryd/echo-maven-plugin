@@ -7,7 +7,7 @@
 
 A maven plugin that lets you output text during Maven build
 
-It can be used with a file:
+It can be used with a file: 
 
 ```xml
       <plugin>
