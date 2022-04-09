@@ -1,7 +1,16 @@
 name: auto-merge
 
 on:
-  pull_request:
+  pull_request_target:
+    branches:
+      - master
+    types:
+      - opened
+      - synchronize
+  # Trigger on Pull Requests to the master branch.
+  push:
+    branches:
+      - master
 
 jobs:
   auto-merge:
@@ -10,4 +19,4 @@ jobs:
       - uses: ahmadnassri/action-dependabot-auto-merge@v1
         with:
           target: patch
-          github-token: ${{ secrets.AUTO_MERGE_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
