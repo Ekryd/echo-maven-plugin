@@ -7,7 +7,9 @@ shared: &shared
   steps:
     - checkout
     - restore_cache:
-        key: ekryd-cache-{{ checksum "pom.xml" }}
+        keys:
+          - ekryd-cache-{{ checksum "pom.xml" }}
+          - ekryd-cache- # fallback in case previous cache key is not found
     - run: mvn clean install -Dmaven.javadoc.skip=true -Dinvoker.skip=true -B -V
     - save_cache:
         paths:
@@ -15,25 +17,17 @@ shared: &shared
         key: ekryd-cache--{{ checksum "pom.xml" }}
       
 jobs:
-  jdk8:
+  jdk17:
     docker:
-      - image: cimg/openjdk:8.0
+      - image: cimg/openjdk:17.0
     <<: *shared
-  jdk12:
+  jdk18:
     docker:
-      - image: cimg/openjdk:12.0
+      - image: cimg/openjdk:18.0
     <<: *shared
-  jdk13:
+  jdk19:
     docker:
-      - image: cimg/openjdk:13.0
-    <<: *shared
-  jdk14:
-    docker:
-      - image: cimg/openjdk:14.0
-    <<: *shared
-  jdk15:
-    docker:
-      - image: cimg/openjdk:15.0
+      - image: cimg/openjdk:19.0
     <<: *shared
   jdk11:
     docker:
@@ -41,7 +35,9 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: ekryd-cache-{{ checksum "pom.xml" }}
+          keys:
+            - ekryd-cache-{{ checksum "pom.xml" }}
+            - ekryd-cache- # fallback in case previous cache key is not found
       - run: mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -Dinvoker.skip=true -B -V
       - run: mvn clean jacoco:prepare-agent integration-test jacoco:report -B
       - run: mvn coveralls:report -B -DrepoToken=$COVERALLS_REPO_TOKEN
@@ -55,27 +51,19 @@ workflows:
   version: 2
   work:
     jobs:
-      - jdk8
-      - jdk12:
+      - jdk17
+      - jdk18:
           requires:
-            - jdk8
-      - jdk13:
+            - jdk17
+      - jdk19:
           requires:
-            - jdk8
-      - jdk14:
-          requires:
-            - jdk8
-      - jdk15:
-          requires:
-            - jdk8
+            - jdk17
       - jdk11:
           filters:  # using regex filters requires the entire branch to match
             branches:              
               only:  # only branches matching the below regex filters will run
                 - master
           requires:
-            - jdk8
-            - jdk12
-            - jdk13
-            - jdk14
-            - jdk15
+            - jdk17
+            - jdk18
+            - jdk19
