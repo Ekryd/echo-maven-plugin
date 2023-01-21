@@ -1,40 +1,35 @@
 package echo;
 
+import static org.mockito.Mockito.*;
+
 import echo.output.EchoOutput;
 import echo.output.PluginLog;
-import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.Mockito.*;
-
-/**
- * @author bjorn
- * @since 2013-09-09
- */
 class TestMessage {
-    private final PluginLog pluginLog = mock(PluginLog.class);
+  private final PluginLog pluginLog = mock(PluginLog.class);
 
-    @Test
-    void stringWithSpecialCharactersShouldBeOutput() {
-        EchoOutput echoOutput = mock(EchoOutput.class);
+  @Test
+  void stringWithSpecialCharactersShouldBeOutput() {
+    var echoOutput = mock(EchoOutput.class);
 
-        PluginParameters parameters = new PluginParametersBuilder().setMessage("Björn", null).createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
-        echoPlugin.echo();
+    var parameters =
+        new PluginParametersBuilder().setMessage("Björn", null).createPluginParameters();
+    var echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
+    echoPlugin.echo();
 
-        verify(echoOutput).info("Björn");
-    }
+    verify(echoOutput).info("Björn");
+  }
 
-    @Test
-    void emptyMessageShouldOutputNothing() {
-        EchoOutput echoOutput = mock(EchoOutput.class);
+  @Test
+  void emptyMessageShouldOutputNothing() {
+    var echoOutput = mock(EchoOutput.class);
 
-        PluginParameters parameters = new PluginParametersBuilder().setMessage("", null).createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
-        echoPlugin.echo();
+    var parameters = new PluginParametersBuilder().setMessage("", null).createPluginParameters();
+    var echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
+    echoPlugin.echo();
 
-        verifyNoInteractions(echoOutput);
-    }
-
+    verifyNoInteractions(echoOutput);
+  }
 }

@@ -1,31 +1,30 @@
 package echo;
 
-import echo.output.EchoOutput;
-import echo.output.PluginLog;
-import echo.parameter.PluginParameters;
-import echo.parameter.PluginParametersBuilder;
-import org.junit.jupiter.api.Test;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-/**
- * @author bjorn
- * @since 2013-11-13
- */
+import echo.output.EchoOutput;
+import echo.output.PluginLog;
+import echo.parameter.PluginParametersBuilder;
+import org.junit.jupiter.api.Test;
+
 class TestCharacterOutput {
 
-    private final PluginLog pluginLog = mock(PluginLog.class);
-    private final EchoOutput echoOutput = mock(EchoOutput.class);
+  private final PluginLog pluginLog = mock(PluginLog.class);
+  private final EchoOutput echoOutput = mock(EchoOutput.class);
 
-    @Test
-    void characterDebugOutputShouldOutputToInfoLevel() {
-        PluginParameters parameters = new PluginParametersBuilder().setMessage("Gurka", null).setLevel("DEBUG").setDebug(true).createPluginParameters();
-        EchoPlugin echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
+  @Test
+  void characterDebugOutputShouldOutputToInfoLevel() {
+    var parameters =
+        new PluginParametersBuilder()
+            .setMessage("Gurka", null)
+            .setLevel("DEBUG")
+            .setDebug(true)
+            .createPluginParameters();
+    var echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
 
-        echoPlugin.echo();
+    echoPlugin.echo();
 
-        verify(pluginLog).info("[['G' , 71 ],['u' , 117 ],['r' , 114 ],['k' , 107 ],['a' , 97 ]]");
-    }
-
+    verify(pluginLog).info("[['G' , 71 ],['u' , 117 ],['r' , 114 ],['k' , 107 ],['a' , 97 ]]");
+  }
 }

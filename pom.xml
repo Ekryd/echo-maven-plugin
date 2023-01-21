@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -77,29 +78,6 @@
 
     <pluginManagement>
       <plugins>
-        <plugin>
-          <groupId>com.github.ekryd.sortpom</groupId>
-          <artifactId>sortpom-maven-plugin</artifactId>
-          <version>3.2.0</version>
-          <configuration>
-            <createBackupFile>false</createBackupFile>
-            <predefinedSortOrder>custom_1</predefinedSortOrder>
-            <lineSeparator>\n</lineSeparator>
-            <encoding>${project.build.sourceEncoding}</encoding>
-            <sortProperties>true</sortProperties>
-            <keepBlankLines>true</keepBlankLines>
-            <sortDependencies>scope,groupId,artifactId</sortDependencies>
-            <indentSchemaLocation>true</indentSchemaLocation>
-          </configuration>
-          <executions>
-            <execution>
-              <goals>
-                <goal>sort</goal>
-              </goals>
-              <phase>validate</phase>
-            </execution>
-          </executions>
-        </plugin>
         <plugin>
           <!-- References plugin (not directly used) -->
           <groupId>org.apache.maven.plugins</groupId>
@@ -229,6 +207,41 @@
             <configuration>
               <fromFile>misc/welcome.txt</fromFile>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.github.ekryd.sortpom</groupId>
+        <artifactId>sortpom-maven-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <createBackupFile>false</createBackupFile>
+          <predefinedSortOrder>custom_1</predefinedSortOrder>
+          <lineSeparator>\n</lineSeparator>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <sortProperties>true</sortProperties>
+          <keepBlankLines>true</keepBlankLines>
+          <sortDependencies>scope,groupId,artifactId</sortDependencies>
+          <indentSchemaLocation>true</indentSchemaLocation>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>sort</goal>
+            </goals>
+            <phase>validate</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.spotify.fmt</groupId>
+        <artifactId>fmt-maven-plugin</artifactId>
+        <version>2.19</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>format</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
@@ -371,7 +384,7 @@
   <licenses>
     <license>
       <name>New BSD License</name>
-      <url>http://en.wikipedia.org/wiki/BSD_licenses</url>
+      <url>https://en.wikipedia.org/wiki/BSD_licenses</url>
       <distribution>repo</distribution>
       <comments>Whatever</comments>
     </license>
@@ -382,7 +395,7 @@
       <id>bjorn.ekryd</id>
       <name>Björn Ekryd</name>
       <email>bjorn.ekryd(at)gmail(dot)com</email>
-      <url>http://www.linkedin.com/in/bjornekryd</url>
+      <url>https://www.linkedin.com/in/bjornekryd</url>
       <roles>
         <role>Architect</role>
         <role>Developer</role>
@@ -429,7 +442,7 @@
               <linksource>true</linksource>
               <links>
                 <!-- JSE -->
-                <link>http://docs.oracle.com/javase/8/docs/api/</link>
+                <link>https://docs.oracle.com/en/java/javase/11/docs/api/</link>
               </links>
             </configuration>
             <executions>
