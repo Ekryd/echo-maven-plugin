@@ -13,7 +13,7 @@ It can be used with a file:
       <plugin>
         <groupId>com.github.ekryd.echo-maven-plugin</groupId>
         <artifactId>echo-maven-plugin</artifactId>
-        <version>1.2.0</version>
+        <version>2.0.0</version>
         <inherited>false</inherited>
         <executions>
           <execution>
@@ -36,7 +36,7 @@ Or with a string directly (note that Maven properties can be used):
       <plugin>
         <groupId>com.github.ekryd.echo-maven-plugin</groupId>
         <artifactId>echo-maven-plugin</artifactId>
-        <version>1.2.0</version>
+        <version>2.0.0</version>
         <inherited>false</inherited>
         <executions>
           <execution>
