@@ -7,7 +7,7 @@
   <!-- Basics -->
   <groupId>com.github.ekryd.echo-maven-plugin</groupId>
   <artifactId>echo-plugin</artifactId>
-  <version>2.0.1-SNAPSHOT</version>
+  <version>2.0.1</version>
   <packaging>pom</packaging>
   <name>Echo plugin parent</name>
   <description>Maven plugin that outputs text during a maven build.</description>
@@ -408,7 +408,7 @@
     <connection>scm:git:https://github.com/Ekryd/echo-maven-plugin/</connection>
     <developerConnection>scm:git:https://github.com/Ekryd/echo-maven-plugin/</developerConnection>
     <url>https://github.com/Ekryd/echo-maven-plugin/</url>
-    <tag>HEAD</tag>
+    <tag>echo-plugin-2.0.1</tag>
   </scm>
   <issueManagement>
     <system>GitHub</system>
