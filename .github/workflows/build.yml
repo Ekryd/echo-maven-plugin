@@ -1,0 +1,38 @@
+name: build
+
+on:
+  push:
+    # Avoid workflow run for _merged_ `dependabot` PRs.
+    # They were (hopefully!) already tested in PR-triggered workflow.
+    branches-ignore: "dependabot/**"
+  pull_request:
+    paths-ignore:
+      - "**.adoc"
+      - "**.md"
+      - "**.txt"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+
+  merge:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: "[dependabot] Fetch metadata"
+        id: metadata
+        if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]'
+        uses: dependabot/fetch-metadata@v1.3.6
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: "[dependabot] Auto-merge the PR"
+        if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
