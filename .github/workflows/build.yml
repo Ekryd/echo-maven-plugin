@@ -22,6 +22,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: "Echo environment"
+        run: |
+          echo "${{github.event_name}}"
+          echo "${{github.actor}}"
 
       - name: "[dependabot] Fetch metadata"
         id: metadata
