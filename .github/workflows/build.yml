@@ -48,16 +48,9 @@ jobs:
           architecture: x64
           cache: maven
 
-      # We could have used `verify`, but `clean install` is required while generating the build reproducibility report, which is performed in the next step.
-      # For details, see: https://maven.apache.org/guides/mini/guide-reproducible-builds.html#how-to-test-my-maven-build-reproducibility
       - name: Build
         shell: bash
-        run: |
-          ./mvnw \
-            --show-version --batch-mode --errors --no-transfer-progress \
-            -DtrimStackTrace=false \
-            -DinstallAtEnd=true \
-            clean install
+        run: mvn --batch-mode clean verify
             
   merge:
     # if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]'
