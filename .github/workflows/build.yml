@@ -39,7 +39,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c   # 3.3.0
 
-      - name: Setup JDK 11
+      - name: Setup JDKs
         uses: actions/setup-java@1df8dbefe2a8cbc99770194893dd902763bee34b   # 3.7.0
         with:
           distribution: temurin
@@ -58,11 +58,6 @@ jobs:
     needs: build
 
     steps:
-      - name: "Echo environment"
-        run: |
-          echo "${{github.event_name}}"
-          echo "${{github.actor}}"
-
       - name: "[dependabot] Fetch metadata"
         id: metadata
         uses: dependabot/fetch-metadata@v1.3.6
