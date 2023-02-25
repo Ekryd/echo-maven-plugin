@@ -11,8 +11,13 @@ import echo.exception.FailureException;
 import echo.output.EchoOutput;
 import echo.output.PluginLog;
 import echo.parameter.PluginParametersBuilder;
+import java.util.function.BiConsumer;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class TestLevel {
 
@@ -55,68 +60,29 @@ class TestLevel {
     verify(echoOutput).info("Björn");
   }
 
-  @Test
-  void failLevelShouldOutputOnFailLevel() {
-    var parameters =
-        new PluginParametersBuilder()
-            .setLevel("fAIl")
-            .setMessage("Björn", null)
-            .createPluginParameters();
-    var echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
-    echoPlugin.echo();
-
-    verify(echoOutput).fail("Björn");
+  public static Stream<Arguments> logLevels() {
+    return Stream.of(
+        Arguments.of("fAIl", (BiConsumer<EchoOutput, String>) EchoOutput::fail),
+        Arguments.of("FataL", (BiConsumer<EchoOutput, String>) EchoOutput::fail),
+        Arguments.of("ErRoR", (BiConsumer<EchoOutput, String>) EchoOutput::error),
+        Arguments.of("WARNiNg", (BiConsumer<EchoOutput, String>) EchoOutput::warning),
+        Arguments.of("waRN", (BiConsumer<EchoOutput, String>) EchoOutput::warning),
+        Arguments.of("infO", (BiConsumer<EchoOutput, String>) EchoOutput::info),
+        Arguments.of("deBug", (BiConsumer<EchoOutput, String>) EchoOutput::debug),
+        Arguments.of("TRACe", (BiConsumer<EchoOutput, String>) EchoOutput::debug));
   }
 
-  @Test
-  void errorLevelShouldOutputOnErrorLevel() {
+  @ParameterizedTest
+  @MethodSource("logLevels")
+  void failLevelShouldOutputOnFailLevel(String level, BiConsumer<EchoOutput, String> expectedCall) {
     var parameters =
         new PluginParametersBuilder()
-            .setLevel("ErRoR")
+            .setLevel(level)
             .setMessage("Björn", null)
             .createPluginParameters();
     var echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
     echoPlugin.echo();
 
-    verify(echoOutput).error("Björn");
-  }
-
-  @Test
-  void warnLevelShouldOutputOnWarningLevel() {
-    var parameters =
-        new PluginParametersBuilder()
-            .setLevel("WARNiNg")
-            .setMessage("Björn", null)
-            .createPluginParameters();
-    var echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
-    echoPlugin.echo();
-
-    verify(echoOutput).warning("Björn");
-  }
-
-  @Test
-  void infoLevelShouldOutputOnInfoLevel() {
-    var parameters =
-        new PluginParametersBuilder()
-            .setLevel("infO")
-            .setMessage("Björn", null)
-            .createPluginParameters();
-    var echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
-    echoPlugin.echo();
-
-    verify(echoOutput).info("Björn");
-  }
-
-  @Test
-  void debugLevelShouldOutputOnDebugLevel() {
-    var parameters =
-        new PluginParametersBuilder()
-            .setLevel("deBug")
-            .setMessage("Björn", null)
-            .createPluginParameters();
-    var echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
-    echoPlugin.echo();
-
-    verify(echoOutput).debug("Björn");
+    expectedCall.accept(verify(echoOutput), "Björn");
   }
 }
