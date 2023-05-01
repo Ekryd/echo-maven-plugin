@@ -136,12 +136,12 @@ class TestFromFile {
     var echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
     echoPlugin.echo();
 
-    verify(echoOutput).info(ArgumentMatchers.startsWith("<!DOCTYPE html"));
+    verify(echoOutput).info(ArgumentMatchers.contains("<html"));
   }
 
   private boolean noConnectionToInternet() {
-    try {
-      new URL("https://www.nsf.gov/").openStream();
+    //noinspection EmptyTryBlock
+    try (var ignored = new URL("https://www.nsf.gov/").openStream()) {
     } catch (IOException e) {
       System.err.println("Cannot connect to Internet, skipping this test!!!");
       return true;
