@@ -21,9 +21,9 @@ jobs:
     docker:
       - image: cimg/openjdk:17.0
     <<: *shared
-  jdk18:
+  jdk20:
     docker:
-      - image: cimg/openjdk:18.0
+      - image: cimg/openjdk:20.0
     <<: *shared
   jdk19:
     docker:
@@ -52,7 +52,7 @@ workflows:
   work:
     jobs:
       - jdk17
-      - jdk18:
+      - jdk20:
           requires:
             - jdk17
       - jdk19:
@@ -65,5 +65,5 @@ workflows:
                 - master
           requires:
             - jdk17
-            - jdk18
+            - jdk20
             - jdk19
