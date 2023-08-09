@@ -58,7 +58,8 @@ echo:echo
       If the message should be sent to a file instead of standard output
 
 echo:help
-  Description: Unknown
+  Description: Display help information on echo-maven-plugin. Call mvn
+    echo:help -Ddetail=true -Dgoal= to display parameter details.
   Implementation: echo.HelpMojo
   Language: java
 
