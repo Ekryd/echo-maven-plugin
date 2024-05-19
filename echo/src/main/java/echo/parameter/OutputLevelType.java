@@ -28,7 +28,7 @@ public enum OutputLevelType {
     }
     var upperCaseLevel = level.toUpperCase(Locale.getDefault());
     for (var outputLevelType : values()) {
-      if (outputLevelType.matchName.apply(upperCaseLevel)) {
+      if (Boolean.TRUE.equals(outputLevelType.matchName.apply(upperCaseLevel))) {
         return outputLevelType;
       }
     }

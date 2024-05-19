@@ -40,7 +40,6 @@ class TestEncoding {
 
   @Test
   void illegalEncodingShouldThrowExceptionWhenReadFromFile() {
-
     var parameters =
         new PluginParametersBuilder()
             .setMessage(null, "messageEncoding.txt")
@@ -57,7 +56,6 @@ class TestEncoding {
 
   @Test
   void illegalEncodingShouldThrowExceptionWhenWriteToFile() {
-
     var parameters =
         new PluginParametersBuilder()
             .setMessage("TestMessage", null)
@@ -103,24 +101,22 @@ class TestEncoding {
 
   @Test
   void outputUtf8ShouldWorkToStdOut() {
-    var echoOutput = mock(EchoOutput.class);
-
     var parameters =
         new PluginParametersBuilder()
-            .setMessage("\u00e4\u00a9", null)
+            .setMessage("ä©", null)
             .setFormatting("UTF-8", "\n")
             .createPluginParameters();
     var echoPlugin = new EchoPlugin(pluginLog, parameters, echoOutput);
     echoPlugin.echo();
 
-    verify(echoOutput).info("\u00e4\u00a9");
+    verify(echoOutput).info("ä©");
   }
 
   @Test
   void outputUtf8ShouldWorkToFile() throws IOException {
     var parameters =
         new PluginParametersBuilder()
-            .setMessage("\u00e4\u00a9", null)
+            .setMessage("ä©", null)
             .setFile(new File("."), "test.txt", false, false)
             .setFormatting("UTF-8", "\n")
             .createPluginParameters();
@@ -132,7 +128,7 @@ class TestEncoding {
       verifyNoInteractions(echoOutput);
 
       var output = FileUtils.readFileToString(new File(fileName), "UTF-8");
-      assertThat(output, is("\u00e4\u00a9"));
+      assertThat(output, is("ä©"));
     } finally {
       FileUtils.deleteQuietly(new File(fileName));
     }

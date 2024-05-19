@@ -10,14 +10,18 @@ import static org.mockito.Mockito.verify;
 import echo.exception.FailureException;
 import echo.output.EchoOutput;
 import echo.parameter.PluginParametersBuilder;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class TestNewline {
+  private final EchoOutput echoOutput = mock(EchoOutput.class);
 
   @Test
   void illegalNewlineShouldThrowException() {
-
     Executable testMethod =
         () -> new PluginParametersBuilder().setFormatting(null, "\t").createPluginParameters();
 
@@ -30,48 +34,24 @@ class TestNewline {
                 "LineSeparator must be either \\n, \\r or \\r\\n, but separator characters were [9]")));
   }
 
-  @Test
-  void newlineShouldBeReplacedWithLineSeparator1() {
-    var echoOutput = mock(EchoOutput.class);
-
-    var parameters =
-        new PluginParametersBuilder()
-            .setMessage("Hex\nover\rthe\r\nphone", null)
-            .setFormatting(null, "\n")
-            .createPluginParameters();
-    var echoPlugin = new EchoPlugin(null, parameters, echoOutput);
-    echoPlugin.echo();
-
-    verify(echoOutput).info("Hex\nover\nthe\nphone");
+  static Stream<Arguments> formattingTestData() {
+    return Stream.of(
+        Arguments.of("\n", "Hex\nover\nthe\nphone"),
+        Arguments.of("\r", "Hex\rover\rthe\rphone"),
+        Arguments.of("\r\n", "Hex\r\nover\r\nthe\r\nphone"));
   }
 
-  @Test
-  void newlineShouldBeReplacedWithLineSeparator2() {
-    var echoOutput = mock(EchoOutput.class);
-
+  @ParameterizedTest
+  @MethodSource("formattingTestData")
+  void newlineShouldBeReplacedWithLineSeparator(String formatting, String expected) {
     var parameters =
         new PluginParametersBuilder()
             .setMessage("Hex\nover\rthe\r\nphone", null)
-            .setFormatting(null, "\r")
+            .setFormatting(null, formatting)
             .createPluginParameters();
     var echoPlugin = new EchoPlugin(null, parameters, echoOutput);
     echoPlugin.echo();
 
-    verify(echoOutput).info("Hex\rover\rthe\rphone");
-  }
-
-  @Test
-  void newlineShouldBeReplacedWithLineSeparator3() {
-    var echoOutput = mock(EchoOutput.class);
-
-    var parameters =
-        new PluginParametersBuilder()
-            .setMessage("Hex\nover\rthe\r\nphone", null)
-            .setFormatting(null, "\r\n")
-            .createPluginParameters();
-    var echoPlugin = new EchoPlugin(null, parameters, echoOutput);
-    echoPlugin.echo();
-
-    verify(echoOutput).info("Hex\r\nover\r\nthe\r\nphone");
+    verify(echoOutput).info(expected);
   }
 }

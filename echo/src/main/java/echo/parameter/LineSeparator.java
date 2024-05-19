@@ -15,8 +15,7 @@ public class LineSeparator {
    */
   LineSeparator(final String lineSeparatorString) {
     this.lineSeparatorString = lineSeparatorString;
-    this.formattedLineSeparator =
-        lineSeparatorString.replaceAll("\\\\r", "\r").replaceAll("\\\\n", "\n");
+    this.formattedLineSeparator = lineSeparatorString.replace("\\r", "\r").replace("\\n", "\n");
   }
 
   void checkLineSeparator() {
