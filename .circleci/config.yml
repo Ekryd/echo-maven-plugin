@@ -27,15 +27,15 @@ jobs:
     <<: *shared
   jdk22:
     docker:
-      - image: cimg/openjdk:21.0
+      - image: cimg/openjdk:22.0
     <<: *shared
   jdk23:
     docker:
-      - image: cimg/openjdk:21.0
+      - image: cimg/openjdk:23.0
     <<: *shared
   jdk24:
     docker:
-      - image: cimg/openjdk:21.0
+      - image: cimg/openjdk:24.0
     <<: *shared
   jdk17:
     docker:
@@ -78,7 +78,6 @@ workflows:
               only: # only branches matching the below regex filters will run
                 - master
           requires:
-            - jdk11
             - jdk20
             - jdk21
             - jdk22
