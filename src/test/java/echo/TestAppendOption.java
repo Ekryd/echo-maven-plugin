@@ -1,19 +1,18 @@
 package echo;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.*;
+
 import echo.output.MavenEchoOutput;
 import echo.output.MavenPluginLog;
 import echo.parameter.PluginParameters;
 import echo.parameter.PluginParametersBuilder;
+import java.io.File;
+import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.File;
-import java.io.IOException;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.mockito.Mockito.*;
 
 class TestAppendOption {
   private final MavenPluginLog pluginLog = mock(MavenPluginLog.class);

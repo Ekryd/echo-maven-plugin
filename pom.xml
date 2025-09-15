@@ -124,31 +124,10 @@
           <version>3.1.4</version>
         </plugin>
         <plugin>
-          <!-- Used for Maven integration testing -->
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-invoker-plugin</artifactId>
-          <version>3.9.1</version>
-          <configuration>
-            <!-- for jacoco to analyze integration test runs, the jar-file has to be in the local repository used by the invoker plugin when running tests -->
-            <extraArtifacts>
-              <extraArtifact>org.jacoco:org.jacoco.agent:0.8.5:jar:runtime</extraArtifact>
-            </extraArtifacts>
-            <!-- skip any .mavenrc file to override what the jacoco agent defined in the invoker.mavenOpts variable -->
-            <environmentVariables>
-              <MAVEN_SKIP_RC>1</MAVEN_SKIP_RC>
-            </environmentVariables>
-          </configuration>
-        </plugin>
-        <plugin>
           <!-- Define versions for standard plugins -->
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.4.2</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-plugin-plugin</artifactId>
-          <version>3.15.1</version>
         </plugin>
         <plugin>
           <!-- Define versions for standard plugins -->
@@ -172,17 +151,6 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>versions-maven-plugin</artifactId>
           <version>2.19.0</version>
-        </plugin>
-        <plugin>
-          <!-- Coverage -->
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.13</version>
-          <configuration>
-            <excludes>
-              <exclude>**/*HelpMojo.class</exclude>
-            </excludes>
-          </configuration>
         </plugin>
         <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>
@@ -234,6 +202,17 @@
         <!-- See http://maven.apache.org/plugins/maven-invoker-plugin/examples/fast-use.html -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-invoker-plugin</artifactId>
+        <version>3.9.1</version>
+        <configuration>
+          <!-- for jacoco to analyze integration test runs, the jar-file has to be in the local repository used by the invoker plugin when running tests -->
+          <extraArtifacts>
+            <extraArtifact>org.jacoco:org.jacoco.agent:0.8.5:jar:runtime</extraArtifact>
+          </extraArtifacts>
+          <!-- skip any .mavenrc file to override what the jacoco agent defined in the invoker.mavenOpts variable -->
+          <environmentVariables>
+            <MAVEN_SKIP_RC>1</MAVEN_SKIP_RC>
+          </environmentVariables>
+        </configuration>
         <executions>
           <execution>
             <id>integration-test</id>
@@ -319,6 +298,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.15.1</version>
         <executions>
           <execution>
             <id>default-descriptor</id>
@@ -366,6 +346,12 @@
         <!-- Coverage -->
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.13</version>
+        <configuration>
+          <excludes>
+            <exclude>**/*HelpMojo.class</exclude>
+          </excludes>
+        </configuration>
         <executions>
           <execution>
             <id>pre-unit-test</id>
@@ -483,10 +469,6 @@
               <source>${compileSource}</source>
               <verbose>false</verbose>
               <linksource>true</linksource>
-              <links>
-                <!-- JSE -->
-                <link>https://docs.oracle.com/en/java/javase/11/docs/api/</link>
-              </links>
             </configuration>
             <executions>
               <execution>
