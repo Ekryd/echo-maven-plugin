@@ -5,7 +5,8 @@ orbs:
 
 shared: &shared
   steps:
-    - checkout
+    - checkout:
+        method: full
     - restore_cache:
         keys:
           - ekryd-cache-{{ checksum "pom.xml" }}
