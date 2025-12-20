@@ -142,6 +142,7 @@ class TestFromFile {
   private boolean noConnectionToInternet() {
     //noinspection EmptyTryBlock
     try (var ignored = new URL("https://www.nsf.gov/").openStream()) {
+      // This just test that we can connect to the internet
     } catch (IOException e) {
       System.err.println("Cannot connect to Internet, skipping this test!!!");
       return true;
