@@ -18,29 +18,25 @@ shared: &shared
         key: ekryd-cache--{{ checksum "pom.xml" }}
 
 jobs:
+  jdk21:
+    docker:
+      - image: cimg/openjdk:21.0
+    <<: *shared
   jdk25:
     docker:
       - image: cimg/openjdk:25.0
     <<: *shared
-  jdk21:
+  jdk26:
     docker:
-      - image: cimg/openjdk:21.0.13
+      - image: cimg/openjdk:26.0
     <<: *shared
-  jdk22:
+  jdk27:
     docker:
-      - image: cimg/openjdk:22.0
-    <<: *shared
-  jdk23:
-    docker:
-      - image: cimg/openjdk:23.0
-    <<: *shared
-  jdk24:
-    docker:
-      - image: cimg/openjdk:24.0
+      - image: cimg/openjdk:27.0
     <<: *shared
   jdk17:
     docker:
-      - image: cimg/openjdk:17.0.21
+      - image: cimg/openjdk:17.0
     steps:
       - checkout
       - restore_cache:
@@ -64,13 +60,10 @@ workflows:
       - jdk25:
           requires:
             - jdk21
-      - jdk22:
+      - jdk26:
           requires:
             - jdk21
-      - jdk23:
-          requires:
-            - jdk21
-      - jdk24:
+      - jdk27:
           requires:
             - jdk21
       - jdk17:
@@ -79,8 +72,7 @@ workflows:
               only: # only branches matching the below regex filters will run
                 - master
           requires:
-            - jdk25
             - jdk21
-            - jdk22
-            - jdk23
-            - jdk24
+            - jdk25
+            - jdk26
+            - jdk27
